@@ -1,7 +1,7 @@
-package org.usfirst.frc.team687.robot.commands.vision;
+package com.team687.commands.vision;
 
-import org.usfirst.frc.team687.robot.Robot;
-import org.usfirst.frc.team687.util.NerdyPID;
+import com.team687.Robot;
+// import com.team687.util.NerdyPID;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TargetApproaching extends Command {
 
-    NerdyPID pid;
+    // NerdyPID pid;
 
     public TargetApproaching() {
 	SmartDashboard.putString("Current Command", "TargetApproaching");
 	requires(Robot.drive);
-	pid = new NerdyPID();
-	pid.setPID(0.001, 0, 0.001);
+	// pid = new NerdyPID();
+	// pid.setPID(0.001, 0, 0.001);
 	setTimeout(3.0);
     }
 

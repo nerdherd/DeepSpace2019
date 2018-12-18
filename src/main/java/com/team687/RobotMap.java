@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team687.robot;
+package com.team687;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

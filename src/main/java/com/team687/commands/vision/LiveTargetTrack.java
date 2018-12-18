@@ -1,7 +1,7 @@
-package org.usfirst.frc.team687.robot.commands;
+package com.team687.commands.vision;
 
-import org.usfirst.frc.team687.robot.Constants;
-import org.usfirst.frc.team687.robot.Robot;
+import com.team687.Constants;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,7 +44,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void end() {
-        Robot.drive.stopDrive();
+        Robot.drive.setPowerZero();
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.team687.utilities;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team687.Robot;
 // Test later if possible
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Odometry implements Runnable {
 

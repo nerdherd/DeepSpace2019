@@ -1,6 +1,6 @@
-package org.usfirst.frc.team687.robot.commands;
+package com.team687.commands;
 
-import org.usfirst.frc.team687.robot.Robot;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,7 +20,7 @@ public class TestDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-	Robot.drive.testDrive();
+	Robot.drive.setPower(0.5, 0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()

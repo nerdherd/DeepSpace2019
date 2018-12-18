@@ -1,4 +1,4 @@
-package org.usfirst.frc.team687.robot.subsystems;
+package com.team687.subsystems;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.usfirst.frc.team687.robot.Constants;
-import org.usfirst.frc.team687.robot.Robot;
+import com.team687.Constants;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;

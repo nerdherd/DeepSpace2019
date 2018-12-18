@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team687.robot.commands;
+package com.team687.commands;
 
-import org.usfirst.frc.team687.robot.Robot;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -24,7 +24,7 @@ public class StopDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.stopDrive();
+    Robot.drive.setPowerZero();
   }
 
   // Make this return true when this Command no longer needs to run execute()

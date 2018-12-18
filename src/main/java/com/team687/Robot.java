@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team687.robot;
+package com.team687;
 
-import org.usfirst.frc.team687.robot.subsystems.Jevois;
-import org.usfirst.frc.team687.robot.subsystems.Streamer;
-import org.usfirst.frc.team687.robot.subsystems.Drive;
+import com.team687.subsystems.Drive;
+import com.team687.subsystems.Jevois;
+import com.team687.subsystems.Streamer;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;

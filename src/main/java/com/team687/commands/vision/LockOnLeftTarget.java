@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team687.robot.commands;
+package com.team687.commands.vision;
 
-import org.usfirst.frc.team687.robot.Robot;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FindLeftContour extends Command {
+public class LockOnLeftTarget extends Command {
 
   private double kP = 0.012;
 
-  public FindLeftContour() {
+  public LockOnLeftTarget() {
     requires(Robot.drive);
     requires(Robot.jevois);
   }

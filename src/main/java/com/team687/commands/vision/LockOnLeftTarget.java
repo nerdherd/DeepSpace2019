@@ -7,6 +7,7 @@
 
 package com.team687.commands.vision;
 
+import com.team687.Constants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,11 +27,19 @@ public class LockOnLeftTarget extends Command {
 
   @Override
   protected void execute() {
-    
+
+    double relativeAngleError = Robot.jevois.getAngularTargetError();
+
     if (Robot.jevois.getContourID() > 0) {
-      double power = Robot.jevois.getAngularTargetError() * kP;
-      Robot.drive.setPower(power, power);
+      if (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband || (Math.abs(relativeAngleError) >= 25)) {
+        Robot.drive.setPower(0, 0);
+      } else {
+        double power = -relativeAngleError * kP;
+        Robot.drive.setPower(power, power);
+      }
+
     }
+
     else {
       Robot.drive.setPower(0.2, 0.2);
     }
@@ -38,7 +47,8 @@ public class LockOnLeftTarget extends Command {
 
   @Override
   protected boolean isFinished() {
-    return (Robot.jevois.getContourID() > 0);
+    double relativeAngleError - Robot.jevois.getAngularTargetError();
+    return (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband);
   }
 
   @Override

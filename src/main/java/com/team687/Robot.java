@@ -10,6 +10,7 @@ package com.team687;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Streamer;
+import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -28,11 +29,12 @@ public class Robot extends TimedRobot {
 	public static Jevois jevois;
 	public static Subsystem livestream;
 	public static DriverStation ds;
-	
+	public static AutoChooser autoChooser;
 	public static OI oi;
 
 	@Override
 	public void robotInit() {
+		autoChooser = new AutoChooser();
 	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
 	    livestream = new Streamer();
 	    drive = new Drive();

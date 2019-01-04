@@ -1,3 +1,10 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package com.team687;
 
 /**
@@ -6,9 +13,17 @@ package com.team687;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
-
 public class RobotMap {
-
+	
+	// Cosmos testing
+	
+	public static final int kRightTalon1 = 1;
+	public static final int kRightTalon2 = 2;
+	public static final int kLeftTalon1 = 4;
+	public static final int kLeftTalon2 = 6;
+	
+	// Power up robots
+	
     public static final int kRightMasterTalonID = 0;
     public static final int kLeftMasterTalonID = 1;
 
@@ -19,15 +34,5 @@ public class RobotMap {
     // comp bot
     public static final int kRightSlaveVictorID = 4;
     public static final int kLeftSlaveVictorID = 5;
-
-    public static final int kArmID = 7;
-    public static final int kWristID = 2;
-    public static final int kIntakeRollers1ID = 6;
-    public static final int kIntakeRollers2ID = 10;
-
-    public static final int kIntakeClawID1 = 0;
-    public static final int kIntakeClawID2 = 2;
-    
-    public static final int kAntiFoulThingID = 10;
 
 }

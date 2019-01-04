@@ -1,6 +1,6 @@
 package com.team687.commands.vision;
 
-import com.team687.Constants;
+import com.team687.constants.Constants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

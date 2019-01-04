@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.team687.Constants;
+import com.team687.constants.Constants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.SerialPort;

@@ -38,7 +38,7 @@ public class NerdyTalon extends TalonSRX {
 		super.enableVoltageCompensation(true);
 	}
 	
-	public void configPeakCurrentLimit(int current) {
+	public void configCurrentLimitPeak(int current) {
 		super.configPeakCurrentLimit(current, 0);
 		super.enableCurrentLimit(true);
 	}

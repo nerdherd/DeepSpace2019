@@ -10,12 +10,12 @@ public class AutoChooser {
     SendableChooser<Double> directionChooser;
     public AutoChooser() {
         startingPositionChooser = new SendableChooser<>();
-        startingPositionChooser.addDefault("Center", StartingPosition.CENTER);
-        startingPositionChooser.addObject("Left", StartingPosition.LEFT);
-        startingPositionChooser.addObject("Right", StartingPosition.RIGHT);
+        startingPositionChooser.setDefaultOption("Center", StartingPosition.CENTER);
+        startingPositionChooser.addOption("Left", StartingPosition.LEFT);
+        startingPositionChooser.addOption("Right", StartingPosition.RIGHT);
         directionChooser = new SendableChooser<>();
-        directionChooser.addDefault("Forwards", 0.0);
-        directionChooser.addObject("Backwards", 180.0);
+        directionChooser.setDefaultOption("Forwards", 0.0);
+        directionChooser.addOption("Backwards", 180.0);
         // Add additional choosers based on what the game needs
         SmartDashboard.putData(startingPositionChooser);
         SmartDashboard.putData(directionChooser);

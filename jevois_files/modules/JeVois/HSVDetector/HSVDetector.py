@@ -18,21 +18,21 @@ class HSVDetector:
     # ###################################################################################################
         # ALL CONSTANTS GO UNDER HERE (make sure to remove the self.__blur_type line)
 
-        self.__blur_radius = 9.178990311065784
+        self.__blur_radius = 10.122386537480878
 
         self.blur_output = None
 
         self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [29.746372393610535, 47.98476859988284]
-        self.__hsv_threshold_saturation = [197.21223021582736, 255.0]
-        self.__hsv_threshold_value = [0.0, 255.0]
+        self.__hsv_threshold_hue = [45.00060968174613, 102.81248335729883]
+        self.__hsv_threshold_saturation = [94.01978417266191, 255.0]
+        self.__hsv_threshold_value = [52.824858757062145, 255.0]
 
         self.hsv_threshold_output = None
 
         self.__cv_erode_src = self.hsv_threshold_output
         self.__cv_erode_kernel = None
         self.__cv_erode_anchor = (-1, -1)
-        self.__cv_erode_iterations = 6.0
+        self.__cv_erode_iterations = 1.0
         self.__cv_erode_bordertype = cv2.BORDER_CONSTANT
         self.__cv_erode_bordervalue = (-1)
 
@@ -53,7 +53,7 @@ class HSVDetector:
         self.find_contours_output = None
 
         self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 6000.0
+        self.__filter_contours_min_area = 500.0
         self.__filter_contours_min_perimeter = 0.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 100000.0
@@ -157,18 +157,33 @@ class HSVDetector:
         newContours = sortByArea(self.filter_contours_output)
 
         # Send the contour data over Serial
-        for i in range (contourNum):
-            cnt = newContours[i]
-            x,y,w,h = cv2.boundingRect(cnt) # Get the stats of the contour including width and height
+        substituteMsg = "/0/0/0/0/0/0"
+
+        # bounding rect for two contours
+        if (contourNum >= 2):
+            left_contour = newContours[(contourNum - 1)]
+            right_contour = newContours[(contourNum - 2)]
+
+            xLeft,yLeft,wLeft,hLeft = cv2.boundingRect(left_contour) # Get the stats of the contour including width and height
+            xRight,yRight,wRight,hRight = cv2.boundingRect(left_contour) # Get the stats of the contour including width and height
 
             # which contour, 0 is first
-            toSend = ("/" + str(i) +
-                     "/" + str(getArea(cnt)) +  # Area of contour
-                     "/" + str(round(getXcoord(cnt)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                     "/" + str(round(120-getYcoord(cnt), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                     "/" + str(round(h, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                     "/" + str(round(w, 2))) # Width of contour, 0-240 rounded to 2 decimal
+            toSend = ("/0" +
+                    "/" + str(getArea(left_contour)) +  # Area of contour
+                    "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                    "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                    "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                    "/" + str(round(wLeft, 2)) + 
+                    "/1" +
+                    "/" + str(getArea(right_contour)) +  # Area of contour
+                    "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                    "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                    "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                    "/" + str(round(wRight, 2))) # Width of contour, 0-240 rounded to 2 decimal
             jevois.sendSerial(toSend)
+        else:
+            jevois.sendSerial(substituteMsg + substituteMsg)
+        
 
         # Write a title:
         # cv2.putText(self.outimg, "Nerdy Jevois No USB", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)

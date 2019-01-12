@@ -2,6 +2,7 @@ import libjevois as jevois
 import cv2
 import numpy as np
 import time
+import math
 
 class HSVDetector:
     # ###################################################################################################
@@ -159,31 +160,71 @@ class HSVDetector:
         # Send the contour data over Serial
         substituteMsg = "/0/0/0/0/0/0"
 
-        # bounding rect for two contours
         if (contourNum >= 2):
-            left_contour = newContours[(contourNum - 1)]
-            right_contour = newContours[(contourNum - 2)]
+            contour1 = newContours[(contourNum - 1)]
+            contour2 = newContours[(contourNum - 2)]
+
+            if(getXcoord(contour1) < getXcoord(contour2)):
+                left_contour = contour1
+                right_contour = contour2
+            else:
+                left_contour = contour2
+                right_contour = contour1
+
+            # cv2.boxPoints returns four corners of the rectangle
+            # list starts at the lowest point (largest y-value) and goes clockwise
+
+            left_rect = cv2.minAreaRect(left_contour)
+            left_box = cv2.boxPoints(left_rect)
+            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+
+            right_rect = cv2.minAreaRect(right_contour)
+            right_box = cv2.boxPoints(right_rect)
+            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
+
+            left_x_center = float(getXcoord(left_contour))
+            left_y_center = float(getYcoord(left_contour))
+            right_x_center = float(getXcoord(right_contour))
+            right_y_center = float(getYcoord(right_contour))
+
+            if (left_x_center < right_x_center):
+                left_x1 = float((left_box[3][0] + left_box[2][0]) / 2)
+                left_y1 = float((left_box[3][1] + left_box[2][1]) / 2)
+                right_x1 = float((right_box[1][0] + right_box[2][0]) / 2)
+                right_y1 = float((right_box[1][1] + right_box[2][1]) / 2)
+            else:
+                right_x1 = float((left_box[3][0] + left_box[2][0]) / 2)
+                right_y1 = float((left_box[3][1] + left_box[2][1]) / 2)
+                left_x1 = float((right_box[1][0] + right_box[2][0]) / 2)
+                left_y1 = float((right_box[1][1] + right_box[2][1]) / 2)   
 
             xLeft,yLeft,wLeft,hLeft = cv2.boundingRect(left_contour) # Get the stats of the contour including width and height
-            xRight,yRight,wRight,hRight = cv2.boundingRect(left_contour) # Get the stats of the contour including width and height
+            xRight,yRight,wRight,hRight = cv2.boundingRect(right_contour) # Get the stats of the contour including width and height
+            
+            try:
+                left_angle = int(math.atan((left_y1-left_y_center)/(left_x_center-left_x1))*180/math.pi)
+                right_angle = int(math.atan((right_y1-right_y_center)/(right_x_center-right_x1))*180/math.pi)
+                toSend = ("/0" + 
+                        "/" + str(left_angle) + 
+                        "/" + str(getArea(left_contour)) +  # Area of contour
+                        "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                        "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                        "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                        "/" + str(round(wLeft, 2)) +
 
-            # which contour, 0 is first
-            toSend = ("/0" +
-                    "/" + str(getArea(left_contour)) +  # Area of contour
-                    "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                    "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                    "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                    "/" + str(round(wLeft, 2)) + 
-                    "/1" +
-                    "/" + str(getArea(right_contour)) +  # Area of contour
-                    "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                    "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                    "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                    "/" + str(round(wRight, 2))) # Width of contour, 0-240 rounded to 2 decimal
-            jevois.sendSerial(toSend)
+                        "/1" +
+                        "/" + str(right_angle) +
+                        "/" + str(getArea(right_contour)) +  # Area of contour
+                        "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                        "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                        "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                        "/" + str(round(wRight, 2))) # Width of contour, 0-240 rounded to 2 decimal
+                jevois.sendSerial(toSend)
+            except:
+                toSend = str("ANGLE 1 or ANGLE 2 = 90 OR 180")  
         else:
             jevois.sendSerial(substituteMsg + substituteMsg)
-        
+
 
         # Write a title:
         # cv2.putText(self.outimg, "Nerdy Jevois No USB", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)

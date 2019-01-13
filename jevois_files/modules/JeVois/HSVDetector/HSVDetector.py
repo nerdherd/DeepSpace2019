@@ -149,7 +149,7 @@ class HSVDetector:
 ##################################################################################################
 
         # Draws all contours on original image in red
-        # cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
+        #cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
 
         # Gets number of contours
         contourNum = len(self.filter_contours_output)
@@ -174,13 +174,14 @@ class HSVDetector:
             # cv2.boxPoints returns four corners of the rectangle
             # list starts at the lowest point (largest y-value) and goes clockwise
 
+
             left_rect = cv2.minAreaRect(left_contour)
             left_box = cv2.boxPoints(left_rect)
-            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+            left_box = np.int0(left_box)
 
             right_rect = cv2.minAreaRect(right_contour)
             right_box = cv2.boxPoints(right_rect)
-            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
+            right_box = np.int0(right_box)
 
             left_x_center = float(getXcoord(left_contour))
             left_y_center = float(getYcoord(left_contour))
@@ -196,30 +197,72 @@ class HSVDetector:
                 right_x1 = float((left_box[3][0] + left_box[2][0]) / 2)
                 right_y1 = float((left_box[3][1] + left_box[2][1]) / 2)
                 left_x1 = float((right_box[1][0] + right_box[2][0]) / 2)
-                left_y1 = float((right_box[1][1] + right_box[2][1]) / 2)   
+                left_y1 = float((right_box[1][1] + right_box[2][1]) / 2)  
+
+            #getextreme edges
+
+            
+
+            segmented, contours, hierarchy = cv2.findContours(image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            left_x, left_y = [], []
+            right_x, right_y = [], []
+
+                       
+
+            for lef          
+
 
             xLeft,yLeft,wLeft,hLeft = cv2.boundingRect(left_contour) # Get the stats of the contour including width and height
             xRight,yRight,wRight,hRight = cv2.boundingRect(right_contour) # Get the stats of the contour including width and height
             
+
+      
+
             try:
+                
                 left_angle = int(math.atan((left_y1-left_y_center)/(left_x_center-left_x1))*180/math.pi)
                 right_angle = int(math.atan((right_y1-right_y_center)/(right_x_center-right_x1))*180/math.pi)
-                toSend = ("/0" + 
-                        "/" + str(left_angle) + 
-                        "/" + str(getArea(left_contour)) +  # Area of contour
-                        "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                        "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                        "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                        "/" + str(round(wLeft, 2)) +
+              
+                if(left_angle > 0 and right_angle < 0):
+      
+                    left_x = getXcoord(left_contour) 
+                    right_x = getXcoord(right_contour) 
+                    center_x =  (left_x + right_x) /2
 
-                        "/1" +
-                        "/" + str(right_angle) +
-                        "/" + str(getArea(right_contour)) +  # Area of contour
-                        "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                        "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                        "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                        "/" + str(round(wRight, 2))) # Width of contour, 0-240 rounded to 2 decimal
-                jevois.sendSerial(toSend)
+                    left_y = getYcoord(left_contour) 
+                    right_y = getYcoord(right_contour) 
+                    center_y = (left_y + right_y)/2 
+
+                    center = (int(center_x), int(center_y))
+                
+                    cv2.circle(self.outimg,center, 5, (0,0,255), 2)
+                    cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
+                    cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+
+                    # toSend = ("/0" + 
+                    #         "/" + str(left_angle) + 
+                    #         "/" + str(getArea(left_contour)) +  # Area of contour
+                    #         "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                    #         "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                    #         "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                    #         "/" + str(round(wLeft, 2)) +
+
+                    #         "/1" +
+                    #         "/" + str(right_angle) +
+                    #         "/" + str(getArea(right_contour)) +  # Area of contour
+                    #         "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
+                    #         "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
+                    #         "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
+                    #         "/" + str(round(wRight, 2)) + # Width of contour, 0-240 rounded to 2 decimal
+                    #         "/" + str(round(center_x)) +
+                    #         "/" + str(round(center_y))) 
+                    toSend = ("Left angle: " + str(left_angle) + " Right Angle: " + str(right_angle))
+                            
+                    jevois.sendSerial(toSend)
+                else:
+                    toSend("@drivers move")
+                 
+
             except:
                 toSend = str("ANGLE 1 or ANGLE 2 = 90 OR 180")  
         else:
@@ -227,7 +270,7 @@ class HSVDetector:
 
 
         # Write a title:
-        # cv2.putText(self.outimg, "Nerdy Jevois No USB", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(self.outimg, "Nerdy Jevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         # Write frames/s info from our timer into the edge map (NOTE: does not account for output conversion time):
         # fps = self.timer.stop()
@@ -235,7 +278,7 @@ class HSVDetector:
         # self.end_time = time.time()
         # delta_time = self.end_time - self.start_time
 
-        height, width, channels = self.outimg.shape
+        #height, width, channels = self.outimg.shape
         # cv2.putText(outimg, fps, (3, height - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
     def process(self, inframe, outframe):

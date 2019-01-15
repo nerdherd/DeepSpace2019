@@ -258,7 +258,7 @@ class HSVDetector:
             jevois.sendSerial(substituteMsg)
 
         # Write a title:
-        cv2.putText(self.outimg, "NerdyJevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(self.outimg, "Nerdy Jevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         # Write frames/s info from our timer into the edge map (NOTE: does not account for output conversion time):
         # fps = self.timer.stop()

@@ -207,8 +207,18 @@ class HSVDetector:
             right_box = np.int0(right_box)
 
             cv2.circle(self.outimg,center, 5, (0,0,255), 2)
-            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
-            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+
+            # draw contours that are oriented left in red
+            # if it's not oriented left, draw contour in blue
+
+            if(is_oriented_left(left_contour)):
+                cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+            else:
+                cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
+            if(is_oriented_left(right_contour)):
+                cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
+            else:
+                cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
 
             toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 

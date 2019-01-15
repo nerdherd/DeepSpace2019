@@ -152,6 +152,24 @@ class HSVDetector:
             sortedBy = sorted(conts, key=getXcoord)
             return sortedBy
 
+        ########### TEST #########
+
+        # checks if the contour is tilted to the right
+        def is_oriented_left(cnt):
+            contour_rect = cv2.minAreaRect(cnt)
+            contour_corners = cv2.boxPoints(contour_rect)
+            contour_corners = np.int0(contour_corners)
+
+            contour_ab = contour_rect[0][1] - contour_rect[1][1]
+            contour_ad = contour_rect[0][1] - contour_rect[3][1]
+            
+            if(contour_ab < contour_ad):
+                return True
+            else:
+                return False
+
+        # ##########################
+
         # Draws all contours on original image in red
         #cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
 
@@ -164,167 +182,80 @@ class HSVDetector:
         # Send the contour data over Serial
         substituteMsg = "/0/0/0/0/0/0"
 
-
-        def is_oriented_left(cnt):
-
-            contour_rect = cv2.minAreaRect(cnt)
-            contour_corners = cv2.boxPoints(contour_rect)
-            contour_corners = np.int0(contour_corners)
-
-            contour_ab = contour_rect[0][1] - contour_rect[1][1]
-            contour_ad = contour_rect[0][1] - contour_rect[3][1]
-            
-            if(contour_ab < contour_ad):
-                return True
-            else:
-                return False
-            
-
+        ##################### TEST ##################
 
         if(contourNum == 2):
-            contour_centers = []
 
-            
-            for contour in newContours:
-                contour_centers.append(getXcoord(contour))
-                contour_centerscontour_rect = cv2.minAreaRect(contour)
-                contour_corners = cv2.boxPoints(contour_rect)
-                contour_corners = np.int0(contour_corners)
-                is_oriented_left(contour)
-
-
-                
-
-
-
-    
-            '''
-            1. center x values 
-            2. sort
-            3. check for left/right
-            4. if left is the smaller x it is valid
-            '''
-
-        elif (contourNum > 2):
-
-            left_contours = []
-            right_contours = []
-
-
-            for contour in newContours:
-                contour_rect = cv2.minAreaRect(contour)
-                contour_corners = cv2.boxPoints(contour_rect)
-                contour_corners = np.int0(contour_corners)
-
-                contour_ab = contour_corners[0][1] - contour_corners[1][1]
-                contour_ad = contour_corners[0][1] - contour_corners[3][1]
-
-                contour_centers.append(getXcoord(contour))
-                
-
-                if(contour_ab < contour_ad):
-                    left_contours.append(contour)
-                elif(contour_ab > contour_ad):
-                    right_contours.append(contour)
-            
-            # contour_centers.sort()
-            # mid_contour_ab = contour_centers[1]
-            
-            if(len(left_contours) == 2):
-                if(getXcoord(right_contours[0])> getXcoord(left_contours[0])):
-                    left_contour = left_contours[0]
-                    right_contour = right_contours[0]
-                elif(getXcoord(right_contours[0]) > getXcoord(left_contours[1])):
-                    left_contour = left_contours[1]
-                    right_contour = right_contours[0]
-            elif(len(right_contours) == 2):
-                if(getXcoord(right_contours[0]) > getXcoord(left_contours[0])):
-                    left_contour = left_contours[0]
-                    right_contour = right_contours[0]
-                elif(getXcoord(right_contours[1]) > getXcoord(left_contours[0])):
-                    left_contour = left_contours[0]
-                    right_contour = right_contours[1]
-            elif((len(right_contours) == 1) and len(left_contours) == 1):
-                left_contour = left_contours[0]
-                right_contour = right_contours[0]
-            # cv2.boxPoints returns four corners of the rectangle
-            # list starts at the lowest point (largest y-value) and goes clockwise
-
-
-        left_rect = cv2.minAreaRect(left_contour)
-        left_box = cv2.boxPoints(left_rect)
-        left_box = np.int0(left_box)
-
-        right_rect = cv2.minAreaRect(right_contour)
-        right_box = cv2.boxPoints(right_rect)
-        right_box = np.int0(right_box)
-
-        left_x_center = float(getXcoord(left_contour))
-        left_y_center = float(getYcoord(left_contour))
-        right_x_center = float(getXcoord(right_contour))
-        right_y_center = float(getYcoord(right_contour))
-
-        if (left_x_center < right_x_center):
-            left_x1 = float((left_box[3][0] + left_box[2][0]) / 2)
-            left_y1 = float((left_box[3][1] + left_box[2][1]) / 2)
-            right_x1 = float((right_box[1][0] + right_box[2][0]) / 2)
-            right_y1 = float((right_box[1][1] + right_box[2][1]) / 2)
-        else:
-            right_x1 = float((left_box[3][0] + left_box[2][0]) / 2)
-            right_y1 = float((left_box[3][1] + left_box[2][1]) / 2)
-            left_x1 = float((right_box[1][0] + right_box[2][0]) / 2)
-            left_y1 = float((right_box[1][1] + right_box[2][1]) / 2)  
-
-        try:
-            
-            left_angle = int(math.atan((left_y1-left_y_center)/(left_x_center-left_x1))*180/math.pi)
-            right_angle = int(math.atan((right_y1-right_y_center)/(right_x_center-right_x1))*180/math.pi)
-            
-            if(left_contour_exists and right_contour_exists):
-    
-                left_x = getXcoord(left_contour) 
-                right_x = getXcoord(right_contour) 
-                center_x =  (left_x + right_x) /2
-
-                left_y = getYcoord(left_contour) 
-                right_y = getYcoord(right_contour) 
-                center_y = (left_y + right_y)/2 
-
-                center = (int(center_x), int(center_y))
-            
-                cv2.circle(self.outimg,center, 5, (0,0,255), 2)
-                cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
-                cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
-
-                # toSend = ("/0" + 
-                #         "/" + str(left_angle) + 
-                #         "/" + str(getArea(left_contour)) +  # Area of contour
-                #         "/" + str(round(getXcoord(left_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                #         "/" + str(round(120-getYcoord(left_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                #         "/" + str(round(hLeft, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                #         "/" + str(round(wLeft, 2)) +
-
-                #         "/1" +
-                #         "/" + str(right_angle) +
-                #         "/" + str(getArea(right_contour)) +  # Area of contour
-                #         "/" + str(round(getXcoord(right_contour)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                #         "/" + str(round(120-getYcoord(right_contour), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                #         "/" + str(round(hRight, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                #         "/" + str(round(wRight, 2)) + # Width of contour, 0-240 rounded to 2 decimal
-                #         "/" + str(round(center_x)) +
-                #         "/" + str(round(center_y))) 
-                toSend = ("Left angle: " + str(left_angle) + " Right Angle: " + str(right_angle))
-                        
-                jevois.sendSerial(toSend)
-           
+            if(getXcoord(newContours[0]) < getXcoord(newContours[1])):
+                left_contour = newContours[0]
+                right_contour = newContours[1]
             else:
-                jevois.sendSerial(substituteMsg + substituteMsg)
-                
+                left_contour = newContours[1]
+                right_contour = newContours[0]
 
-        except:
-            toSend = str("ANGLE 1 or ANGLE 2 = 90 OR 270")  
+            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
+            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
+
+            center = (int(center_x), int(center_y))
+
+            left_rect = cv2.minAreaRect(left_contour)
+            left_box = cv2.boxPoints(left_rect)
+            left_box = np.int0(left_box)
+
+            right_rect = cv2.minAreaRect(right_contour)
+            right_box = cv2.boxPoints(right_rect)
+            right_box = np.int0(right_box)
+
+            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
+            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
+            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+
+            toSend = ("/0" +
+                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                        "/" + str(round(center_x - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - center_y, 2)))  # center y point
+            jevois.sendSerial(toSend)
+
+            ###################### TEST #############################
+
+        elif (contourNum == 3):
+
+            sortedByPosition = sortByPosition(self.filter_contours_output) # left to right
+            mid_contour = sortedByPosition[1]
+
+            if(is_oriented_left(mid_contour)):
+                left_contour = mid_contour 
+                right_contour = sortedByPosition[2]
+            else:
+                right_contour = mid_contour
+                left_contour = sortedByPosition[0]
             
+            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
+            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
 
+            center = (int(center_x), int(center_y))
+
+            left_rect = cv2.minAreaRect(left_contour)
+            left_box = cv2.boxPoints(left_rect)
+            left_box = np.int0(left_box)
+
+            right_rect = cv2.minAreaRect(right_contour)
+            right_box = cv2.boxPoints(right_rect)
+            right_box = np.int0(right_box)
+
+            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
+            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
+            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+
+            toSend = ("/0" +
+                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                        "/" + str(round(center_x - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - center_y, 2)))  # center y point
+            jevois.sendSerial(toSend)
+
+        else:
+            substituteMsg = "2 or 3 contours not detected"
+            jevois.sendSerial(substituteMsg)
 
         # Write a title:
         cv2.putText(self.outimg, "Nerdy Jevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)

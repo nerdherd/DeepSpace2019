@@ -153,22 +153,26 @@ class HSVDetector:
             return sortedBy
 
         # checks if the contour is tilted to the right
-        def is_oriented_left(cnt):
+        def get_orientation(cnt): 
             contour_rect = cv2.minAreaRect(cnt)
             contour_corners = cv2.boxPoints(contour_rect)
             contour_corners = np.int0(contour_corners)
 
-            contour_ab = contour_rect[0][1] - contour_rect[1][1]
-            contour_ad = contour_rect[0][1] - contour_rect[3][1]
+            contour_ab = contour_corners[0][1] - contour_corners[1][1]
+            contour_ad = contour_corners[0][1] - contour_corners[3][1]
             
+            # 1 is oriented left, 2 is right, 3 is vertical
+
             if(contour_ab < contour_ad):
-                return True
-            else:
-                return False
+                return 1
+            elif(contour_ab > contour_ad):
+                return 2
+            elif(contour_corners[2][0] == contour_corners[1][0] or contour_corners[2][1] == contour_corners[2][1]):
+                return 3
     
         def getTwoContourCenter(left_contour, right_contour):
-            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
-            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
+            center_x = (getXcoord(left_contour) + getXcoord(right_contour)) / 2
+            center_y = (getYcoord(left_contour) + getYcoord(right_contour)) / 2
             return(center_x, center_y)
 
         def drawRectContours(left_contour, right_contour):
@@ -186,66 +190,44 @@ class HSVDetector:
             cv2.circle(self.outimg,center, 5, (0,0,255), 2)
             cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
             cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
-
-        # Draws all contours on original image in red
-        #cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
-
-        # Gets number of contours
         contourNum = len(self.filter_contours_output)
-
         # Sorts contours by the smallest area first
         newContours = sortByArea(self.filter_contours_output)
-
         if(contourNum == 2):
-
-            if(is_oriented_left(newContours[0])):
-                if((getXcoord(newContours[0]) < getXcoord(newContours[1])) and not(is_oriented_left(newContours[1]))):
+            newContours = sortByPosition(self.filter_contours_output)
+            if(get_orientation(newContours[0]) == 1 or get_orientation(newContours[1]) == 2):
+                if(getXcoord(newContours[0]) < getXcoord(newContours[1])):
                     left_contour = newContours[0]
                     right_contour = newContours[1]
-                    drawContours(left_contour, right_contour)
+                    drawRectContours(left_contour, right_contour)
                     toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
                     jevois.sendSerial(toSend)
-
-            elif(is_oriented_left(newContours[1])):
-                if((getXcoord(newContours[1]) < getXcoord(newContours[0])) and not(is_oriented_left(newContours[0]))):
-                    left_contour = newContours[1]
-                    right_contour = newContours[0]
-                    drawRectContours(left_contour, right_contour) 
-                    toSend = ("/0" +
-                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
-                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
-                    jevois.sendSerial(toSend)
-
+            elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
+                toSend = "rip"
+                jevois.sendSerial(toSend)
         elif (contourNum == 3):
-
             sortedByPosition = sortByPosition(self.filter_contours_output) # left to right
             mid_contour = sortedByPosition[1]
-
-            if(is_oriented_left(mid_contour)):
+            if(get_orientation(mid_contour) == 1):
                 left_contour = mid_contour 
                 right_contour = sortedByPosition[2]
-            else:
+            elif(get_orientation(mid_contour) == 2):
                 right_contour = mid_contour
                 left_contour = sortedByPosition[0]
-            
             drawRectContours(left_contour, right_contour)
-
             toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
             jevois.sendSerial(toSend)
-
         else:
             toSend = "No targets detected!"
             jevois.sendSerial(toSend)
-
         # Write a title:
-        cv2.putText(self.outimg, "Nerdy Jevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+      #  cv2.putText(self.outimg, "687 Nerdy JeVois", (3, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         # Write frames/s info from our timer into the edge map (NOTE: does not account for output conversion time):
         # fps = self.timer.stop()
@@ -449,6 +431,3 @@ class HSVDetector:
                 continue
             output.append(contour)
         return output
-
-
-#BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')

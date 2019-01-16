@@ -196,9 +196,6 @@ class HSVDetector:
         # Sorts contours by the smallest area first
         newContours = sortByArea(self.filter_contours_output)
 
-        # Send the contour data over Serial
-        substituteMsg = "/0/0/0/0/0/0"
-
         if(contourNum == 2):
 
             if(is_oriented_left(newContours[0])):
@@ -210,7 +207,7 @@ class HSVDetector:
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
-                     jevois.sendSerial(toSend)
+                    jevois.sendSerial(toSend)
 
             elif(is_oriented_left(newContours[1])):
                 if((getXcoord(newContours[1]) < getXcoord(newContours[0])) and not(is_oriented_left(newContours[0]))):
@@ -221,10 +218,7 @@ class HSVDetector:
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
-
                     jevois.sendSerial(toSend)
-
-            ###################### TEST #############################
 
         elif (contourNum == 3):
 
@@ -242,13 +236,13 @@ class HSVDetector:
 
             toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
-                        "/" + str(round(center_x - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - center_y, 2)))  # center y point
+                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
             jevois.sendSerial(toSend)
 
         else:
-            substituteMsg = "2 or 3 contours not detected"
-            jevois.sendSerial(substituteMsg)
+            toSend = "No targets detected!"
+            jevois.sendSerial(toSend)
 
         # Write a title:
         cv2.putText(self.outimg, "Nerdy Jevois", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)

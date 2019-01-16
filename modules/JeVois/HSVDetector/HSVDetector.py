@@ -152,8 +152,6 @@ class HSVDetector:
             sortedBy = sorted(conts, key=getXcoord)
             return sortedBy
 
-        ########### TEST #########
-
         # checks if the contour is tilted to the right
         def is_oriented_left(cnt):
             contour_rect = cv2.minAreaRect(cnt)
@@ -167,8 +165,27 @@ class HSVDetector:
                 return True
             else:
                 return False
+    
+        def getTwoContourCenter(left_contour, right_contour):
+            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
+            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
+            return(center_x, center_y)
 
-        # ##########################
+        def drawRectContours(left_contour, right_contour):
+            center_x, center_y = getTwoContourCenter(left_contour, right_contour)
+            center = (int(center_x), int(center_y))
+
+            left_rect = cv2.minAreaRect(left_contour)
+            left_box = cv2.boxPoints(left_rect)
+            left_box = np.int0(left_box)
+
+            right_rect = cv2.minAreaRect(right_contour)
+            right_box = cv2.boxPoints(right_rect)
+            right_box = np.int0(right_box)
+
+            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
+            cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
+            cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
 
         # Draws all contours on original image in red
         #cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
@@ -182,49 +199,30 @@ class HSVDetector:
         # Send the contour data over Serial
         substituteMsg = "/0/0/0/0/0/0"
 
-        ##################### TEST ##################
-
         if(contourNum == 2):
 
-            if(getXcoord(newContours[0]) < getXcoord(newContours[1])):
-                left_contour = newContours[0]
-                right_contour = newContours[1]
-            else:
-                left_contour = newContours[1]
-                right_contour = newContours[0]
-
-            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
-            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
-
-            center = (int(center_x), int(center_y))
-
-            left_rect = cv2.minAreaRect(left_contour)
-            left_box = cv2.boxPoints(left_rect)
-            left_box = np.int0(left_box)
-
-            right_rect = cv2.minAreaRect(right_contour)
-            right_box = cv2.boxPoints(right_rect)
-            right_box = np.int0(right_box)
-
-            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
-
-            # draw contours that are oriented left in red
-            # if it's not oriented left, draw contour in blue
-
-            if(is_oriented_left(left_contour)):
-                cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
-            else:
-                cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
-            if(is_oriented_left(right_contour)):
-                cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
-            else:
-                cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
-
-            toSend = ("/0" +
+            if(is_oriented_left(newContours[0])):
+                if((getXcoord(newContours[0]) < getXcoord(newContours[1])) and not(is_oriented_left(newContours[1]))):
+                    left_contour = newContours[0]
+                    right_contour = newContours[1]
+                    drawContours(left_contour, right_contour)
+                    toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
-                        "/" + str(round(center_x - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - center_y, 2)))  # center y point
-            jevois.sendSerial(toSend)
+                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
+                     jevois.sendSerial(toSend)
+
+            elif(is_oriented_left(newContours[1])):
+                if((getXcoord(newContours[1]) < getXcoord(newContours[0])) and not(is_oriented_left(newContours[0]))):
+                    left_contour = newContours[1]
+                    right_contour = newContours[0]
+                    drawRectContours(left_contour, right_contour) 
+                    toSend = ("/0" +
+                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
+
+                    jevois.sendSerial(toSend)
 
             ###################### TEST #############################
 
@@ -240,22 +238,7 @@ class HSVDetector:
                 right_contour = mid_contour
                 left_contour = sortedByPosition[0]
             
-            center_x = (getXcoord(left_contour) + getXcoord(right_contour) / 2)
-            center_y = (getYcoord(left_contour) + getYcoord(right_contour) / 2)
-
-            center = (int(center_x), int(center_y))
-
-            left_rect = cv2.minAreaRect(left_contour)
-            left_box = cv2.boxPoints(left_rect)
-            left_box = np.int0(left_box)
-
-            right_rect = cv2.minAreaRect(right_contour)
-            right_box = cv2.boxPoints(right_rect)
-            right_box = np.int0(right_box)
-
-            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
-            cv2.drawContours(self.outimg,[right_box],0,(255,0,0),2)
-            cv2.drawContours(self.outimg,[left_box],0,(0,0,255),2)
+            drawRectContours(left_contour, right_contour)
 
             toSend = ("/0" +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 

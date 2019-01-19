@@ -96,6 +96,13 @@ public class Drive extends Subsystem {
 
 		m_leftMaster.set(ControlMode.PercentOutput, leftPower);
 		m_rightMaster.set(ControlMode.PercentOutput, rightPower);
+	}
+	
+	public void setPowerFeedforward(double leftPower, double rightPower) {
+		double kLeftStatic = 1.135/12;
+		double kRightStatic = 1.102/12;
+		m_leftMaster.set(ControlMode.PercentOutput, leftPower, DemandType.ArbitraryFeedForward, kLeftStatic * Math.signum(leftPower));
+		m_rightMaster.set(ControlMode.PercentOutput, rightPower, DemandType.ArbitraryFeedForward, kRightStatic * Math.signum(rightPower));
     }
 	
 	public void setVoltage(double leftVoltage, double rightVoltage) {
@@ -182,7 +189,6 @@ public class Drive extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDrive());
     }   
     
 	public void resetXY() {

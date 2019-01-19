@@ -35,11 +35,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 	//	autoChooser = new AutoChooser();
 	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
-<<<<<<< HEAD
 	    drive = new Drive();
-=======
-	    // drive = new Drive();
->>>>>>> 093692ad7e4c6f2e1b1cc44175c62f082d786229
 	    oi = new OI();
 	    ds = DriverStation.getInstance();
 	}
@@ -51,6 +47,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		jevois.reportToSmartDashboard();
 		Scheduler.getInstance().run();
 	}
 
@@ -77,10 +74,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		
 		jevois.reportToSmartDashboard();
 		jevois.logToCSV();
+		Scheduler.getInstance().run();
+		
+		
 	}
 
 	/**

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.013;
+    private double kP = 0.009;
 
     public LiveTargetTrack() {
         requires(Robot.drive);
@@ -26,10 +26,10 @@ public class LiveTargetTrack extends Command {
 
         double power = kP * -relativeAngleError;
 
-        if (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband || (Math.abs(relativeAngleError) >= 25)) {
+        if (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband) {
             power = 0;
         } else {
-            Robot.drive.setPower(power, power);
+            Robot.drive.setPowerFeedforward(-power, power);
         }
         SmartDashboard.putNumber("Rotational Power", power);
 

@@ -1,4 +1,5 @@
 package com.team687.subsystems;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,31 +10,32 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.commands.drive.teleop.ArcadeDrive;
 import com.team687.constants.DriveConstants;
 import com.team687.utilities.NerdyTalon;
-import com.team687.Robot;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  */
 public class Drive extends Subsystem {
 
-	private final NerdyTalon m_leftMaster, m_leftSlave1;
-	private final NerdyTalon m_rightMaster, m_rightSlave1;
+	private final NerdyTalon m_leftMaster, m_rightMaster;
+	private final VictorSPX m_leftSlave1, m_rightSlave1;
 	private final AHRS m_nav;
 	
 	private double m_previousDistance, m_currentX, m_currentY, m_angleOffset, m_xOffset, m_yOffset;
     
     private String m_filePath1 = "/media/sda1/logs/";
 	private String m_filePath2 = "/home/lvuser/logs/";
-	private String m_fileName = Robot.kDate + "pathfinder_test_drive";
+	private String m_fileName = Robot.kDate + "drive_characterization";
     private File m_file;
     public FileWriter m_writer;
     private boolean writeException = false;
@@ -46,10 +48,10 @@ public class Drive extends Subsystem {
 		m_nav = new AHRS(SPI.Port.kMXP);
 		
 		m_leftMaster = new NerdyTalon(RobotMap.kLeftMasterTalonID);
-		m_leftSlave1 = new NerdyTalon(RobotMap.kLeftSlaveTalon1ID);
+		m_leftSlave1 = new VictorSPX(RobotMap.kLeftSlaveVictorID);
 		
 		m_rightMaster = new NerdyTalon(RobotMap.kRightMasterTalonID);
-		m_rightSlave1 = new NerdyTalon(RobotMap.kRightSlaveTalon1ID);
+		m_rightSlave1 = new VictorSPX(RobotMap.kRightSlaveVictorID);
 		
 		
 		m_leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -81,10 +83,10 @@ public class Drive extends Subsystem {
 		m_rightSlave1.setNeutralMode(NeutralMode.Brake);
 		
 		m_rightMaster.configDefaultSettings();
-		m_rightSlave1.configDefaultSettings();
+		// m_rightSlave1.configDefaultSettings();
 
 		m_leftMaster.configDefaultSettings();
-		m_leftSlave1.configDefaultSettings();
+		// m_leftSlave1.configDefaultSettings();
 
 	}
 	
@@ -111,15 +113,22 @@ public class Drive extends Subsystem {
 		m_rightDesiredVel = rightVel;
 	}
 
-	public void setPositionMotionMagic(double leftPosition, double rightPosition) {
-		m_leftMaster.set(ControlMode.MotionMagic, leftPosition);
-		m_rightMaster.set(ControlMode.MotionMagic, rightPosition);
+	public void setPositionMotionMagic(double leftPosition, double rightPosition, int acceleration, int cruiseVelocity) {
+		m_leftMaster.configMotionMagic(acceleration, cruiseVelocity);
+		m_rightMaster.configMotionMagic(acceleration, cruiseVelocity);
+		m_leftMaster.set(ControlMode.MotionMagic, leftPosition, DemandType.ArbitraryFeedForward, DriveConstants.kLeftStatic);
+		m_rightMaster.set(ControlMode.MotionMagic, rightPosition, DemandType.ArbitraryFeedForward, DriveConstants.kRightStatic);
 	}
 	
 	public void setVelocity(double leftVel, double rightVel) {
-		m_rightMaster.set(ControlMode.Velocity, rightVel, DemandType.ArbitraryFeedForward, DriveConstants.kRightStatic);
-		m_leftMaster.set(ControlMode.Velocity, leftVel, DemandType.ArbitraryFeedForward, DriveConstants.kLeftStatic);
-		
+		if (Math.abs(leftVel) > DriveConstants.kLeftCruiseVelocity) {
+			leftVel = DriveConstants.kLeftCruiseVelocity * Math.signum(leftVel);
+		}
+		if (Math.abs(rightVel) > DriveConstants.kRightCruiseVelocity) {
+			rightVel = DriveConstants.kRightCruiseVelocity * Math.signum(rightVel);
+		}
+		m_rightMaster.set(ControlMode.Velocity, rightVel, DemandType.ArbitraryFeedForward, DriveConstants.kRightStatic * Math.signum(rightVel));
+		m_leftMaster.set(ControlMode.Velocity, leftVel, DemandType.ArbitraryFeedForward, DriveConstants.kLeftStatic * Math.signum(leftVel));
 	}
 	
 	public void resetEncoders() {
@@ -161,11 +170,10 @@ public class Drive extends Subsystem {
 	
 	
 	public double getRawYaw() {
-		return -m_nav.getAngle() + Robot.autoChooser.getDirection();
-		
+        return -m_nav.getAngle() + Robot.autoChooser.getDirection();
 	}
 	
-	public void resetYaw() {
+	public void resetYaw() { 
 		m_nav.reset();
 	}
 	
@@ -284,7 +292,8 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Right Velocity", getRightMasterSpeed());
 		SmartDashboard.putNumber("Yaw", getRawYaw());
     	SmartDashboard.putNumber("X pos", m_currentX);
-    	SmartDashboard.putNumber("Y pos", m_currentY);
+		SmartDashboard.putNumber("Y pos", m_currentY);
+		calcXY();
     	
     }
     
@@ -318,7 +327,7 @@ public class Drive extends Subsystem {
 			try {
 				m_writer = new FileWriter(m_file);
 				m_writer.append("Time,RightPosition,LeftPosition,RightVelocity,LeftVelocity,RightDesiredVel,LeftDesiredVel,RightVoltage,LeftVoltage,"
-						+ "RightMasterCurrent,LeftMasterCurrent,RightSlaveCurrent,LeftSlaveCurrent,BusVoltage,Yaw,Pitch,Roll,LeftSlaveVoltage,RightSlaveVoltage," +
+						+ "RightMasterCurrent,LeftMasterCurrent,BusVoltage,Yaw,Pitch,Roll,LeftSlaveVoltage,RightSlaveVoltage," +
 						"LeftVelocityFPS,RightVelocityFPS,RobotX,RobotY,LookaheadX,LookaheadY,AngularVelX,AngularVelY,AngularVelZ,AccelX,AccelY,AccelZ\n");
 				m_writer.flush();
 				m_logStartTime = Timer.getFPGATimestamp();
@@ -350,9 +359,7 @@ public class Drive extends Subsystem {
 						+ "," + String.valueOf(m_leftMaster.getMotorOutputVoltage()) + ","
 						+ String.valueOf(m_rightMaster.getOutputCurrent()) + ","
 						+ String.valueOf(m_leftMaster.getOutputCurrent()) + ","
-						+ String.valueOf(m_rightSlave1.getOutputCurrent()) + ","
-						+ String.valueOf(m_leftSlave1.getOutputCurrent()) + "," 
-						+ String.valueOf(getRawYaw()) + "," + String.valueOf(getPitch()) + "," + String.valueOf(getRoll()) +
+												+ String.valueOf(getRawYaw()) + "," + String.valueOf(getPitch()) + "," + String.valueOf(getRoll()) +
 						"," + String.valueOf(m_leftSlave1.getMotorOutputVoltage()) + "," + String.valueOf(m_rightSlave1.getMotorOutputVoltage()) + 
 						"," + String.valueOf(getLeftVelocityFeet()) + "," + String.valueOf(getRightVelocityFeet()) +  "," + String.valueOf(m_currentX) + "," 
 						+ String.valueOf(m_currentY) + "," + String.valueOf(m_lookaheadX) +"," + String.valueOf(m_lookaheadY) + "," + String.valueOf(getAngularVelocityX()) + "," + String.valueOf(getAngularVelocityY()) +
@@ -365,3 +372,4 @@ public class Drive extends Subsystem {
 		}
 	}
 }
+

@@ -32,9 +32,7 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_logStartTime = 0;
 
 	// Jevois Serial Output Data
-	private double contour_id, target_area_pixel, target_centroid_X_pixel, target_centroid_Y_pixel, target_height_pixel,
-			target_length_pixel;
-
+	private double contour_id, target_area_pixel, target_centroid_X_pixel, target_centroid_Y_pixel;
 	public Jevois(int baud, SerialPort.Port port) {
 		focalLength = (Constants.kVerticalPixels / 2) / Math.tan(Constants.kVerticalFOV / 2);
 		send = false;
@@ -46,7 +44,7 @@ public class Jevois extends Subsystem implements Runnable {
 
 	public void run() {
 		while (stream.isAlive()) {
-			Timer.delay(0.005);
+			Timer.delay(0.001);
 			if (send) {
 				cam.writeString(sendValue);
 				send = false;
@@ -59,11 +57,12 @@ public class Jevois extends Subsystem implements Runnable {
 					target_area_pixel = Double.parseDouble(getData(2));
 					target_centroid_X_pixel = Double.parseDouble(getData(3));
 					target_centroid_Y_pixel = Double.parseDouble(getData(4));
-					target_length_pixel = Double.parseDouble(getData(5));
-					target_height_pixel = Double.parseDouble(getData(6));
 				} else {
 					System.out.println(read);
-					System.out.println("NO CUBE DETECTED");
+					System.out.println(read.charAt(0));
+					System.out.println(read.charAt(1));
+					System.out.println(read.charAt(2));
+					System.out.println("No target detected - change videomapping to NONE");
 				}
 			}
 		}
@@ -80,13 +79,13 @@ public class Jevois extends Subsystem implements Runnable {
 		return degree;
 	}
 
-	public double getDistanceTargetError() {
-		double alpha = Math.atan(Robot.jevois.getTargetY() / focalLength);
-		double beta = Constants.kCameraMountAngle + alpha;
-		double centroidVar = (-alpha / 45) + 1;
-		double centroidHeight = Constants.kCubeHeight * centroidVar;
-		return centroidHeight * Math.tan(beta); // distance target error
-	}
+	// public double getDistanceTargetError() {
+	// 	double alpha = Math.atan(Robot.jevois.getTargetY() / focalLength);
+	// 	double beta = Constants.kCameraMountAngle + alpha;
+	// 	double centroidVar = (-alpha / 45) + 1;
+	// 	double centroidHeight = Constants.kCubeHeight * centroidVar;
+	// 	return centroidHeight * Math.tan(beta); // distance target error
+	// }
 
 	public double getContourID() {
 		return contour_id;
@@ -98,14 +97,6 @@ public class Jevois extends Subsystem implements Runnable {
 
 	public double getTargetY() {
 		return target_centroid_Y_pixel;
-	}
-
-	public double getTargetLength() {
-		return target_length_pixel;
-	}
-
-	public double getTargetHeight() {
-		return target_height_pixel;
 	}
 
 	public double getTargetArea() {
@@ -143,15 +134,12 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	public void reportToSmartDashboard() {
-		SmartDashboard.putNumber("Target Distance Error", getDistanceTargetError());
-		SmartDashboard.putNumber("Target Angle Error", getAngularTargetError());
+	//	SmartDashboard.putNumber("Target Angle Error", getAngularTargetError());
 		
 		SmartDashboard.putNumber("Contour ID", getContourID()); // 1st in data output
 		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
 		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
-		SmartDashboard.putNumber("X coord", getTargetX()); // 4th
-		SmartDashboard.putNumber("Length", getTargetLength()); // 5th
-		SmartDashboard.putNumber("Height", getTargetHeight()); // 6th
+		SmartDashboard.putNumber("X coord", getTargetY()); // 3rd
 
 	
 	}
@@ -209,7 +197,7 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," + getContourID() + "," + getTargetArea() + "," + getTargetX() + "," + getTargetY() + "," + getTargetLength() + "," + getTargetHeight());
+				m_writer.append(String.valueOf(timestamp) + "," + getContourID() + "," + getTargetArea() + "," + getTargetX() + "," + getTargetY());
 //			m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

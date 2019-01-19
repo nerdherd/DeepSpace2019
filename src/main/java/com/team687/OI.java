@@ -1,11 +1,8 @@
 package com.team687;
 
+import com.team687.commands.vision.ping;
 import com.team687.commands.vision.streamoff;
 import com.team687.commands.vision.streamon;
-import com.team687.commands.vision.LiveTargetTrack;
-import com.team687.commands.vision.LockOnLeftTarget;
-import com.team687.commands.vision.LockOnRightTarget;
-import com.team687.commands.StopDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -29,15 +26,20 @@ public class OI {
 		
 		streamon = new JoystickButton(joy,3);
 		streamon.whenPressed(new streamon());
+
+		ping = new JoystickButton(joy, 4);
+		ping.whenPressed(new ping());
 			
-		liveTargetTrack = new JoystickButton(joy, 1);
-		liveTargetTrack.whenPressed(new LiveTargetTrack());
+		// liveTargetTrack = new JoystickButton(joy, 1);
+		// liveTargetTrack.whenPressed(new LiveTargetTrack());
 
-		stopDrive = new JoystickButton(joy, 12);
-		stopDrive.whenPressed(new StopDrive());
+		// stopDrive = new JoystickButton(joy, 12);
+		// stopDrive.whenPressed(new StopDrive());
 
-		SmartDashboard.putData("LockOnLeftTarget", new LockOnLeftTarget());
-		SmartDashboard.putData("LockOnRightTarget", new LockOnRightTarget());
+		// SmartDashboard.putData("LockOnLeftTarget", new LockOnLeftTarget());
+		// SmartDashboard.putData("LockOnRightTarget", new LockOnRightTarget());
+		SmartDashboard.putData("Stream On", new streamon());
+		SmartDashboard.putData("Stream Off", new streamoff());
 
 	}
 
@@ -47,8 +49,8 @@ public class OI {
     public double getDriveJoyLeftY() {
 		// return -gamepadJoy.getRawAxis(1);
 		return -driveJoyLeft.getY();
-		}
-	
+		
+	}
 		/**
 		 * @return input power from right drive joystick Y (-1.0 to +1.0)
 		 */

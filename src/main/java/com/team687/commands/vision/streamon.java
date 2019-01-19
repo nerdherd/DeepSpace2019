@@ -17,9 +17,8 @@ public class streamon extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	System.out.println("COMMAND INITIALIZED");
 	Robot.jevois.streamon();
-	System.out.println("COMMAND INITIALIZED AGAIN");
+	System.out.println("COMMAND INITIALIZED");
     }
 
     // Called repeatedly when this Command is scheduled to run

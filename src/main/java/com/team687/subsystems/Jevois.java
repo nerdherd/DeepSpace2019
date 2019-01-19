@@ -62,7 +62,11 @@ public class Jevois extends Subsystem implements Runnable {
 					System.out.println(read.charAt(0));
 					System.out.println(read.charAt(1));
 					System.out.println(read.charAt(2));
+<<<<<<< HEAD
 					System.out.println("No target detected - change videomapping to NONE");
+=======
+					System.out.println("No target detected");
+>>>>>>> 093692ad7e4c6f2e1b1cc44175c62f082d786229
 				}
 			}
 		}

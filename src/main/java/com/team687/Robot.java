@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		jevois.stopLog();
+		jevois.enableStream();
 	}
 
 	@Override
@@ -77,8 +78,6 @@ public class Robot extends TimedRobot {
 		jevois.reportToSmartDashboard();
 		jevois.logToCSV();
 		Scheduler.getInstance().run();
-		
-		
 	}
 
 	/**

@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ping extends Command {
+public class Ping extends Command {
 
-    public ping() {
-	requires(Robot.jevois);
+    public Ping() {
+	    requires(Robot.jevois);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	Robot.jevois.ping();
+        Robot.jevois.ping();
     }
 
     // Called repeatedly when this Command is scheduled to run

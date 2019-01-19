@@ -17,7 +17,7 @@ public class Constants {
     public final static double kCubeHeight = 11; 
     public final static double kWheelDiameter = 0.00;
     public final static double kJoystickDeadband = 0.02;
-    public final static double kDriveRotationDeadband = 2;
+    public final static double kDriveRotationDeadband = 5;
     public final static double kAngleTolerance = 0.1;
     public final static double kDistanceTolerance = 0.1; 
 }

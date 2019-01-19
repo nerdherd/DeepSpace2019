@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Jevois extends Subsystem implements Runnable {
-	private SerialPort cam;
-	private Thread stream;
-	public double focalLength;
+	private SerialPort m_cam;
+	private Thread m_stream;
+	private double m_focalLength;
+	private boolean m_send;
 
-	private boolean send;
 	private boolean writeException = false;
 
 	String[] parts;
@@ -32,37 +32,35 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_logStartTime = 0;
 
 	// Jevois Serial Output Data
-	private double contour_id, target_area_pixel, target_centroid_X_pixel, target_centroid_Y_pixel;
+	private double m_contourNum, m_area, m_centerX, m_centerY;
+
 	public Jevois(int baud, SerialPort.Port port) {
-		focalLength = (Constants.kVerticalPixels / 2) / Math.tan(Constants.kVerticalFOV / 2);
-		send = false;
+		m_focalLength = (Constants.kVerticalPixels / 2) / Math.tan(Constants.kVerticalFOV / 2);
+		m_send = false;
 		sendValue = "None";
-		cam = new SerialPort(baud, port);
-		stream = new Thread(this);
-		stream.start();
+		m_cam = new SerialPort(baud, port);
+		m_stream = new Thread(this);
+		m_stream.start();
 	}
 
 	public void run() {
-		while (stream.isAlive()) {
+		while (m_stream.isAlive()) {
 			Timer.delay(0.001);
-			if (send) {
-				cam.writeString(sendValue);
-				send = false;
+			if (m_send) {
+				m_cam.writeString(sendValue);
+				m_send = false;
 			}
-			if (cam.getBytesReceived() > 0) {
-				String read = cam.readString();
+			if (m_cam.getBytesReceived() > 0) {
+				String read = m_cam.readString();
 				if (read.charAt(0) == '/') {
 					parts = dataParse(read);
-					contour_id = Integer.parseInt(getData(1));
-					target_area_pixel = Double.parseDouble(getData(2));
-					target_centroid_X_pixel = Double.parseDouble(getData(3));
-					target_centroid_Y_pixel = Double.parseDouble(getData(4));
+					m_contourNum = Integer.parseInt(getData(1));
+					m_area = Double.parseDouble(getData(2));
+					m_centerX = Double.parseDouble(getData(3));
+					m_centerY = Double.parseDouble(getData(4));
 				} else {
 					System.out.println(read);
-					System.out.println(read.charAt(0));
-					System.out.println(read.charAt(1));
-					System.out.println(read.charAt(2));
-					System.out.println("No target detected - change videomapping to NONE");
+					System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
 				}
 			}
 		}
@@ -74,42 +72,34 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	private double pixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / focalLength));
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / m_focalLength));
 		double degree = 180 * radian / Math.PI;
 		return degree;
 	}
 
-	// public double getDistanceTargetError() {
-	// 	double alpha = Math.atan(Robot.jevois.getTargetY() / focalLength);
-	// 	double beta = Constants.kCameraMountAngle + alpha;
-	// 	double centroidVar = (-alpha / 45) + 1;
-	// 	double centroidHeight = Constants.kCubeHeight * centroidVar;
-	// 	return centroidHeight * Math.tan(beta); // distance target error
-	// }
-
-	public double getContourID() {
-		return contour_id;
+	public double getContourNum() {
+		return m_contourNum;
 	}
 
 	public double getTargetX() {
-		return target_centroid_X_pixel;
+		return m_centerX;
 	}
 
 	public double getTargetY() {
-		return target_centroid_Y_pixel;
+		return m_centerY;
 	}
 
 	public double getTargetArea() {
-		return target_area_pixel;
+		return m_area;
 	}
 
 	public void end() {
-		stream.interrupt();
+		m_stream.interrupt();
 	}
 
 	private void sendCommand(String value) {
 		sendValue = value + "\n";
-		send = true;
+		m_send = true;
 		Timer.delay(0.1);
 	}
 
@@ -125,23 +115,20 @@ public class Jevois extends Subsystem implements Runnable {
 		sendCommand("ping");
 	}
 
-	public void streamon() {
+	public void enableStream() {
 		sendCommand("streamon");
 	}
 
-	public void streamoff() {
+	public void disableStream() {
 		sendCommand("streamoff");
 	}
 
 	public void reportToSmartDashboard() {
-	//	SmartDashboard.putNumber("Target Angle Error", getAngularTargetError());
-		
-		SmartDashboard.putNumber("Contour ID", getContourID()); // 1st in data output
+		SmartDashboard.putNumber("Total contours", getContourNum()); // 1st in data output
 		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
 		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
 		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
 		SmartDashboard.putNumber("Angular Error", getAngularTargetError());
-	
 	}
 
 	public void startLog() {
@@ -197,8 +184,9 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," + getContourID() + "," + getTargetArea() + "," + getTargetX() + "," + getTargetY());
-//			m_writer.flush();
+				m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
+						+ getTargetX() + "," + getTargetY());
+				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 				writeException = true;

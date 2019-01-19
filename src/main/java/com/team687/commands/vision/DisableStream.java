@@ -7,18 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class streamon extends Command {
+public class DisableStream extends Command {
 
-    public streamon() {
+    public DisableStream() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-	requires(Robot.jevois);
+        requires(Robot.jevois);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	Robot.jevois.streamon();
-	System.out.println("COMMAND INITIALIZED");
+        Robot.jevois.streamoff();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -15,6 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.commands.drive.teleop.ArcadeDrive;
+import com.team687.commands.drive.teleop.TankDrive;
 import com.team687.constants.DriveConstants;
 import com.team687.utilities.NerdyTalon;
 
@@ -189,6 +190,7 @@ public class Drive extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
+		setDefaultCommand(new TankDrive());
     }   
     
 	public void resetXY() {

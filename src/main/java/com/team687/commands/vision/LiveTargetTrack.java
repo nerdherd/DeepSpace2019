@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.009;
+    private double kP = 0.005;
 
     public LiveTargetTrack() {
         requires(Robot.drive);
@@ -17,6 +17,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void initialize() {
+        Robot.jevois.streamon();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
     }
 
@@ -24,15 +25,9 @@ public class LiveTargetTrack extends Command {
     protected void execute() {
         double relativeAngleError = Robot.jevois.getAngularTargetError();
 
-        double power = kP * -relativeAngleError;
-
-        if (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband) {
-            power = 0;
-        } else {
-            Robot.drive.setPowerFeedforward(-power, power);
-        }
+        double power = kP * relativeAngleError;
+        Robot.drive.setPowerFeedforward(power, -power);
         SmartDashboard.putNumber("Rotational Power", power);
-
     }
 
     @Override

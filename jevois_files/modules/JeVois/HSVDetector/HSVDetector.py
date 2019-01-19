@@ -152,7 +152,7 @@ class HSVDetector:
             sortedBy = sorted(conts, key=getXcoord)
             return sortedBy
 
-        # checks if the contour is tilted to the right
+        # checks if the contour is tilted to the right based on y-differences
         def get_orientation(cnt): 
             contour_rect = cv2.minAreaRect(cnt)
             contour_corners = cv2.boxPoints(contour_rect)
@@ -162,7 +162,6 @@ class HSVDetector:
             contour_ad = contour_corners[0][1] - contour_corners[3][1]
             
             # 1 is oriented left, 2 is right, 3 is vertical
-
             if(contour_ab < contour_ad):
                 return 1
             elif(contour_ab > contour_ad):
@@ -190,9 +189,12 @@ class HSVDetector:
             cv2.circle(self.outimg,center, 5, (0,0,255), 2)
             cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
             cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
+
         contourNum = len(self.filter_contours_output)
+
         # Sorts contours by the smallest area first
         newContours = sortByArea(self.filter_contours_output)
+
         if(contourNum == 2):
             newContours = sortByPosition(self.filter_contours_output)
             if(get_orientation(newContours[0]) == 1 or get_orientation(newContours[1]) == 2):
@@ -200,7 +202,7 @@ class HSVDetector:
                     left_contour = newContours[0]
                     right_contour = newContours[1]
                     drawRectContours(left_contour, right_contour)
-                    toSend = ("/0" +
+                    toSend = ("/" + str(contourNum) +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
@@ -208,6 +210,7 @@ class HSVDetector:
             elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
                 toSend = "rip"
                 jevois.sendSerial(toSend)
+
         elif (contourNum == 3):
             sortedByPosition = sortByPosition(self.filter_contours_output) # left to right
             mid_contour = sortedByPosition[1]
@@ -218,14 +221,16 @@ class HSVDetector:
                 right_contour = mid_contour
                 left_contour = sortedByPosition[0]
             drawRectContours(left_contour, right_contour)
-            toSend = ("/0" +
+            toSend = ("/" + str(contourNum) +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
             jevois.sendSerial(toSend)
+
         else:
             toSend = "No targets detected!"
             jevois.sendSerial(toSend)
+
         # Write a title:
       #  cv2.putText(self.outimg, "687 Nerdy JeVois", (3, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 

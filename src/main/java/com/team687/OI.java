@@ -1,11 +1,9 @@
 package com.team687;
 
-import com.team687.commands.vision.streamoff;
-import com.team687.commands.vision.streamon;
-import com.team687.commands.vision.LiveTargetTrack;
-import com.team687.commands.vision.LockOnLeftTarget;
-import com.team687.commands.vision.LockOnRightTarget;
-import com.team687.commands.StopDrive;
+import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
+import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.nerdherd.lib.motor.commands.SetMotorMotionMagic;
+import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -23,21 +21,21 @@ public class OI {
 
 	public OI() {
 		joy = new Joystick(2);
-		
-		streamoff = new JoystickButton(joy,2);
-		streamoff.whenPressed(new streamoff());
-		
-		streamon = new JoystickButton(joy,3);
-		streamon.whenPressed(new streamon());
-			
-		liveTargetTrack = new JoystickButton(joy, 1);
-		liveTargetTrack.whenPressed(new LiveTargetTrack());
 
-		stopDrive = new JoystickButton(joy, 12);
-		stopDrive.whenPressed(new StopDrive());
+    SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
+    SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
+    SmartDashboard.putData("Elevator up pos", new SetMotorPositionPID(Robot.elevator, 8000));
+    SmartDashboard.putData("Elevator up up pos", new SetMotorPositionPID(Robot.elevator, 10000));
+    SmartDashboard.putData("Elevator up up up pos", new SetMotorPositionPID(Robot.elevator, 15380));
+    SmartDashboard.putData("Elevator up up up up pos", new SetMotorPositionPID(Robot.elevator, 16780));
+    SmartDashboard.putData("Elevator down pos", new SetMotorPositionPID(Robot.elevator, 1000));
 
-		SmartDashboard.putData("LockOnLeftTarget", new LockOnLeftTarget());
-		SmartDashboard.putData("LockOnRightTarget", new LockOnRightTarget());
+
+    SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));
+    SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
+    SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
+    SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
+    SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));  
 
 	}
 

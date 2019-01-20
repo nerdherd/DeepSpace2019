@@ -7,12 +7,15 @@
 
 package com.team687;
 
+import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.motor.single.SingleMotorElevator;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Streamer;
 import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -30,21 +33,33 @@ public class Robot extends TimedRobot {
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
-	public static OI oi;
-
+  public static SingleMotorElevator elevator;
+  public static OI oi;
+  public static Notifier logger;
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
 	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
 	    livestream = new Streamer();
 	    drive = new Drive();
-	    oi = new OI();
-	    ds = DriverStation.getInstance();
+			ds = DriverStation.getInstance();
+			
+			elevator = new SingleMotorElevator(0, "Elevator", true, true);
+			elevator.configGravityFF(3);
+			elevator.configMotionMagic(3000, 3000);
+			elevator.configPIDF(0.1, 0, 0, 0.256);
+		
+			oi = new OI();
+
+			NerdyBadlog.init("/media/sda1/logs/elevator_testing9.csv", elevator);
+			logger = new Notifier(() -> {
+				NerdyBadlog.log();
+			});
+			logger.startPeriodic(0.01);
 	}
 
 	@Override
 	public void disabledInit() {
-		jevois.stopLog();
 	}
 
 	@Override
@@ -67,7 +82,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		jevois.startLog();
 	}
 
 	/**
@@ -76,9 +90,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-		jevois.reportToSmartDashboard();
-		jevois.logToCSV();
 	}
 
 	/**

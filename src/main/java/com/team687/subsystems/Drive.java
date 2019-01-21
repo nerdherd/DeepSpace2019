@@ -190,7 +190,7 @@ public class Drive extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
+		setDefaultCommand(new ArcadeDrive());
     }   
     
 	public void resetXY() {

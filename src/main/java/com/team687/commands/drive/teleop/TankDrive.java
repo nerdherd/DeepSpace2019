@@ -26,7 +26,7 @@ public class TankDrive extends Command {
     	
     	m_leftPower = Robot.oi.getDriveJoyLeftY();
     	m_rightPower = Robot.oi.getDriveJoyRightY();
-    	Robot.drive.setPower(-m_leftPower, m_rightPower);
+    	Robot.drive.setPower(-m_leftPower, -m_rightPower);
     }
 
     // Make this return true when this Command no longer needs to run execute()

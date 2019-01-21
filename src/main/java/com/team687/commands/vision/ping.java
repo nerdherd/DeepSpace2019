@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Ping extends Command {
+public class ping extends Command {
 
-    public Ping() {
+    public ping() {
 	    requires(Robot.jevois);
     }
 

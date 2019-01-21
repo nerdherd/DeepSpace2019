@@ -1,9 +1,9 @@
 package com.team687;
 
 import com.team687.commands.vision.LiveTargetTrack;
-import com.team687.commands.vision.Ping;
 import com.team687.commands.vision.DisableStream;
 import com.team687.commands.vision.EnableStream;
+import com.team687.commands.vision.ping;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -21,7 +21,7 @@ public class OI {
 	public OI() {
 		
 		liveTargetTrack = new JoystickButton(driveJoyLeft, 1);
-		liveTargetTrack.whileHeld(new LiveTargetTrack());
+		liveTargetTrack.whenPressed(new LiveTargetTrack());
 
 		disableStream = new JoystickButton(driveJoyLeft,2);
 		disableStream.whenPressed(new DisableStream());
@@ -30,7 +30,7 @@ public class OI {
 		enableStream.whenPressed(new EnableStream());
 
 		ping = new JoystickButton(driveJoyLeft, 4);
-		ping.whenPressed(new Ping());
+		ping.whenPressed(new ping());
 			
 		SmartDashboard.putData("Stream On", new EnableStream());
 		SmartDashboard.putData("Stream Off", new DisableStream());

@@ -178,7 +178,7 @@ public class Drive extends Subsystem {
 	
 	
 	public double getRawYaw() {
-        return -m_nav.getAngle() + Robot.autoChooser.getDirection();
+        return -m_nav.getAngle() + 180;
 	}
 	
 	public void resetYaw() { 

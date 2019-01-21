@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.005;
+    private double kP = 0.00125;
+    private double m_error;
+    private double  m_desiredAngle;
 
     public LiveTargetTrack() {
         requires(Robot.drive);
@@ -17,24 +19,37 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void initialize() {
-        Robot.jevois.streamon();
+        Robot.jevois.enableStream();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
+        double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
+        m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError() - 3;
+
+        SmartDashboard.putNumber("Robot Angle", robotAngle);
+        SmartDashboard.putNumber("Desired Angle", m_desiredAngle);
     }
 
     @Override
     protected void execute() {
-        double relativeAngleError = Robot.jevois.getAngularTargetError();
+        // double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
+        // m_error = -m_desiredAngle - robotAngle;
+        // m_error = (m_error > 180) ? m_error - 360 : m_error;
+        // m_error = (m_error < -180) ? m_error + 360 : m_error;
+        // m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError();
 
-        double power = kP * relativeAngleError;
-        Robot.drive.setPowerFeedforward(power, -power);
-        SmartDashboard.putNumber("Rotational Power", power);
+        // double power = kP * m_error;
+
+        double getAngularTargetError = Robot.jevois.getAngularTargetError();
+        double power = kP * getAngularTargetError;
+        Robot.drive.setPowerFeedforward(power - Robot.oi.getDriveJoyLeftY(), -power - Robot.oi.getDriveJoyLeftY());
+        SmartDashboard.putNumber("Left Power", power - Robot.oi.getDriveJoyLeftY());
+        SmartDashboard.putNumber("Right Power", -power - Robot.oi.getDriveJoyLeftY());
+        // SmartDashboard.putNumber("Robot Angle", robotAngle);
+        
     }
 
     @Override
     protected boolean isFinished() {
-        double relativeAngleError = Robot.jevois.getAngularTargetError();
-        return (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband);
-
+        return false;
     }
 
     @Override

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Turn to a specified angle (no vision, absolute)
+ * 
  * @author tedklin
  */
 
@@ -31,59 +32,59 @@ public class TurnToAngle extends Command {
      * @param tolerance
      */
     public TurnToAngle(double angle, int tolerance, double timeout) {
-	m_desiredAngle = angle;
-	m_tolerance = tolerance;
-	m_timeout = timeout;
+        m_desiredAngle = angle;
+        m_tolerance = tolerance;
+        m_timeout = timeout;
 
-	// subsystem dependencies
-	requires(Robot.drive);
+        // subsystem dependencies
+        requires(Robot.drive);
     }
 
     @Override
     protected void initialize() {
-	SmartDashboard.putString("Current Drive Command", "TurnToAngle");
-	m_startTime = Timer.getFPGATimestamp();
-	m_counter = 0;
+        SmartDashboard.putString("Current Drive Command", "TurnToAngle");
+        m_startTime = Timer.getFPGATimestamp();
+        m_counter = 0;
     }
 
     @Override
     protected void execute() {
-	double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
-	m_error = -m_desiredAngle - robotAngle;
-	m_error = (m_error > 180) ? m_error - 360 : m_error;
-	m_error = (m_error < -180) ? m_error + 360 : m_error;
+        double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
+        m_error = -m_desiredAngle - robotAngle;
+        m_error = (m_error > 180) ? m_error - 360 : m_error;
+        m_error = (m_error < -180) ? m_error + 360 : m_error;
 
-	m_dTerm = (m_prevError - m_error) / (m_prevTimestamp - Timer.getFPGATimestamp());
-	m_prevTimestamp = Timer.getFPGATimestamp();
+        m_dTerm = (m_prevError - m_error) / (m_prevTimestamp - Timer.getFPGATimestamp());
+        m_prevTimestamp = Timer.getFPGATimestamp();
 
-	double power = DriveConstants.kRotP * m_error + DriveConstants.kRotD * m_dTerm;
-	power = NerdyMath.threshold(power, DriveConstants.kRotMinPower, DriveConstants.kRotPMaxPower);
-	// power = Math.min(DriveConstants.kRotPMaxPower,
-	// Math.max(-DriveConstants.kRotPMaxPower, power));
+        double power = DriveConstants.kRotP * m_error + DriveConstants.kRotD * m_dTerm;
+        power = NerdyMath.threshold(power, DriveConstants.kRotMinPower, DriveConstants.kRotPMaxPower);
+        // power = Math.min(DriveConstants.kRotPMaxPower,
+        // Math.max(-DriveConstants.kRotPMaxPower, power));
 
-	Robot.drive.setPower((-DriveConstants.kLeftAdjustment * power), power);
-	if (Math.abs(m_error) <= DriveConstants.kDriveRotationTolerance) {
-	    m_counter += 1;
-	} else {
-	    m_counter = 0;
-	}
-	m_prevError = m_error;
+        Robot.drive.setPower((-DriveConstants.kLeftAdjustment * power), power);
+        if (Math.abs(m_error) <= DriveConstants.kDriveRotationTolerance) {
+            m_counter += 1;
+        } else {
+            m_counter = 0;
+        }
+        m_prevError = m_error;
     }
 
     @Override
     protected boolean isFinished() {
-	return m_counter > m_tolerance || Timer.getFPGATimestamp() - m_startTime > m_timeout;
-	// return false;
+        return m_counter > m_tolerance || Timer.getFPGATimestamp() - m_startTime > m_timeout;
+        // return false;
     }
 
     @Override
     protected void end() {
-	Robot.drive.setPowerZero();
+        Robot.drive.setPowerZero();
     }
 
     @Override
     protected void interrupted() {
-	end();
+        end();
     }
 
 }

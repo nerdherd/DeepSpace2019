@@ -24,7 +24,7 @@ public class RobotMap {
 	
 	// Power up robots
 	
-    public static final int kRightMasterTalonID = 0;
+    public static final int kRightMasterTalonID = 10;
     public static final int kLeftMasterTalonID = 1;
 
     // practice bot

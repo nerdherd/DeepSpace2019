@@ -39,23 +39,28 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
-	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
-	    livestream = new Streamer();
+	    // jevois = new Jevois(115200, SerialPort.Port.kUSB);
+	    // livestream = new Streamer();
 	    drive = new Drive();
 			ds = DriverStation.getInstance();
 			
 			elevator = new SingleMotorElevator(0, "Elevator", true, true);
-			elevator.configGravityFF(3);
+			elevator.configGravityFF(1.13);
 			elevator.configMotionMagic(3000, 3000);
 			elevator.configPIDF(0.1, 0, 0, 0.256);
 		
 			oi = new OI();
 
-			NerdyBadlog.init("/media/sda1/logs/elevator_testing9.csv", elevator);
+			NerdyBadlog.init("/media/sda1/logs/elevator_testing10.csv", elevator);
 			logger = new Notifier(() -> {
 				NerdyBadlog.log();
 			});
 			logger.startPeriodic(0.01);
+	}
+
+	@Override
+	public void robotPeriodic() {
+		elevator.reportToSmartDashboard();
 	}
 
 	@Override

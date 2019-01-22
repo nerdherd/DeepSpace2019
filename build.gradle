@@ -3,7 +3,7 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2019.1.1"
 }
 
-def ROBOT_MAIN_CLASS = "frc.robot.Main"
+def ROBOT_MAIN_CLASS = "com.team687.Main"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
@@ -56,7 +56,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'grpl.pathfinder:Pathfinder-Java:2.0.0-prealpha'
     compile 'grpl.pathfinder:Pathfinder-JNI:2.0.0-prealpha'
-    compile 'com.github.nerdherd:NerdyLib:8134536'
+    compile 'com.github.nerdherd:NerdyLib:4e15df3'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

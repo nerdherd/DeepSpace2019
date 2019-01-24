@@ -23,6 +23,11 @@ public class DriveAtHeading extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    /**
+     * Find min area
+     * setPower to constant divided by total area
+     * Stop when total area is at a set value
+     */
   }
 
   // Make this return true when this Command no longer needs to run execute()

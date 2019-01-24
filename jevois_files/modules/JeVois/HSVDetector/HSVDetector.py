@@ -148,6 +148,39 @@ class HSVDetector:
 
 ##################################################################################################
 
+        CAMERA_MATRIX = np.array([[332.75, 0, 160],
+                                 [0, 332.77, 120],
+                                 [0,0,1]])
+
+        OBJ_POINTS = [(149, 67), (123, 59), (139, 5), (166 , 13)]
+
+        def solvePnP(imgPoints):
+            rvec, tvec = cv2.solvePnP(OBJ_POINTS, imgPoints, CAMERA_MATRIX, None)
+            return(rvec, tvec)
+
+        def draw(img, corners, rvec, tvec):
+            axis = np.float32([[0,0,0], [0,3,0], [3,3,0], [3,0,0], 
+            [0,0,-3],[0,3,-3],[3,3,-3],[3,0,-3] ])
+
+            imgpts, jac = cv2.projectPoints(axis, rvec, tvec, CAMERA_MATRIX, None)
+
+            imgpts = np.int32(imgpts).reshape(-1,2)
+            # draw ground floor in green
+            img = cv2.drawContours(img, [imgpts[:4]],-1,(0,255,0),-3)
+            # draw pillars in blue color
+            for i,j in zip(range(4),range(4,8)):
+                img = cv2.line(img, tuple(imgpts[i]), tuple(imgpts[j]),(255),3)
+            # draw top layer in red color
+            img = cv2.drawContours(img, [imgpts[4:]],-1,(0,0,255),3)
+
+            return img
+
+        def getContourCorners(cnt):
+            contour_rect = cv2.minAreaRect(cnt)
+            contour_corners = cv2.boxPoints(contour_rect)
+            contour_corners = np.int0(contour_corners)
+            return contour_corners
+        
         def sortByPosition(conts):
             sortedBy = sorted(conts, key=getXcoord)
             return sortedBy
@@ -207,6 +240,10 @@ class HSVDetector:
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
                     jevois.sendSerial(toSend)
+
+                    # Uncomment for testing solvePnP
+                    # rvec, tvec = solvePnP(getContourCorners(left_contour))
+                    # draw(self.outimg, corners, rvec, tvec)
             elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
                 toSend = "rip"
                 jevois.sendSerial(toSend)

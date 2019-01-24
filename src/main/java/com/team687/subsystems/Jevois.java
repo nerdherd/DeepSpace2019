@@ -19,6 +19,10 @@ public class Jevois extends Subsystem implements Runnable {
 	private Thread m_stream;
 	private double m_focalLength;
 	private boolean m_send;
+	private double m_threshold = 25.4;
+	public double m_offset; 
+	
+
 
 	private boolean writeException = false;
 
@@ -77,6 +81,22 @@ public class Jevois extends Subsystem implements Runnable {
 		return degree;
 	}
 
+
+	public double getOffset() {
+        double angularError = getAngularTargetError();
+        if(-m_threshold < angularError && angularError < m_threshold){
+            m_offset = 0.0;
+        }
+        else if(m_threshold > 0){
+            m_offset = angularError - m_threshold; 
+        }
+        else if(m_threshold < 0){
+            m_offset = angularError + m_threshold;
+        }
+        return m_offset; 
+    }
+
+
 	public double getContourNum() {
 		return m_contourNum;
 	}
@@ -128,7 +148,9 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
 		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
 		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
-		SmartDashboard.putNumber("Angular Error", getAngularTargetError());
+		SmartDashboard.putNumber("Angular Error", getAngularTargetError()); // 4th 
+		SmartDashboard.putNumber("Offset", getOffset());
+
 	}
 
 	public void startLog() {

@@ -56,8 +56,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        double relativeAngleError = Robot.jevois.getAngularTargetError();
-        return (Math.abs(relativeAngleError) <= Constants.kDriveRotationDeadband);
+        return false;
     }
 
     @Override

@@ -23,8 +23,8 @@ public class ArcadeDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	m_leftPower = Robot.oi.getDriveJoyLeftX() + Robot.oi.getDriveJoyRightY();
-    	m_rightPower = -Robot.oi.getDriveJoyLeftX() + Robot.oi.getDriveJoyRightY();
+    	m_leftPower = Robot.oi.getDriveJoyLeftX() + -Robot.oi.getDriveJoyRightY();
+    	m_rightPower = -Robot.oi.getDriveJoyLeftX() + -Robot.oi.getDriveJoyRightY();
     	
     	Robot.drive.setPower(m_leftPower, m_rightPower);
     }

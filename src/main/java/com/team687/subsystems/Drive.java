@@ -20,6 +20,7 @@ import com.team687.constants.DriveConstants;
 import com.team687.utilities.NerdyTalon;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -301,6 +302,13 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Yaw", getRawYaw());
     	SmartDashboard.putNumber("X pos", m_currentX);
 		SmartDashboard.putNumber("Y pos", m_currentY);
+
+		// for(int i = 0; i < SerialPort.Port.values().length - 1; i++){
+		// 	int x = SerialPort.Port.values();
+
+		// }
+		System.out.println("hi");
+
 		calcXY();
     	
     }

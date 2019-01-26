@@ -160,10 +160,10 @@ public class Jevois extends Subsystem implements Runnable {
 		Path filePrefix = Paths.get("");
 		if (logFolder1.exists() && logFolder1.isDirectory()) {
 			filePrefix = Paths.get(logFolder1.toString(),
-					Robot.kDate + Robot.ds.getMatchType().toString() + Robot.ds.getMatchNumber() + "Drive");
+					Robot.kDate + Robot.ds.getMatchType().toString() + Robot.ds.getMatchNumber() + "Jevois");
 		} else if (logFolder2.exists() && logFolder2.isDirectory()) {
 			filePrefix = Paths.get(logFolder2.toString(),
-					Robot.kDate + Robot.ds.getMatchType().toString() + Robot.ds.getMatchNumber() + "Drive");
+					Robot.kDate + Robot.ds.getMatchType().toString() + Robot.ds.getMatchNumber() + "Jevois");
 		} else {
 			writeException = true;
 		}
@@ -206,8 +206,9 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
-						+ getTargetX() + "," + getTargetY());
+				// m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
+				// 		+ getTargetX() + "," + getTargetY());
+				m_writer.append("yeetus");
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -9,8 +9,10 @@ package com.team687;
 
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
+import com.team687.subsystems.Sensor;
 import com.team687.utilities.AutoChooser;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,22 +24,32 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Robot extends TimedRobot {
 	
-	public static final String kDate = "2018_09_29_";
+	public static final String kDate = "Dope_2019_01_26_";
 
 	public static Drive drive;
 	public static Jevois jevois;
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
+	public static Sensor sensor;
+
 	public static OI oi;
 
 	@Override
 	public void robotInit() {
 	//	autoChooser = new AutoChooser();
-	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		sensor = new Sensor();
+		CameraServer.getInstance().startAutomaticCapture();
+
+		// LifeCam is at USB0
+		// Jevois is at USB1
+
+
 	    drive = new Drive();
 	    oi = new OI();
-	    ds = DriverStation.getInstance();
+		ds = DriverStation.getInstance();
+		
 	}
 
 	@Override
@@ -49,7 +61,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		jevois.reportToSmartDashboard();
+		sensor.reportToSmartDashboard();
+
 		Scheduler.getInstance().run();
+		System.out.println(SerialPort.Port.values());
 	}
 
 	@Override
@@ -76,7 +91,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		jevois.reportToSmartDashboard();
+		sensor.reportToSmartDashboard();
+
 		jevois.logToCSV();
+		// System.out.println(SerialPort.Port.values());
+		// drive.reportToSmartDashboard();
 		Scheduler.getInstance().run();
 	}
 

@@ -16,22 +16,25 @@ public class AutoConstants {
     public static final double kJerk = 100;
 
     private static Config testConfig = new Config(Trajectory.FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, dt, kCruiseVelocity/2, kAcceleration/3, kJerk);
-    private static Waypoint[] testPoints = new Waypoint[] {
-        new Waypoint(0, 0, 0),
-        new Waypoint(5, 5, 0)  
-    };
-
-    public static Waypoint[] testPoints2 = new Waypoint[] {
-        new Waypoint(5, 5, Pathfinder.d2r(0)),
-        new Waypoint(9, 0, Pathfinder.d2r(-90))
-    };
-
-    public static Waypoint[] backwardsPoints = new Waypoint[] {
-        new Waypoint(0, 0, 0), 
-        new Waypoint(-5, 5, 0)
-    };
     
-    public static Trajectory testTraj = Pathfinder.generate(testPoints, testConfig);
-    public static Trajectory testTraj2 = Pathfinder.generate(testPoints2, testConfig);
-    public static Trajectory backwardsTrajectory = Pathfinder.generate(backwardsPoints, testConfig);
+    private static double kRobotLength = 0;
+    private static double kRobotWidth = 0;
+    private static double kTapeLength = 18;
+
+    private static double kRightRobotOriginX = 0;
+    private static double kRightRobotOriginY = 0;
+    private static double kAllianceWallToFirstCargoShipTapeX = 0;
+    private static double kRightWallToCargoShip = 0;
+    private static double kAllianceWallToTape2X = 0;
+    private static double kAllianceWallToTape3X = 0;
+    
+    
+
+    private static Waypoint kRobotRightOrigin = new Waypoint(kRightRobotOriginX, kRightRobotOriginY, 0);
+
+    private static Waypoint kRightTapeWaypoint = new Waypoint(kAllianceWallToFirstCargoShipTapeX, kRightWallToCargoShip - kTapeLength - kRobotWidth/2, 0);
+
+    private static Waypoint kRightMidWaypoint = new Waypoint((kAllianceWallToTape2X + kAllianceWallToTape3X)/2, kRightWallToCargoShip/2, 0);
+
+    private static Waypoint 
 }

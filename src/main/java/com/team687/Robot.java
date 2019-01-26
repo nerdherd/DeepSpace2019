@@ -8,15 +8,15 @@
 package com.team687;
 
 import com.nerdherd.lib.misc.NerdyBadlog;
-import com.nerdherd.lib.motor.single.SingleMotorElevator;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
+import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
+import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
-import com.team687.subsystems.Streamer;
 import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,7 +33,9 @@ public class Robot extends TimedRobot {
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
-  public static SingleMotorElevator elevator;
+	public static SingleMotorElevator elevator;
+	public static SingleMotorArm arm;
+	public static SingleMotorTalonSRX intake;
   public static OI oi;
   public static Notifier logger;
 	@Override
@@ -44,23 +46,25 @@ public class Robot extends TimedRobot {
 	    drive = new Drive();
 			ds = DriverStation.getInstance();
 			
-			elevator = new SingleMotorElevator(0, "Elevator", true, true);
+			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator", true, true);
 			elevator.configGravityFF(1.13);
 			elevator.configMotionMagic(3000, 3000);
-			elevator.configPIDF(0.15, 0, 0, 0.256);
+			elevator.configPIDF(0.1, 0, 0, 0.256);
+
+			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, true);
+			arm.configGravityFF(0);
+
+			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 		
 			oi = new OI();
 
-			NerdyBadlog.init("/media/sda1/logs/elevator_testing10.csv", elevator);
-			logger = new Notifier(() -> {
-				NerdyBadlog.log();
-			});
-			logger.startPeriodic(0.01);
+			NerdyBadlog.initAndLog("/media/sda1/logs/elevatorTesting1.csv", 0.02, elevator, arm);
 	}
 
 	@Override
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
+		arm.reportToSmartDashboard();
 	}
 
 	@Override

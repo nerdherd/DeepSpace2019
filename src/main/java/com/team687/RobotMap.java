@@ -17,12 +17,12 @@ public class RobotMap {
 	
 	// Cosmos testing
 	
-	public static final int kRightTalon1 = 1;
-	public static final int kRightTalon2 = 2;
-	public static final int kLeftTalon1 = 4;
-	public static final int kLeftTalon2 = 6;
+	// public static final int kRightTalon1 = 1;
+	// public static final int kRightTalon2 = 2;
+	// public static final int kLeftTalon1 = 4;
+	// public static final int kLeftTalon2 = 6;
 	
-	// Power up robots
+	// // Power up robots
 	
     public static final int kRightMasterTalonID = 10;
     public static final int kLeftMasterTalonID = 1;
@@ -31,8 +31,13 @@ public class RobotMap {
     public static final int kRightSlaveTalon1ID = 4;
     public static final int kLeftSlaveTalon1ID = 5;
 
-    // comp bot
-    public static final int kRightSlaveVictorID = 4;
-    public static final int kLeftSlaveVictorID = 5;
+    // // comp bot
+    // public static final int kRightSlaveVictorID = 4;
+    // public static final int kLeftSlaveVictorID = 5;
+
+    public static final int kIntakeTalonID = 0;
+    public static final int kElevatorTalonID = 0;
+    public static final int kArmTalonID = 0;
+    
 
 }

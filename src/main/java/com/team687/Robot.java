@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 			elevator = new SingleMotorElevator(0, "Elevator", true, true);
 			elevator.configGravityFF(1.13);
 			elevator.configMotionMagic(3000, 3000);
-			elevator.configPIDF(0.1, 0, 0, 0.256);
+			elevator.configPIDF(0.15, 0, 0, 0.256);
 		
 			oi = new OI();
 

@@ -1,7 +1,7 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
-
+import com.team687.constants.Constants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,13 +32,11 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void execute() {
-        // double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
-        // m_error = -m_desiredAngle - robotAngle;
-        // m_error = (m_error > 180) ? m_error - 360 : m_error;
-        // m_error = (m_error < -180) ? m_error + 360 : m_error;
-        // m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError();
+        // double relativeAngleError = Robot.jevois.getAngularTargetError();
 
-        // double power = kP * m_error;
+        // double power = kP * relativeAngleError;
+        // Robot.drive.setPowerFeedforward(power, -power);
+        // SmartDashboard.putNumber("Rotational Power", power);
 
         double getAngularTargetError = Robot.jevois.getAngularTargetError() - Robot.jevois.getOffset();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;

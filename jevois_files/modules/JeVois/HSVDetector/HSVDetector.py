@@ -152,6 +152,7 @@ class HSVDetector:
                                  [0, 332.77, 120],
                                  [0,0,1]])
 
+
         OBJ_POINTS = np.float32([[149, 67, 0], 
                                 [123, 59, 0], 
                                 [139, 5, 0], 
@@ -185,6 +186,7 @@ class HSVDetector:
             contour_rect = cv2.minAreaRect(cnt)
             contour_corners = cv2.boxPoints(contour_rect)
             contour_corners = np.int0(contour_corners)
+
             contour_corners = contour_corners.astype(np.float32)
             return contour_corners
         
@@ -247,9 +249,13 @@ class HSVDetector:
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
                     jevois.sendSerial(toSend)
-                    corners = getContourCorners(left_contour)
-                    rvec, tvec = solvePnP(corners)
-                    self.outimg = draw(self.outimg, corners, rvec, tvec)
+
+                    # Uncomment for testing solvePnP
+                    
+                    # corners = getContourCorners(left_contour)
+                    # rvec, tvec = solvePnP(corners)
+                    # self.outimg = draw(self.outimg, corners, rvec, tvec)
+
             elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
                 toSend = "rip"
                 jevois.sendSerial(toSend)

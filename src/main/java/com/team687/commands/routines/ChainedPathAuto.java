@@ -17,7 +17,6 @@ public class ChainedPathAuto extends CommandGroup {
    * Add your docs here.
    */
   public ChainedPathAuto() {
-    addSequential(new DriveTrajectory(AutoConstants.testTraj, 5, true, 0.2, 0));
-    addSequential(new DriveTrajectory(AutoConstants.testTraj2, 5, true, 0.2, 0));
+  
   }
 }

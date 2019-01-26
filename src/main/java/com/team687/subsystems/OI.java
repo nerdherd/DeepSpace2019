@@ -1,4 +1,4 @@
-package com.team687;
+package com.team687.subsystems;
 
 import com.team687.commands.vision.streamoff;
 import com.team687.commands.vision.streamon;

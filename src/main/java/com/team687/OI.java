@@ -2,13 +2,13 @@ package com.team687;
 
 import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
-import com.nerdherd.lib.motor.commands.SetArmAngleMotionMagic;
 import com.nerdherd.lib.motor.commands.SetMotorMotionMagic;
 import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
 import com.nerdherd.lib.motor.commands.SetMotorPower;
+import com.nerdherd.lib.motor.commands.mechanisms.MechanismVoltageRampingWithFF;
+import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
-import com.team687.commands.VoltageRampWithFF;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -43,7 +43,7 @@ public class OI {
 		SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));  
 		
 		SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
-		SmartDashboard.putData("Voltage ramp arm 2", new VoltageRampWithFF(0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp arm 2", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
 		SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
 		SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
 		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -40));

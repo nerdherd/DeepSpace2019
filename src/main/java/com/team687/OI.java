@@ -2,9 +2,13 @@ package com.team687;
 
 import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.nerdherd.lib.motor.commands.SetArmAngleMotionMagic;
 import com.nerdherd.lib.motor.commands.SetMotorMotionMagic;
 import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
 import com.nerdherd.lib.motor.commands.SetMotorPower;
+import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
+import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.VoltageRampWithFF;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -39,12 +43,20 @@ public class OI {
 		SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));  
 		
 		SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp arm 2", new VoltageRampWithFF(0.25 / 12.0));
 		SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
-		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.arm));
+		SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
+		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -40));
+		SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
+		SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
+		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 
 		SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
 		SmartDashboard.putData("Set both intake sides -3V", new SetMotorPower(Robot.intake, -.25));
 		SmartDashboard.putData("Stop rollers", new SetMotorPower(Robot.intake, 0));
+
+		SmartDashboard.putData("Piston extend ?", new ExtendPiston(Robot.claw));
+		SmartDashboard.putData("Piston retract? ?", new RetractPiston(Robot.claw));
 
 	}
 

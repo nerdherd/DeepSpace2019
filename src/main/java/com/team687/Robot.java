@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-  /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -11,6 +11,7 @@ import com.nerdherd.lib.misc.NerdyBadlog;
 import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
+import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.utilities.AutoChooser;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
 	public static SingleMotorTalonSRX intake;
+	public static Piston claw;
   public static OI oi;
   public static Notifier logger;
 	@Override
@@ -45,26 +47,32 @@ public class Robot extends TimedRobot {
 	    // livestream = new Streamer();
 	    drive = new Drive();
 			ds = DriverStation.getInstance();
+
+			claw = new Piston(4, 3);
 			
 			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator", true, true);
 			elevator.configGravityFF(1.13);
 			elevator.configMotionMagic(3000, 3000);
 			elevator.configPIDF(0.1, 0, 0, 0.256);
 
-			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, true);
-			arm.configGravityFF(0);
+			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, false);
+			arm.configGravityFF(1.8 / 12.);
+			arm.configPIDF(0, 0, 0, 3.9);
+			arm.configMotionMagic(100, 200);
+			arm.configAngleConversion(1./4096. * 360 * 12. / 15., -20);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/elevatorTesting1.csv", 0.02, elevator, arm);
+			NerdyBadlog.initAndLog("/media/sda1/logs/elevatorTesting7.csv", 0.02, elevator, arm);
 	}
 
 	@Override
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
+		intake.reportToSmartDashboard();
 	}
 
 	@Override

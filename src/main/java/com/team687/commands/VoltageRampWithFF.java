@@ -5,35 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.piston;
+package com.team687.commands;
 
-import com.team687.subsystems.Piston;
+import com.team687.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractPiston extends Command {
-
-  private Piston m_piston;
-
-  public RetractPiston(Piston piston) {
-    m_piston = piston;
-    requires(m_piston);
+public class VoltageRampWithFF extends Command {
+  private double m_rate, m_startTime;
+  public VoltageRampWithFF(double rate) {
+    m_rate = rate;
+    requires(Robot.arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    m_piston.setReverse();
+    m_startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.arm.setPowerWithFF(m_rate * (Timer.getFPGATimestamp() - m_startTime));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

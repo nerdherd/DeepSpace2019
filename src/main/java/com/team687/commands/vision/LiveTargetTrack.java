@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.00125;
-    private double m_error;
+    private double kP = 0.00400;
     private double  m_desiredAngle;
 
 
@@ -38,25 +37,30 @@ public class LiveTargetTrack extends Command {
         // Robot.drive.setPowerFeedforward(power, -power);
         // SmartDashboard.putNumber("Rotational Power", power);
 
-        double getAngularTargetError = Robot.jevois.getAngularTargetError() - Robot.jevois.getOffset();
+        double getAngularTargetError = Robot.jevois.getAngularTargetError();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError();
+        double power = kP * getAngularTargetError;
+
+        if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
+            Robot.drive.setPowerFeedforward(power, -power);
+        }
 
         SmartDashboard.putNumber("Robot Angle", robotAngle);
         SmartDashboard.putNumber("Desired Angle", m_desiredAngle);
-        SmartDashboard.putNumber("Angular Target Error", getAngularTargetError); 
+        // SmartDashboard.putNumber("Angular Target Error", getAngularTargetError); 
         
-        double power = kP * getAngularTargetError;
-        Robot.drive.setPowerFeedforward(power - Robot.oi.getDriveJoyLeftY(), -power - Robot.oi.getDriveJoyLeftY());
-        SmartDashboard.putNumber("Left Power", power - Robot.oi.getDriveJoyLeftY());
-        SmartDashboard.putNumber("Right Power", -power - Robot.oi.getDriveJoyLeftY());
+        SmartDashboard.putNumber("Left Power", power);
+        SmartDashboard.putNumber("Right Power", -power);
         // SmartDashboard.putNumber("Robot Angle", robotAngle);
         
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        double getAngularTargetError = Robot.jevois.getAngularTargetError();
+
+        return(Math.abs(getAngularTargetError) < 2);
     }
 
     @Override

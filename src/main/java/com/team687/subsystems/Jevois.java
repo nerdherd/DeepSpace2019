@@ -64,7 +64,7 @@ public class Jevois extends Subsystem implements Runnable {
 					m_centerY = Double.parseDouble(getData(4));
 				} else {
 					System.out.println(read);
-					System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
+					// System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
 				}
 			}
 		}
@@ -148,7 +148,7 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
 		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
 		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
-		SmartDashboard.putNumber("Angular Error", getAngularTargetError()); // 4th 
+		SmartDashboard.putNumber("Angular Target Error", getAngularTargetError()); // 4th 
 		SmartDashboard.putNumber("Offset", getOffset());
 
 	}

@@ -26,10 +26,10 @@ public class OI {
 	public OI() {
 		
 		liveTargetTrack = new JoystickButton(driveJoyLeft, 1);
-		liveTargetTrack.whenPressed(new LiveTargetTrack());
+		liveTargetTrack.whileHeld(new LiveTargetTrack());
 
 		lineFollow = new JoystickButton(driveJoyRight, 11);
-		lineFollow.whileHeld(new LineFollow(0.177));
+		lineFollow.whileHeld(new LineFollow(0.254));
 
 		disableStream = new JoystickButton(driveJoyLeft,2);
 		disableStream.whenPressed(new DisableStream());

@@ -43,10 +43,11 @@ public class OI {
 		SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));  
 		
 		SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
-		SmartDashboard.putData("Voltage ramp arm 2", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
 		SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
 		SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
-		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -40));
+		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
 		SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
 		SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));

@@ -56,16 +56,16 @@ public class Robot extends TimedRobot {
 			elevator.configPIDF(0.1, 0, 0, 0.256);
 
 			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, false);
-			arm.configGravityFF(1.8 / 12.);
-			arm.configPIDF(0, 0, 0, 3.9);
+			arm.configFFs(1.31, 0.49);
+			arm.configPIDF(4, 0, 0, 3.9);
 			arm.configMotionMagic(100, 200);
-			arm.configAngleConversion(1./4096. * 360 * 12. / 15., -20);
+			arm.configAngleConversion(1./4096. * 360 * 12. / 15., -19);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/elevatorTesting7.csv", 0.02, elevator, arm);
+			NerdyBadlog.initAndLog("/media/sda1/logs/1_28_19_elevatorTesting5.csv", 0.02, elevator, arm);
 	}
 
 	@Override

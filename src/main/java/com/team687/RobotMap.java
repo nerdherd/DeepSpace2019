@@ -14,25 +14,27 @@ package com.team687;
  * floating around.
  */
 public class RobotMap {
-	
-	// Cosmos testing
-	
-	public static final int kRightTalon1 = 1;
-	public static final int kRightTalon2 = 2;
-	public static final int kLeftTalon1 = 4;
-	public static final int kLeftTalon2 = 6;
-	
 	// Power up robots
 	
     public static final int kRightMasterTalonID = 0;
     public static final int kLeftMasterTalonID = 1;
 
-    // practice bot
-    public static final int kRightSlaveTalon1ID = 4;
-    public static final int kLeftSlaveTalon1ID = 5;
+    public static final int kRightSlaveVictor1ID = 4;
+    public static final int kLeftSlaveVictor1ID = 5;
 
-    // comp bot
-    public static final int kRightSlaveVictorID = 4;
-    public static final int kLeftSlaveVictorID = 5;
+    public static final int kRightSlaveVictor2ID = 4;
+    public static final int kLeftSlaveVictor2ID = 5;
+
+    public static final int kDrivetrainShifter1ID = 0;
+    public static final int kDrivetrainShifter2ID = 1;
+
+    public static final int kLeftKickerWheelTalonID = 0;
+    public static final int kRightKickerWheelTalonID = 0;
+
+    public static final int kChevalRampTalonID = 0;
+
+    public static final int kChevalLockPiston1ID = 0;
+    public static final int kChevalLockPiston2ID = 0;
+
 
 }

@@ -51,12 +51,13 @@ public class Robot extends TimedRobot {
 			claw = new Piston(4, 3);
 			
 			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator", true, true);
-			elevator.configGravityFF(1.13);
-			elevator.configMotionMagic(3000, 3000);
-			elevator.configPIDF(0.1, 0, 0, 0.256);
+			elevator.configTalonDeadband(0.004);
+			elevator.configFFs(0.87, 0.43);
+			elevator.configMotionMagic(2800, 2800);
+			elevator.configPIDF(0.5, 0, 0, 0.266);
 
 			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, false);
-			arm.configFFs(1.31, 0.49);
+			arm.configFFs(1.555, 0.245);
 			arm.configPIDF(4, 0, 0, 3.9);
 			arm.configMotionMagic(100, 200);
 			arm.configAngleConversion(1./4096. * 360 * 12. / 15., -19);
@@ -65,7 +66,7 @@ public class Robot extends TimedRobot {
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/1_28_19_elevatorTesting5.csv", 0.02, elevator, arm);
+			NerdyBadlog.initAndLog("/media/sda1/logs/2_1_19_elevatorTesting8.csv", 0.02, elevator, arm);
 	}
 
 	@Override

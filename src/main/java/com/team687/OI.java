@@ -27,12 +27,16 @@ public class OI {
 	public OI() {
 		joy = new Joystick(2);
 
-    SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
+	SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
+	SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
+	SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
+
     SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
     SmartDashboard.putData("Elevator up pos", new SetMotorPositionPID(Robot.elevator, 8000));
     SmartDashboard.putData("Elevator up up pos", new SetMotorPositionPID(Robot.elevator, 10000));
     SmartDashboard.putData("Elevator up up up pos", new SetMotorPositionPID(Robot.elevator, 15380));
     SmartDashboard.putData("Elevator up up up up pos", new SetMotorPositionPID(Robot.elevator, 16780));
+    SmartDashboard.putData("Elevator up up up up up pos", new SetMotorPositionPID(Robot.elevator, 18000));
     SmartDashboard.putData("Elevator down pos", new SetMotorPositionPID(Robot.elevator, 1000));
 
 
@@ -40,6 +44,10 @@ public class OI {
     SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
     SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
     SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
+    SmartDashboard.putData("Elevator MM up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 18000));
+    SmartDashboard.putData("Elevator MM up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 20560));
+    SmartDashboard.putData("Elevator MM up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 27000));
+    SmartDashboard.putData("Elevator MM up up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 28000));
 		SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));  
 		
 		SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));

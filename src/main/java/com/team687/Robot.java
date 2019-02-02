@@ -12,6 +12,8 @@ import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.team687.constants.ArmConstants;
+import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.utilities.AutoChooser;
@@ -38,8 +40,8 @@ public class Robot extends TimedRobot {
 	public static SingleMotorArm arm;
 	public static SingleMotorTalonSRX intake;
 	public static Piston claw;
-  public static OI oi;
-  public static Notifier logger;
+	public static OI oi;
+
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
@@ -50,17 +52,27 @@ public class Robot extends TimedRobot {
 
 			claw = new Piston(4, 3);
 			
-			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator", true, true);
-			elevator.configTalonDeadband(0.004);
-			elevator.configFFs(0.87, 0.43);
-			elevator.configMotionMagic(2800, 2800);
-			elevator.configPIDF(0.5, 0, 0, 0.266);
+			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
+				ElevatorConstants.kElevatorInversion, ElevatorConstants.kElevatorSensorPhase);
+			elevator.configTalonDeadband(ElevatorConstants.kElevatorTalonDeadband);
+			elevator.configFFs(ElevatorConstants.kElevatorGravityFF, 
+				ElevatorConstants.kElevatorStaticFrictionFF);
+			elevator.configMotionMagic(ElevatorConstants.kElevatorMotionMagicMaxAccel,
+				ElevatorConstants.kElevatorMotionMagicCruiseVelocity);
+			elevator.configPIDF(ElevatorConstants.kElevatorP, ElevatorConstants.kElevatorI,
+				ElevatorConstants.kElevatorD, ElevatorConstants.kElevatorF);
+			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
+				ElevatorConstants.kElevatorHeightOffset);
 
-			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", true, false);
-			arm.configFFs(1.555, 0.245);
-			arm.configPIDF(4, 0, 0, 3.9);
-			arm.configMotionMagic(100, 200);
-			arm.configAngleConversion(1./4096. * 360 * 12. / 15., -19);
+			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", 
+				ArmConstants.kArmInversion, ArmConstants.kArmSensorPhase);
+			arm.configTalonDeadband(ArmConstants.kArmTalonDeadband);
+			arm.configFFs(ArmConstants.kArmGravityFF, ArmConstants.kArmStaticFrictionFF);
+			arm.configMotionMagic(ArmConstants.kArmMotionMagicMaxAccel, 
+				ArmConstants.kArmMotionMagicCruiseVelocity);
+			arm.configPIDF(ArmConstants.kArmP, ArmConstants.kArmI, 
+				ArmConstants.kArmD, ArmConstants.kArmF);
+			arm.configAngleConversion(ArmConstants.kArmAngleRatio, ArmConstants.kArmAngleOffset);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 		

@@ -32,12 +32,12 @@ public class OI {
 	SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
 
     SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
-    SmartDashboard.putData("Elevator up pos", new SetMotorPositionPID(Robot.elevator, 8000));
-    SmartDashboard.putData("Elevator up up pos", new SetMotorPositionPID(Robot.elevator, 10000));
-    SmartDashboard.putData("Elevator up up up pos", new SetMotorPositionPID(Robot.elevator, 15380));
-    SmartDashboard.putData("Elevator up up up up pos", new SetMotorPositionPID(Robot.elevator, 16780));
-    SmartDashboard.putData("Elevator up up up up up pos", new SetMotorPositionPID(Robot.elevator, 18000));
-    SmartDashboard.putData("Elevator down pos", new SetMotorPositionPID(Robot.elevator, 1000));
+    // SmartDashboard.putData("Elevator up pos", new SetMotorPositionPID(Robot.elevator, 8000));
+    // SmartDashboard.putData("Elevator up up pos", new SetMotorPositionPID(Robot.elevator, 10000));
+    // SmartDashboard.putData("Elevator up up up pos", new SetMotorPositionPID(Robot.elevator, 15380));
+    // SmartDashboard.putData("Elevator up up up up pos", new SetMotorPositionPID(Robot.elevator, 16780));
+    // SmartDashboard.putData("Elevator up up up up up pos", new SetMotorPositionPID(Robot.elevator, 18000));
+    // SmartDashboard.putData("Elevator down pos", new SetMotorPositionPID(Robot.elevator, 1000));
 
 
     SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));

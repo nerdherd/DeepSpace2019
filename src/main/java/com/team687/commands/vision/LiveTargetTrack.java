@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.00400;
+    private double kP = 0.0042;
     private double  m_desiredAngle;
 
 
@@ -43,7 +43,10 @@ public class LiveTargetTrack extends Command {
         double power = kP * getAngularTargetError;
 
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(power, -power);
+            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY() + power, -Robot.oi.getDriveJoyLeftY() -power);
+        }
+        else{
+            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
         }
 
         SmartDashboard.putNumber("Robot Angle", robotAngle);
@@ -58,9 +61,9 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        double getAngularTargetError = Robot.jevois.getAngularTargetError();
+        // double getAngularTargetError = Robot.jevois.getAngularTargetError();
 
-        return(Math.abs(getAngularTargetError) < 2);
+        return(false);
     }
 
     @Override

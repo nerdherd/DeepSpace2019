@@ -26,7 +26,7 @@ public class ElevatorConstants {
     public static final double kElevatorD = 0;
     public static final double kElevatorF = 0.266;
 
-    public static final double kElevatorDistanceRatio = 1;
-    public static final double kElevatorHeightOffset = 13.5;
+    public static final double kElevatorDistanceRatio = 1./4096. * 1.432 * Math.PI * 2;
+    public static final double kElevatorHeightOffset = 13.75;
 
 }

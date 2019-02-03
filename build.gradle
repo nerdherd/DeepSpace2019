@@ -56,7 +56,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'grpl.pathfinder:Pathfinder-Java:2.0.0-prealpha'
     compile 'grpl.pathfinder:Pathfinder-JNI:2.0.0-prealpha'
-    compile 'com.github.nerdherd:NerdyLib:4feac86'
+    compile 'com.github.nerdherd:NerdyLib:3988cee'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

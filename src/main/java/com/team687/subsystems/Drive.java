@@ -9,45 +9,46 @@ package com.team687.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.drivetrain.shifting.ShiftingDrivetrain;
+import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.team687.Robot;
 import com.team687.RobotMap;
 
 /**
  * Add your docs here.
  */
 public class Drive extends ShiftingDrivetrain {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+
 
   public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
      new VictorSPX[] {
-       new VictorSPX(RobotMap.kLeftMasterTalonID),
+       new VictorSPX(RobotMap.kRightSlaveVictor1ID),
        new VictorSPX(RobotMap.kLeftSlaveVictor2ID)
      },
      new VictorSPX[] {
        new VictorSPX(RobotMap.kRightSlaveVictor1ID),
        new VictorSPX(RobotMap.kRightSlaveVictor2ID)
      },
-     true, false, 
+     true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
-     
-
-    //  super.configAutoChooser(Robot.chooser);
-     super.configMaxVelocity(30000);
+    
+     super.configAutoChooser(Robot.chooser);
+     super.configMaxVelocity(0);
      super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(17000, 17000);
-     super.configDate("2019_1_26_");
+     super.configDate("2019_2_02_");
      // floor
      super.configLeftPIDF(0.05, 0, 0, 0.028004625);
      super.configRightPIDF(0.05, 0, 0, 0.030084725);
      super.configStaticFeedforward(1.152, 1.228);
+
   }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi));
   }
 
   @Override

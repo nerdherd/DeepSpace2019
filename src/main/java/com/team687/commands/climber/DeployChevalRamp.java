@@ -20,8 +20,5 @@ public class DeployChevalRamp extends CommandGroup {
    * Add your docs here.
    */
   public DeployChevalRamp() {
-    addSequential(new RetractPiston(Robot.chevalLock));
-    addSequential(new SetMotorPositionPID(Robot.chevalRamp, SuperstructureConstants.kChevalRampDeployPosition));
-    addSequential(new ExtendPiston(Robot.chevalLock));
   }
 }

@@ -16,14 +16,14 @@ package com.team687;
 public class RobotMap {
 	// Power up robots
 	
-    public static final int kRightMasterTalonID = 0;
-    public static final int kLeftMasterTalonID = 1;
+    public static final int kRightMasterTalonID = 5;
+    public static final int kLeftMasterTalonID = 6;
 
-    public static final int kRightSlaveVictor1ID = 4;
-    public static final int kLeftSlaveVictor1ID = 5;
+    public static final int kRightSlaveVictor1ID = 1;
+    public static final int kLeftSlaveVictor1ID = 2;
 
-    public static final int kRightSlaveVictor2ID = 4;
-    public static final int kLeftSlaveVictor2ID = 5;
+    public static final int kRightSlaveVictor2ID = 3;
+    public static final int kLeftSlaveVictor2ID = 0;
 
     public static final int kDrivetrainShifter1ID = 0;
     public static final int kDrivetrainShifter2ID = 1;

@@ -20,8 +20,5 @@ public class RetractChevalRamp extends CommandGroup {
    * Add your docs here.
    */
   public RetractChevalRamp() {
-    addSequential(new RetractPiston(Robot.chevalLock));
-    // addSequential(new WaitTime(0.1));
-    addSequential(new SetMotorPositionPID(Robot.chevalRamp, SuperstructureConstants.kChevalRampRetractPosition, 100, false));
-  }
+ }
 }

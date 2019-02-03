@@ -18,7 +18,7 @@ public class RetractKickerWheels extends CommandGroup {
    * Add your docs here.
    */
   public RetractKickerWheels() {
-    addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelDeployPosition, 100, false));
-    addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelDeployPosition, 100, false));
+    // addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelDeployPosition, 100, false));
+    // addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelDeployPosition, 100, false));
   }
 }

@@ -19,9 +19,9 @@ public class DeployKickerWheels extends CommandGroup {
    * Add your docs here.
    */
   public DeployKickerWheels() {
-    addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelRetractPosition));
-    addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelRetractPosition));
-    addSequential(new SetMotorPower(Robot.leftKickerWheel, 0));
-    addSequential(new SetMotorPower(Robot.rightKickerWheel, 0));
+    // addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelRetractPosition));
+    // addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelRetractPosition));
+    // addSequential(new SetMotorPower(Robot.leftKickerWheel, 0));
+    // addSequential(new SetMotorPower(Robot.rightKickerWheel, 0));
   }
 }

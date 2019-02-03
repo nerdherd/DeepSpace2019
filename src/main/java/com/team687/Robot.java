@@ -7,44 +7,44 @@
 
 package com.team687;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.nerdherd.lib.drivetrain.singlespeed.Drivetrain;
 import com.nerdherd.lib.misc.AutoChooser;
-import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
-import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.robot.OI;
-import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
  */
 public class Robot extends TimedRobot {
-	
+
 	public static final String kDate = "2019_01_29_";
 
 	public static Drive drive;
-	public static SingleMotorTalonSRX leftKickerWheel, rightKickerWheel, chevalRamp;
-	public static Piston chevalLock;
+	// public static SingleMotorTalonSRX leftKickerWheel, rightKickerWheel, chevalRamp;
 	public static OI oi;
 	public static AutoChooser chooser;
 
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
+		// nav = new AHRS(SPI.Port.kMXP);
 		drive = new Drive();
 
-		leftKickerWheel = new SingleMotorTalonSRX(RobotMap.kLeftKickerWheelTalonID, "Left Kicker Wheel", true, true);
-		leftKickerWheel.configPIDF(SuperstructureConstants.kLeftKickerWheelP, 0, 0, 0);
 
-		rightKickerWheel = new SingleMotorTalonSRX(RobotMap.kRightKickerWheelTalonID, "Right Kicker Wheel", false, false);
-		rightKickerWheel.configPIDF(SuperstructureConstants.kRightKickerWheelP, 0, 0, 0);
+		// leftKickerWheel = new SingleMotorTalonSRX(RobotMap.kLeftKickerWheelTalonID, "Left Kicker Wheel", true, true);
+		// leftKickerWheel.configPIDF(SuperstructureConstants.kLeftKickerWheelP, 0, 0, 0);
 
-		chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
-		chevalRamp.configPIDF(SuperstructureConstants.kChevalRampP, 0, 0, 0);
+		// rightKickerWheel = new SingleMotorTalonSRX(RobotMap.kRightKickerWheelTalonID, "Right Kicker Wheel", false, false);
+		// rightKickerWheel.configPIDF(SuperstructureConstants.kRightKickerWheelP, 0, 0, 0);
+
+		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
+		// chevalRamp.configPIDF(SuperstructureConstants.kChevalRampP, 0, 0, 0);
 		
-		chevalLock = new Piston(RobotMap.kChevalLockPiston1ID, RobotMap.kChevalLockPiston2ID);
 		oi = new OI(); 
 	}
 

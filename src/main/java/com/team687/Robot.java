@@ -72,13 +72,14 @@ public class Robot extends TimedRobot {
 				ArmConstants.kArmMotionMagicCruiseVelocity);
 			arm.configPIDF(ArmConstants.kArmP, ArmConstants.kArmI, 
 				ArmConstants.kArmD, ArmConstants.kArmF);
-			arm.configAngleConversion(ArmConstants.kArmAngleRatio, ArmConstants.kArmAngleOffset);
+			arm.configAngleConversion(ArmConstants.kArmAngleRatio, 
+				ArmConstants.kEffectiveArmAngleOffset);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/2_2_19_elevatorTesting8.csv", 0.02, elevator, arm);
+			NerdyBadlog.initAndLog("/media/sda1/logs/2_4_19_elevatorTesting1.csv", 0.02, elevator, arm);
 	}
 
 	@Override

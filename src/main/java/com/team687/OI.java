@@ -84,11 +84,17 @@ public class OI {
 		SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
 		SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
 		SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
+		SmartDashboard.putData("Set arm angle 4 deg", new SetArmAngleMotionMagic(Robot.arm, 4));
 		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
+		SmartDashboard.putData("Set arm angle -26 deg", new SetArmAngleMotionMagic(Robot.arm, -26));
 		SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
+		SmartDashboard.putData("Set arm angle 71 deg", new SetArmAngleMotionMagic(Robot.arm, 71));
 		SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
+		SmartDashboard.putData("Set arm angle 36 deg", new SetArmAngleMotionMagic(Robot.arm, 36));
 		SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Robot.arm, 45));
+		SmartDashboard.putData("Set arm angle 49 deg", new SetArmAngleMotionMagic(Robot.arm, 49));
 		SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Robot.arm, 22));
+		SmartDashboard.putData("Set arm angle 26 deg", new SetArmAngleMotionMagic(Robot.arm, 26));
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 
 		SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));

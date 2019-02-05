@@ -49,6 +49,8 @@ public class AutoConstants {
     private static double kRightRocketPathTwoPointThreeX = 0;
     private static double kRightRocketPathTwoPointThreeY = 0;
 
+    // public static ArrayList<TrajectoryPoint> 
+
     // Right Rocket Path Three
     private static double kRightRocketPathThreePointOneX = 0;
     private static double kRightRocketPathThreePointOneY = 0;

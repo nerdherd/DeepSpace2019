@@ -10,9 +10,8 @@ package com.team687;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.drivetrain.singlespeed.Drivetrain;
 import com.nerdherd.lib.misc.AutoChooser;
-import com.nerdherd.robot.OI;
 import com.team687.subsystems.Drive;
-
+import com.team687.subsystems.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +31,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
-		// nav = new AHRS(SPI.Port.kMXP);
 		drive = new Drive();
 
 

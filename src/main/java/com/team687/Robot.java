@@ -12,6 +12,7 @@ import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.nerdherd.lib.sensor.HallSensor;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Drive;
@@ -19,7 +20,6 @@ import com.team687.subsystems.Jevois;
 import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 	public static AutoChooser autoChooser;
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
+	public static HallSensor armHallEffect, elevatorHallEffect;
 	public static SingleMotorTalonSRX intake;
 	public static Piston claw;
 	public static OI oi;

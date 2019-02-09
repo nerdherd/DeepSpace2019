@@ -62,15 +62,15 @@ public class OI {
 
 		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
 
-		SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));
-		SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
-		SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
-		SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
-		SmartDashboard.putData("Elevator MM up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 18000));
-		SmartDashboard.putData("Elevator MM up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 20560));
-		SmartDashboard.putData("Elevator MM up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 27000));
-		SmartDashboard.putData("Elevator MM up up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 28000));
-		SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));
+		// SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));
+		// SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
+		// SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
+		// SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
+		// SmartDashboard.putData("Elevator MM up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 18000));
+		// SmartDashboard.putData("Elevator MM up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 20560));
+		// SmartDashboard.putData("Elevator MM up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 27000));
+		// SmartDashboard.putData("Elevator MM up up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 28000));
+		// SmartDashboard.putData("Elevator MM down pos", new SetMotorMotionMagic(Robot.elevator, 1000));
 		SmartDashboard.putData("Elevator MM 52 in", new SetElevatorHeightMotionMagic(Robot.elevator, 52));
 		SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Robot.elevator, 42));
 		SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Robot.elevator, 60));
@@ -80,10 +80,12 @@ public class OI {
 
 		SmartDashboard.putData("A waste of my time hatch 1", new SimultaneousMovement(18, 14.5));
 		SmartDashboard.putData("A waste of my time hatch 2", new SimultaneousMovement(45.5, 14.5));
-		SmartDashboard.putData("A waste of my time hatch 3", new SimultaneousMovement(69, 14.5));
+		SmartDashboard.putData("A waste of my time hatch 3", new SimultaneousMovement(71.5, 14.5));
 		SmartDashboard.putData("A waste of my time cargo 1", new SimultaneousMovement(18, 59));
 		SmartDashboard.putData("A waste of my time cargo 2", new SimultaneousMovement(45.5, 59));
-		SmartDashboard.putData("A waste of my time cargo 3", new SimultaneousMovement(69, 59));
+		SmartDashboard.putData("A waste of my time cargo 3", new SimultaneousMovement(71.5, 59));
+		SmartDashboard.putData("Test resting state", new SimultaneousMovement(16, 0));
+		SmartDashboard.putData("Huggable intake", new SimultaneousMovement(14, -30));
 		
 		SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
 		SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));

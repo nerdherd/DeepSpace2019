@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -27,7 +28,8 @@ public class Robot extends TimedRobot {
 	public static final String kDate = "Dope_2019_01_26_";
 
 	public static Drive drive;
-	public static Jevois jevois;
+	public static Jevois leftJevois;
+	// public static Jevois rightJevois;
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
@@ -38,13 +40,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 	//	autoChooser = new AutoChooser();
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		leftJevois = new Jevois(115200, SerialPort.Port.kUSB);
+		// rightJevois = new Jevois(115200, SerialPort.Port.kUSB);
 		sensor = new Sensor();
-		CameraServer.getInstance().startAutomaticCapture();
-
-		// LifeCam is at USB0
-		// Jevois is at USB1
-
+		// CameraServer.getInstance().startAutomaticCapture();
 
 	    drive = new Drive();
 	    oi = new OI();
@@ -54,17 +53,22 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		jevois.stopLog();
-		jevois.enableStream();
+		leftJevois.stopLog();
+		// rightJevois.stopLog();
+
+		leftJevois.enableStream();
+		// rightJevois.enableStream();
+
+		
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		jevois.reportToSmartDashboard();
+		leftJevois.reportToSmartDashboard();
+		
 		sensor.reportToSmartDashboard();
 
 		Scheduler.getInstance().run();
-		System.out.println(SerialPort.Port.values());
 	}
 
 	@Override
@@ -82,7 +86,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		jevois.startLog();
+		leftJevois.startLog();
+		// rightJevois.startLog();
 	}
 
 	/**
@@ -90,10 +95,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		jevois.reportToSmartDashboard();
+		leftJevois.reportToSmartDashboard();
+		// rightJevois.reportToSmartDashboard();
 		sensor.reportToSmartDashboard();
 
-		jevois.logToCSV();
+		leftJevois.logToCSV();
+		// rightJevois.logToCSV();
 		// System.out.println(SerialPort.Port.values());
 		// drive.reportToSmartDashboard();
 		Scheduler.getInstance().run();

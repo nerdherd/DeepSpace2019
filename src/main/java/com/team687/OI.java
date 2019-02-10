@@ -1,7 +1,5 @@
 package com.team687;
 
-import com.team687.commands.vision.DisableStream;
-import com.team687.commands.vision.EnableStream;
 import com.team687.commands.vision.LineFollow;
 import com.team687.commands.vision.LiveTargetTrack;
 
@@ -28,17 +26,15 @@ public class OI {
 		liveTargetTrack = new JoystickButton(driveJoyLeft, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack());
 
-		lineFollow = new JoystickButton(driveJoyRight, 11);
-		lineFollow.whileHeld(new LineFollow(0.254));
+		//lineFollow = new JoystickButton(driveJoyRight, 11);
+		//lineFollow.whileHeld(new LineFollow(0.254));
 
-		disableStream = new JoystickButton(driveJoyLeft,2);
-		disableStream.whenPressed(new DisableStream());
+		//disableStream = new JoystickButton(driveJoyLeft,2);
+		//disableStream.whenPressed(new DisableStream());
 		
-		enableStream = new JoystickButton(driveJoyLeft,3);
-		enableStream.whenPressed(new EnableStream());
+		//enableStream = new JoystickButton(driveJoyLeft,3);
+		//enableStream.whenPressed(new EnableStream());
 			
-		SmartDashboard.putData("Stream On", new EnableStream());
-		SmartDashboard.putData("Stream Off", new DisableStream());
 
 	}
 

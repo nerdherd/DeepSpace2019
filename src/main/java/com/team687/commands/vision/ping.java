@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ping extends Command {
 
     public ping() {
-	    requires(Robot.jevois);
+	    // requires(Robot.rightJevois);
+	    requires(Robot.leftJevois);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.jevois.ping();
+        Robot.leftJevois.ping();
+        // Robot.rightJevois.ping();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -12,8 +12,12 @@ public class Constants {
     public final static double kHorizontalPixels = 320;
     public final static double kVerticalPixels = 240; 
     
-    public final static double kCameraMountAngle = 70; 
-    public final static double kCameraMountHeight = 42; 
+    public final static double kCameraMountAngle = 10; 
+    public final static double kCameraMountHeight = 42;
+    public final static double kCameraHorizontalOffset = 7.5;
+    
+    public final static double kTargetHeight = 39.125; // inches
+    
     public final static double kCubeHeight = 11; 
     public final static double kWheelDiameter = 0.00;
     public final static double kJoystickDeadband = 0.02;

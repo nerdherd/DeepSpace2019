@@ -8,20 +8,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.0042;
+    private double kP = 0.0148;
+    // private double kP = 0.0042;
     private double  m_desiredAngle;
 
 
     public LiveTargetTrack() {
         requires(Robot.drive);
-        requires(Robot.jevois);
+        requires(Robot.leftJevois);
+        // requires(Robot.rightJevois);
     }
 
     @Override
 
    
     protected void initialize() {
-        Robot.jevois.enableStream();
+        Robot.leftJevois.enableStream();
+        // Robot.rightJevois.enableStream();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
         // double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         // m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError() - Robot.jevois.getOffset();
@@ -36,17 +39,18 @@ public class LiveTargetTrack extends Command {
         // double power = kP * relativeAngleError;
         // Robot.drive.setPowerFeedforward(power, -power);
         // SmartDashboard.putNumber("Rotational Power", power);
-
-        double getAngularTargetError = Robot.jevois.getAngularTargetError();
+        
+        double getAngularTargetError = Robot.leftJevois.getAngleToTurn();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
-        m_desiredAngle = robotAngle + Robot.jevois.getAngularTargetError();
-        double power = kP * getAngularTargetError;
+        m_desiredAngle = robotAngle + Robot.leftJevois.getAngularTargetError();
+        double power = -kP * getAngularTargetError;
 
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY() + power, -Robot.oi.getDriveJoyLeftY() -power);
+            Robot.drive.setPowerFeedforward(power, -power);
         }
         else{
-            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
+            Robot.drive.setPowerFeedforward(0, 0);
+            // Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
         }
 
         SmartDashboard.putNumber("Robot Angle", robotAngle);

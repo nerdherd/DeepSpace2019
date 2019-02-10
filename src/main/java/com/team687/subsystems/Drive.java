@@ -14,6 +14,7 @@ import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.Robot;
 import com.team687.RobotMap;
 
+
 /**
  * Add your docs here.
  */
@@ -30,19 +31,19 @@ public class Drive extends ShiftingDrivetrain {
        new VictorSPX(RobotMap.kRightSlaveVictor1ID),
        new VictorSPX(RobotMap.kRightSlaveVictor2ID)
      },
-     true, false,
+     true, true,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     
      super.configAutoChooser(Robot.chooser);
-     super.configMaxVelocity(0);
-     super.configSensorPhase(false, false);
+     super.configMaxVelocity(24000);
+     super.configSensorPhase(false, true);
      
      super.configTicksPerFoot(17000, 17000);
-     super.configDate("2019_2_02_");
+     super.configDate("2019_2_09_");
      // floor
-     super.configLeftPIDF(0.05, 0, 0, 0.028004625);
-     super.configRightPIDF(0.05, 0, 0, 0.030084725);
-     super.configStaticFeedforward(1.152, 1.228);
+     super.configLeftPIDF(0.0, 0, 0, 0.025089075);
+     super.configRightPIDF(0.0, 0, 0, 0.025259575);
+     super.configStaticFeedforward(0.6737, 0.6505);
 
   }
   @Override
@@ -55,5 +56,20 @@ public class Drive extends ShiftingDrivetrain {
   public void periodic() {
     super.reportToSmartDashboard();
     super.calcXY();
+  }
+
+  @Override
+  public void startLog() {
+    super.startLog();
+  }
+
+  @Override
+  public void stopLog() {
+    super.stopLog();
+  }
+
+  @Override
+  public void logToCSV() {
+    super.logToCSV();
   }
 }

@@ -18,11 +18,11 @@ public class DriveConstants {
 
 	public static final double kRightStatic = 1.441/12;
 
-	public static final int kLeftAcceleration = 0;
-	public static final int kLeftCruiseVelocity = 0;
+	public static final int kLeftAcceleration = 32000;
+	public static final int kLeftCruiseVelocity = 24000;
 	
-	public static final int kRightAcceleration = 0;
-	public static final int kRightCruiseVelocity = 0;
+	public static final int kRightAcceleration = 32000;
+	public static final int kRightCruiseVelocity = 24000;
 
 //	Rot PID Constants
 	public static final double kDriveRotationTolerance = 0;

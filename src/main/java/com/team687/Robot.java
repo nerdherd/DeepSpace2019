@@ -7,15 +7,13 @@
 
 package com.team687;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.nerdherd.lib.drivetrain.singlespeed.Drivetrain;
 import com.nerdherd.lib.misc.AutoChooser;
-import com.nerdherd.robot.OI;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRXWithLimitSwitch;
+import com.team687.subsystems.OI;
 import com.team687.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -25,15 +23,16 @@ public class Robot extends TimedRobot {
 	public static final String kDate = "2019_01_29_";
 
 	public static Drive drive;
-	// public static SingleMotorTalonSRX leftKickerWheel, rightKickerWheel, chevalRamp;
 	public static OI oi;
 	public static AutoChooser chooser;
-
+	public static SingleMotorTalonSRXWithLimitSwitch chevalWedge;
 	@Override
+
 	public void robotInit() {
 		chooser = new AutoChooser();
 		// nav = new AHRS(SPI.Port.kMXP);
 		drive = new Drive();
+		// chevalWedge = new SingleMotorTalonSRXWithLimitSwitch(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, false, false, true);
 
 
 		// leftKickerWheel = new SingleMotorTalonSRX(RobotMap.kLeftKickerWheelTalonID, "Left Kicker Wheel", true, true);
@@ -50,6 +49,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
+		drive.stopLog();
 	}
 
 	@Override
@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		drive.startLog();
 	}
 
 	/**
@@ -80,6 +81,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		drive.logToCSV();
 		
 	}
 

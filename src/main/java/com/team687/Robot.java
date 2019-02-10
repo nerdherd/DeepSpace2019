@@ -11,7 +11,7 @@ import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.motor.single.SingleMotorTalonSRXWithLimitSwitch;
 import com.team687.subsystems.OI;
 import com.team687.subsystems.Drive;
-
+import com.team687.subsystems.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
 
 	public void robotInit() {
 		chooser = new AutoChooser();
-		// nav = new AHRS(SPI.Port.kMXP);
 		drive = new Drive();
 		// chevalWedge = new SingleMotorTalonSRXWithLimitSwitch(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, false, false, true);
 

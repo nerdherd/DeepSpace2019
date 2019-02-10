@@ -13,6 +13,7 @@ import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.HallSensor;
+import com.nerdherd.lib.sensor.TalonTach;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Drive;
@@ -38,10 +39,11 @@ public class Robot extends TimedRobot {
 	public static AutoChooser autoChooser;
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
-	public static HallSensor armHallEffect, elevatorHallEffect;
 	public static SingleMotorTalonSRX intake;
 	public static Piston claw;
 	public static OI oi;
+	public static HallSensor elevatorHallEffect;
+
 
 	@Override
 	public void robotInit() {
@@ -77,10 +79,13 @@ public class Robot extends TimedRobot {
 				ArmConstants.kEffectiveArmAngleOffset);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
+
+			elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/2_4_19_elevatorTesting1.csv", 0.02, elevator, arm);
+			NerdyBadlog.init("/media/sda1/logs/2_9_19_elevatorTesting1.csv",
+				elevator, arm);
 	}
 
 	@Override
@@ -88,6 +93,10 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		intake.reportToSmartDashboard();
+		
+		elevatorHallEffect.reportToSmartDashboard();
+
+		NerdyBadlog.log();
 	}
 
 	@Override

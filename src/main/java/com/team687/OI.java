@@ -3,12 +3,11 @@ package com.team687;
 import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetMotorMotionMagic;
-import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
 import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.nerdherd.lib.motor.commands.mechanisms.MechanismVoltageRampingWithFF;
 import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
 import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
-import com.nerdherd.lib.motor.commands.mechanisms.SetMechanismVoltageWithFF;
+import com.nerdherd.lib.motor.commands.mechanisms.ZeroMechanismWithHallEffect;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.superstructure.SimultaneousMovement;
@@ -31,29 +30,29 @@ public class OI {
 		intakeRollers_1, outtakeRollers_2, stopRollers_3, clawClose_5, clawOpen_6;
 
 	public OI() {
-		joy = new Joystick(2);
+		// joy = new Joystick(2);
 
-		intakeRollers_1 = new JoystickButton(articJoy, 1);
-		outtakeRollers_2 = new JoystickButton(articJoy, 2);
-		stopRollers_3 = new JoystickButton(articJoy, 3);
-		intakeArm_4 = new JoystickButton(articJoy, 4);
-		clawClose_5 = new JoystickButton(articJoy, 5);
-		clawOpen_6 = new JoystickButton(articJoy, 6);
-		upperElevator_7 = new JoystickButton(articJoy, 7);
-		lowElevator_8 = new JoystickButton(articJoy, 8);
-		lowArm_9 = new JoystickButton(articJoy, 11);
-		highArm_10 = new JoystickButton(articJoy, 10);
+		// intakeRollers_1 = new JoystickButton(articJoy, 1);
+		// outtakeRollers_2 = new JoystickButton(articJoy, 2);
+		// stopRollers_3 = new JoystickButton(articJoy, 3);
+		// intakeArm_4 = new JoystickButton(articJoy, 4);
+		// clawClose_5 = new JoystickButton(articJoy, 5);
+		// clawOpen_6 = new JoystickButton(articJoy, 6);
+		// upperElevator_7 = new JoystickButton(articJoy, 7);
+		// lowElevator_8 = new JoystickButton(articJoy, 8);
+		// lowArm_9 = new JoystickButton(articJoy, 11);
+		// highArm_10 = new JoystickButton(articJoy, 10);
 
-		intakeRollers_1.whenPressed(new SetMotorPower(Robot.intake, .25));
-		outtakeRollers_2.whenPressed(new SetMotorPower(Robot.intake, -.25));
-		stopRollers_3.whenPressed(new SetMotorPower(Robot.intake, 0));
-		intakeArm_4.whenPressed(new SetArmAngleMotionMagic(Robot.arm, -30));
-		clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
-		clawOpen_6.whenPressed(new RetractPiston(Robot.claw));
-		upperElevator_7.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 42));
-		lowElevator_8.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 16));
-		lowArm_9.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 42));
-		highArm_10.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 67));
+		// intakeRollers_1.whenPressed(new SetMotorPower(Robot.intake, .25));
+		// outtakeRollers_2.whenPressed(new SetMotorPower(Robot.intake, -.25));
+		// stopRollers_3.whenPressed(new SetMotorPower(Robot.intake, 0));
+		// intakeArm_4.whenPressed(new SetArmAngleMotionMagic(Robot.arm, -30));
+		// clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
+		// clawOpen_6.whenPressed(new RetractPiston(Robot.claw));
+		// upperElevator_7.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 42));
+		// lowElevator_8.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 16));
+		// lowArm_9.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 42));
+		// highArm_10.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 67));
 
 
 		SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
@@ -76,6 +75,8 @@ public class OI {
 		SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Robot.elevator, 60));
 		SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Robot.elevator, 75));
 		SmartDashboard.putData("Elevator MM 16 in", new SetElevatorHeightMotionMagic(Robot.elevator, 16));
+		SmartDashboard.putData("Elevator 3V", new SetMotorPower(Robot.elevator, 0.25));
+		SmartDashboard.putData("Elevator -3V", new SetMotorPower(Robot.elevator, -0.25));
 		//SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Robot.elevator, 75));
 
 		SmartDashboard.putData("A waste of my time hatch 1", new SimultaneousMovement(18, 14.5));
@@ -111,6 +112,8 @@ public class OI {
 
 		SmartDashboard.putData("Piston extend ?", new ExtendPiston(Robot.claw));
 		SmartDashboard.putData("Piston retract? ?", new RetractPiston(Robot.claw));
+
+		SmartDashboard.putData("Elevator set position 0", new SetElevatorHeightMotionMagic(Robot.elevator, 11.75));
 
 	}
 

@@ -228,6 +228,12 @@ class HSVDetector:
             center_y = (getYcoord(left_contour) + getYcoord(right_contour)) / 2
             return(center_x, center_y)
 
+        def getXCenter(left_contour, right_contour):
+            return getTwoContourCenter(left_contour, right_contour)[0]
+
+        def getYCenter(left_contour, right_contour):
+            return getTwoContourCenter(left_contour, right_contour)[1]
+
         def drawRectContours(left_contour, right_contour):
             center_x, center_y = getTwoContourCenter(left_contour, right_contour)
             center = (int(center_x), int(center_y))
@@ -244,6 +250,34 @@ class HSVDetector:
             cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
             cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
 
+        def getTargetYDegrees():
+            m_focalLength = (320 / 2) / math.tan(math.radians(55 / 2))
+            pixel_y = 120 - getYCenter(left_contour, right_contour)            
+            angle = math.copysign(1.0, pixel_y) * math.atan(abs(pixel_y / m_focalLength))
+
+            return math.degrees(angle)
+
+        def getDistance():
+            mount_height = 38.5
+            target_height = 28.5
+            angle = getTargetYDegrees(abs(120 - getYCenter(left_contour, right_contour)))
+            radian = math.radians(angle)
+
+            distance = (mount_height - target_height) / math.tan(radian)
+            return distance
+
+        def getRobotAngleToTurn():
+            radians = math.radians(getTargetYDegrees(120 - getYCenter(left_contour, right_contour)))
+            horizontalAngle = math.pi / 2 - radians
+            distance = getDistance(28.5, 38.8, (120 - getYCenter(left_contour, right_contour)))
+            cameraHorizontalOffset = 6
+
+            f = math.sqrt(distance * distance + math.pow(cameraHorizontalOffset, 2) - 2 * distance * cameraHorizontalOffset * math.cos(horizontalAngle))
+            c= math.asin(cameraHorizontalOffset * math.sin(horizontalAngle) / f)
+            b = math.pi - horizontalAngle - c
+            calculatedAngle = math.degrees((math.pi / 2 - b))
+            return calculatedAngle
+
         contourNum = len(self.filter_contours_output)
 
         # Sorts contours by the smallest area first
@@ -259,10 +293,15 @@ class HSVDetector:
                     toSend = ("/" + str(contourNum) +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
-                    jevois.sendSerial(toSend)
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
+                        "/" + str(round(getRobotAngleToTurn(), 2)) +
+                        "/" + str(round(getDistance(), 2))
                     # rvec, tvec = solvePnP(getContourCorners(left_contour))
                     # draw(self.outimg, corners, rvec, tvec)
+                    # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
+                    #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
+                    #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
+                    jevois.sendSerial(toSend)
             elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
                 toSend = "rip"
                 jevois.sendSerial(toSend)
@@ -280,7 +319,13 @@ class HSVDetector:
             toSend = ("/" + str(contourNum) +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)))  # center y point
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
+                        "/" + str(round(getRobotAngleToTurn(), 2)) +
+                        "/" + str(round(getDistance(), 2)) 
+            # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
+            # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
+            #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
+            #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
             jevois.sendSerial(toSend)
 
         else:

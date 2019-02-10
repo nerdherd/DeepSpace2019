@@ -23,26 +23,10 @@ class HSVDetector:
 
         self.blur_output = None
 
-        self.__desaturate_input = self.blur_output
-
-        self.desaturate_output = None
-
-        self.__cv_threshold_src = self.desaturate_output
-        self.__cv_threshold_thresh = 45.0
-        self.__cv_threshold_maxval = 50.0
-        self.__cv_threshold_type = cv2.THRESH_BINARY
-
-        self.cv_threshold_output = None
-
-        self.__mask_input = self.blur_output
-        self.__mask_mask = self.cv_threshold_output
-
-        self.mask_output = None
-
-        self.__hsv_threshold_input = self.mask_output
-        self.__hsv_threshold_hue = [59.52631746943274, 87.21926674112554]
-        self.__hsv_threshold_saturation = [172.591950584132, 254.7105946519286]
-        self.__hsv_threshold_value = [26.412429378531073, 154.1652021089631]
+        self.__hsv_threshold_input = self.blur_output
+        self.__hsv_threshold_hue = [75.25423728813558, 115.96383772442704]
+        self.__hsv_threshold_saturation = [33.61581920903955, 255.0]
+        self.__hsv_threshold_value = [153.6723163841808, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -58,7 +42,7 @@ class HSVDetector:
         self.__cv_dilate_src = self.cv_erode_output
         self.__cv_dilate_kernel = None
         self.__cv_dilate_anchor = (-1, -1)
-        self.__cv_dilate_iterations = 6.0
+        self.__cv_dilate_iterations = 7.0
         self.__cv_dilate_bordertype = cv2.BORDER_CONSTANT
         self.__cv_dilate_bordervalue = (-1)
 
@@ -74,7 +58,7 @@ class HSVDetector:
         self.convex_hulls_output = None
 
         self.__filter_contours_contours = self.convex_hulls_output
-        self.__filter_contours_min_area = 100.0
+        self.__filter_contours_min_area = 300.0
         self.__filter_contours_min_perimeter = 0.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 100000.0
@@ -256,21 +240,31 @@ class HSVDetector:
             angle = math.copysign(1.0, pixel_y) * math.atan(abs(pixel_y / m_focalLength))
 
             return math.degrees(angle)
+ 
+        def getTargetXDegrees():
+            m_focalLength = (320 / 2) / math.tan(math.radians(55 / 2))
+            pixel_x = getXCenter(left_contour, right_contour) - 160            
+            angle = math.copysign(1.0, pixel_x) * math.atan(abs(pixel_x / m_focalLength))
+
+            return math.degrees(angle)
 
         def getDistance():
-            mount_height = 38.5
-            target_height = 28.5
-            angle = getTargetYDegrees(abs(120 - getYCenter(left_contour, right_contour)))
+            mount_height = 39
+            target_height = 28.75
+            angle = getTargetYDegrees()
             radian = math.radians(angle)
 
-            distance = (mount_height - target_height) / math.tan(radian)
+            distance = abs((mount_height - target_height) / math.tan(radian))
             return distance
 
         def getRobotAngleToTurn():
-            radians = math.radians(getTargetYDegrees(120 - getYCenter(left_contour, right_contour)))
+            angleOffset = 6
+            radians = math.radians(getTargetXDegrees() + angleOffset) 
+            # - 10 if camera is on the right, + 10 if camera is on the left
+
             horizontalAngle = math.pi / 2 - radians
-            distance = getDistance(28.5, 38.8, (120 - getYCenter(left_contour, right_contour)))
-            cameraHorizontalOffset = 6
+            distance = getDistance()
+            cameraHorizontalOffset = 5.5
 
             f = math.sqrt(distance * distance + math.pow(cameraHorizontalOffset, 2) - 2 * distance * cameraHorizontalOffset * math.cos(horizontalAngle))
             c= math.asin(cameraHorizontalOffset * math.sin(horizontalAngle) / f)
@@ -295,7 +289,7 @@ class HSVDetector:
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
                         "/" + str(round(getRobotAngleToTurn(), 2)) +
-                        "/" + str(round(getDistance(), 2))
+                        "/" + str(round(getDistance(), 2)))
                     # rvec, tvec = solvePnP(getContourCorners(left_contour))
                     # draw(self.outimg, corners, rvec, tvec)
                     # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
@@ -321,7 +315,7 @@ class HSVDetector:
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
                         "/" + str(round(getRobotAngleToTurn(), 2)) +
-                        "/" + str(round(getDistance(), 2)) 
+                        "/" + str(round(getDistance(), 2)))
             # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
             # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
             #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
@@ -329,7 +323,7 @@ class HSVDetector:
             jevois.sendSerial(toSend)
 
         else:
-            toSend = "/0/0/0/0"
+            toSend = "/0/0/0/0/0/0"
             jevois.sendSerial(toSend)
 
         # Write a title:

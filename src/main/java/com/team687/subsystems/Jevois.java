@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Jevois extends Subsystem implements Runnable {
 	private SerialPort m_cam;
 	private Thread m_stream;
-	private double m_focalLength;
 	private boolean m_send;
 	private double m_threshold = 25.4;
 	public double m_offset; 
@@ -37,10 +36,9 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_logStartTime = 0;
 
 	// Jevois Serial Output Data
-	private double m_contourNum, m_area, m_centerX, m_centerY, m_degreesToTurn, m_distance;
+	private double m_contourNum, m_area, m_centerX, m_centerY;
 
 	public Jevois(int baud, SerialPort.Port port) {
-		m_focalLength = (Constants.kVerticalPixels / 2) / Math.tan(Constants.kVerticalFOV / 2);
 		m_send = false;
 		sendValue = "None";
 		m_cam = new SerialPort(baud, port);
@@ -64,9 +62,6 @@ public class Jevois extends Subsystem implements Runnable {
 					m_area = Double.parseDouble(getData(2));
 					m_centerX = Double.parseDouble(getData(3));
 					m_centerY = Double.parseDouble(getData(4));
-					m_degreesToTurn = Double.parseDouble(getData(5));
-					m_distance = Double.parseDouble(getData(6));
-
 				} else {
 					System.out.println(read);
 					// System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
@@ -81,26 +76,28 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	private double pixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / m_focalLength));
-		double degree = 180 * radian / Math.PI;
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kFocalLength));
+		double degree = Math.toDegrees(radian);
 		return degree;
 	}
 
-	
-
-	
-
-	/*
-	public double cameraTest(){
-		return m_distinguish;
+	public double getDistance(){
+		double verticalAngle = pixelToDegree(getTargetY());
+		double radian = Math.toRadians(verticalAngle);
+		double distance = Math.abs((Constants.kCameraMountHeight - Constants.kTargetHeight) / Math.tan(radian));
+		return distance;
 	}
 
-	public void changeDistinguish(){
-		while(m_cam.getBytesReceived() > 0){
-			m_distinguish += 1;
-		}
+	public double getOffsetAngleToTurn(){
+		double radians = Math.toRadians(pixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
+		double horizontalAngle = Math.PI / 2 - radians;
+		double distance = getDistance();
+		double f = Math.sqrt(distance * distance + Math.pow(Constants.kCameraHorizontalOffset, 2) - 2 * distance * Constants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
+		double c= Math.asin(Constants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
+		double b = Math.PI - horizontalAngle - c;
+		double calculatedAngle = Math.toDegrees((Math.PI / 2 - b));
+		return calculatedAngle;
 	}
-	*/
 
 	public double getOffset() {
         double angularError = getAngularTargetError();
@@ -133,13 +130,7 @@ public class Jevois extends Subsystem implements Runnable {
 		return m_area;
 	}
 
-	public double getAngleToTurn(){
-		return m_degreesToTurn;
-	}
 
-	public double getDistance(){
-		return m_distance;
-	}
 
 	public void end() {
 		m_stream.interrupt();
@@ -172,12 +163,11 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	public void reportToSmartDashboard() {
-		SmartDashboard.putString("Alive?", "ye");
 		SmartDashboard.putNumber("Total contours", getContourNum()); // 1st in data output
 		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
 		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
 		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
-		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
+		SmartDashboard.putNumber("Angle to Turn", getOffsetAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
 		// SmartDashboard.putNumber("Angular Target Error", getAngularTargetError()); // 4th 
 		// SmartDashboard.putNumber("Offset", getOffset());

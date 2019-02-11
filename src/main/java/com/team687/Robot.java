@@ -25,11 +25,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Robot extends TimedRobot {
 	
-	public static final String kDate = "Dope_2019_01_26_";
+	public static final String kDate = "2019_01_26_";
 
 	public static Drive drive;
-	public static Jevois leftJevois;
-	// public static Jevois rightJevois;
+	public static Jevois jevois;
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
@@ -40,31 +39,24 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 	//	autoChooser = new AutoChooser();
-		leftJevois = new Jevois(115200, SerialPort.Port.kUSB);
-		// rightJevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		sensor = new Sensor();
 		// CameraServer.getInstance().startAutomaticCapture();
 
 	    drive = new Drive();
 	    oi = new OI();
-		ds = DriverStation.getInstance();
-		
+		ds = DriverStation.getInstance();	
 	}
 
 	@Override
 	public void disabledInit() {
-		leftJevois.stopLog();
-		// rightJevois.stopLog();
-
-		leftJevois.enableStream();
-		// rightJevois.enableStream();
-
-		
+		jevois.stopLog();
+		jevois.enableStream();	
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		leftJevois.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
 		
 		sensor.reportToSmartDashboard();
 
@@ -86,7 +78,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		leftJevois.startLog();
+		jevois.startLog();
 		// rightJevois.startLog();
 	}
 
@@ -95,14 +87,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		leftJevois.reportToSmartDashboard();
-		// rightJevois.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
 		sensor.reportToSmartDashboard();
-
-		leftJevois.logToCSV();
-		// rightJevois.logToCSV();
-		// System.out.println(SerialPort.Port.values());
 		// drive.reportToSmartDashboard();
+
+
+		jevois.logToCSV();
 		Scheduler.getInstance().run();
 	}
 

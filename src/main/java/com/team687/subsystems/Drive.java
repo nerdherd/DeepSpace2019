@@ -13,6 +13,7 @@ import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.Robot;
 import com.team687.RobotMap;
+import com.team687.constants.DriveConstants;
 
 
 /**
@@ -35,17 +36,18 @@ public class Drive extends ShiftingDrivetrain {
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     
      super.configAutoChooser(Robot.chooser);
-     super.configMaxVelocity(24000);
+     super.configMaxVelocity(DriveConstants.kMaxVelocity);
      super.configSensorPhase(false, true);
      
-     super.configTicksPerFoot(17000, 17000);
-     super.configDate("2019_2_09_");
+     super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
+     super.configDate("2019_2_11_");
      // floor
-     super.configLeftPIDF(0.0, 0, 0, 0.025089075);
-     super.configRightPIDF(0.0, 0, 0, 0.025259575);
-     super.configStaticFeedforward(0.6737, 0.6505);
+     super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
+     super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
+     super.configStaticFeedforward(DriveConstants.kLeftStatic, DriveConstants.kRightStatic);
 
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

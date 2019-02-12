@@ -1,11 +1,14 @@
 package com.team687.utilities;
 
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.nerdherd.lib.misc.NerdyMath;
+
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
-import java.util.Arrays;
-import java.util.List;
 
 public class TrajectoryFollower {
 

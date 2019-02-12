@@ -42,7 +42,8 @@ public class Robot extends TimedRobot {
 	public static SingleMotorTalonSRX intake;
 	public static Piston claw;
 	public static OI oi;
-	public static HallSensor elevatorHallEffect;
+	public static TalonTach elevatorTach; 
+	//public static HallSensor elevatorHallEffect;
 
 
 	@Override
@@ -79,12 +80,12 @@ public class Robot extends TimedRobot {
 				ArmConstants.kEffectiveArmAngleOffset);
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
-
-			elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
+			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
+			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 		
 			oi = new OI();
 
-			NerdyBadlog.init("/media/sda1/logs/2_9_19_elevatorTesting1.csv",
+			NerdyBadlog.initAndLog("/media/sda1/logs/2_9_19_elevatorTesting1.csv", 0.02, 
 				elevator, arm);
 	}
 
@@ -93,10 +94,10 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		intake.reportToSmartDashboard();
-		
-		elevatorHallEffect.reportToSmartDashboard();
+		elevatorTach.reportToSmartDashboard();
+		// elevatorHallEffect.reportToSmartDashboard();
 
-		NerdyBadlog.log();
+		// NerdyBadlog.log();
 	}
 
 	@Override

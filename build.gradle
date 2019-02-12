@@ -54,8 +54,6 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    compile 'grpl.pathfinder:Pathfinder-Java:2.0.0-prealpha'
-    compile 'grpl.pathfinder:Pathfinder-JNI:2.0.0-prealpha'
     compile 'com.github.nerdherd:NerdyLib:a73c99859074890ad805302e9b83156d7650d609'
 }
 

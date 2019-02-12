@@ -72,31 +72,41 @@ public class Jevois extends Subsystem implements Runnable {
 
 	// Robot functionalities
 	public double getAngularTargetError() {
-		return pixelToDegree(getTargetX());
+		return xPixelToDegree(getTargetX());
 	}
 
-	private double pixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kFocalLength));
-		double degree = Math.toDegrees(radian);
+	private double xPixelToDegree(double pixel) {
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
+		double degree = 180 / Math.PI * radian;
+		return degree;
+	}
+
+	private double yPixelToDegree(double pixel) {
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kYFocalLength));
+		double degree = 180 / Math.PI * radian;
 		return degree;
 	}
 
 	public double getDistance(){
-		double verticalAngle = pixelToDegree(getTargetY());
-		double radian = Math.toRadians(verticalAngle);
+		double verticalAngle = yPixelToDegree(getTargetY());
+		double radian = Math.PI / 180 * verticalAngle;
 		double distance = Math.abs((Constants.kCameraMountHeight - Constants.kTargetHeight) / Math.tan(radian));
 		return distance;
 	}
 
 	public double getOffsetAngleToTurn(){
-		double radians = Math.toRadians(pixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
+		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
 		double f = Math.sqrt(distance * distance + Math.pow(Constants.kCameraHorizontalOffset, 2) - 2 * distance * Constants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
 		double c= Math.asin(Constants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
 		double b = Math.PI - horizontalAngle - c;
-		double calculatedAngle = Math.toDegrees((Math.PI / 2 - b));
-		return calculatedAngle;
+		double calculatedAngle = (180 / Math.PI) * (Math.PI / 2 - b);
+		if (getTargetX() == 0) {
+			return 0;
+		} else {
+			return calculatedAngle;
+		}
 	}
 
 	public double getOffset() {

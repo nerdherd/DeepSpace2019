@@ -11,12 +11,12 @@ public class ping extends Command {
 
     public ping() {
 	    // requires(Robot.rightJevois);
-	    requires(Robot.leftJevois);
+	    requires(Robot.jevois);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.leftJevois.ping();
+        Robot.jevois.ping();
         // Robot.rightJevois.ping();
     }
 

@@ -18,16 +18,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 	
 	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow; 
-	public Joystick driveJoyLeft = new Joystick(0);
-	public Joystick driveJoyRight = new Joystick(1);
+	public Joystick driveJoyLeft = new Joystick(1);
+	public Joystick driveJoyRight = new Joystick(0);
 
 	public OI() {
 		
 		liveTargetTrack = new JoystickButton(driveJoyLeft, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack());
 
-		//lineFollow = new JoystickButton(driveJoyRight, 11);
-		//lineFollow.whileHeld(new LineFollow(0.254));
+		// lineFollow = new JoystickButton(driveJoyRight, 11);
+		// lineFollow.whileHeld(new LineFollow(0.254));
 
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());

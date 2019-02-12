@@ -20,11 +20,12 @@ public class LineFollow extends Command {
 
   public LineFollow(double power) {
     m_power = power;
-    m_threshold = 3509; //3150 is white, 3309 is blue
+    m_threshold = 3409; //3150 is white, 3309 is blue
     m_offset = 0.25;
-    m_lineFollowOffset = 200;
+    m_lineFollowOffset = 150;
     requires(Robot.drive);
   }
+
 
   // Called just before this Command runs the first time
   @Override

@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.0148;
+    private double kP = 0.0139;
     // private double kP = 0.0042;
     private double  m_desiredAngle;
 
 
     public LiveTargetTrack() {
         requires(Robot.drive);
-        requires(Robot.leftJevois);
+        requires(Robot.jevois);
         // requires(Robot.rightJevois);
     }
 
@@ -23,7 +23,7 @@ public class LiveTargetTrack extends Command {
 
    
     protected void initialize() {
-        Robot.leftJevois.enableStream();
+        Robot.jevois.enableStream();
         // Robot.rightJevois.enableStream();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
         // double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
@@ -43,14 +43,14 @@ public class LiveTargetTrack extends Command {
         // m_desiredAngle = robotAngle + Robot.leftJevois.getAngularTargetError();
 
 
-        double getAngularTargetError = Robot.leftJevois.getOffsetAngleToTurn();
+        double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
         double power = -kP * getAngularTargetError;
 
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(power, -power);
+            Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyLeftY(), -power + -Robot.oi.getDriveJoyLeftY());
         }
         else{
-            Robot.drive.setPowerFeedforward(0, 0);
+            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
             // Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
         }
 

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-  /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,13 +7,21 @@
 
 package com.team687;
 
+import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
+import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
+import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
+import com.nerdherd.lib.pneumatics.Piston;
+import com.nerdherd.lib.sensor.HallSensor;
+import com.nerdherd.lib.sensor.TalonTach;
+import com.team687.constants.ArmConstants;
+import com.team687.constants.ElevatorConstants;
+import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
-import com.team687.subsystems.Streamer;
 import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -30,21 +38,62 @@ public class Robot extends TimedRobot {
 	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static AutoChooser autoChooser;
+	public static SingleMotorElevator elevator;
+	public static SingleMotorArm arm;
+	public static SingleMotorTalonSRX intake;
+	public static Piston claw;
 	public static OI oi;
+	public static TalonTach elevatorTach; 
+	//public static HallSensor elevatorHallEffect;
+
 
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
-	    jevois = new Jevois(115200, SerialPort.Port.kUSB);
-	    livestream = new Streamer();
+	    // jevois = new Jevois(115200, SerialPort.Port.kUSB);
+	    // livestream = new Streamer();
 	    drive = new Drive();
-	    oi = new OI();
-	    ds = DriverStation.getInstance();
+			ds = DriverStation.getInstance();
+
+			claw = new Piston(4, 3);
+			
+			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
+				ElevatorConstants.kElevatorInversion, ElevatorConstants.kElevatorSensorPhase);
+			elevator.configTalonDeadband(ElevatorConstants.kElevatorTalonDeadband);
+			elevator.configFFs(ElevatorConstants.kElevatorGravityFF, 
+				ElevatorConstants.kElevatorStaticFrictionFF);
+			elevator.configMotionMagic(ElevatorConstants.kElevatorMotionMagicMaxAccel,
+				ElevatorConstants.kElevatorMotionMagicCruiseVelocity);
+			elevator.configPIDF(ElevatorConstants.kElevatorP, ElevatorConstants.kElevatorI,
+				ElevatorConstants.kElevatorD, ElevatorConstants.kElevatorF);
+			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
+				ElevatorConstants.kElevatorHeightOffset);
+
+			arm = Arm.getInstance();
+
+			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
+			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
+			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
+		
+			oi = new OI();
+
+			NerdyBadlog.initAndLog("/media/sda1/logs/2_9_19_elevatorTesting1.csv", 0.02, 
+				elevator, arm);
+	}
+
+	@Override
+	public void robotPeriodic() {
+		elevator.reportToSmartDashboard();
+		arm.reportToSmartDashboard();
+		intake.reportToSmartDashboard();
+		elevatorTach.reportToSmartDashboard();
+		// elevatorHallEffect.reportToSmartDashboard();
+
+		// NerdyBadlog.log();
 	}
 
 	@Override
 	public void disabledInit() {
-		jevois.stopLog();
 	}
 
 	@Override
@@ -67,7 +116,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		jevois.startLog();
 	}
 
 	/**
@@ -76,9 +124,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-		jevois.reportToSmartDashboard();
-		jevois.logToCSV();
 	}
 
 	/**

@@ -1,8 +1,7 @@
 package com.team687.commands.drive.auto;
 
-import com.team687.constants.DriveConstants;
-import com.team687.utilities.NerdyMath;
 import com.team687.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

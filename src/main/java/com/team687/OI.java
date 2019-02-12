@@ -10,6 +10,7 @@ import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.motor.commands.mechanisms.ZeroMechanismWithHallEffect;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.superstructure.OptimizedSimultaneousMovement;
 import com.team687.commands.superstructure.SimultaneousMovement;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -114,6 +115,8 @@ public class OI {
 		SmartDashboard.putData("Piston retract? ?", new RetractPiston(Robot.claw));
 
 		SmartDashboard.putData("Elevator set position 0", new SetElevatorHeightMotionMagic(Robot.elevator, 11.75));
+
+		SmartDashboard.putData("Set Optimized height 60", new OptimizedSimultaneousMovement(60));
 
 	}
 

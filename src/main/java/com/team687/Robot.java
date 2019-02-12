@@ -12,9 +12,7 @@ import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
-import com.nerdherd.lib.sensor.HallSensor;
 import com.nerdherd.lib.sensor.TalonTach;
-import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
@@ -25,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -87,6 +86,7 @@ public class Robot extends TimedRobot {
 		arm.reportToSmartDashboard();
 		intake.reportToSmartDashboard();
 		elevatorTach.reportToSmartDashboard();
+		SmartDashboard.putString("Reverse tach", String.valueOf(elevator.motor.getSensorCollection().isRevLimitSwitchClosed()));
 		// elevatorHallEffect.reportToSmartDashboard();
 
 		// NerdyBadlog.log();

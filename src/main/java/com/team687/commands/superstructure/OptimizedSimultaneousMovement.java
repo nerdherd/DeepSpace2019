@@ -14,12 +14,13 @@ import com.team687.constants.ElevatorConstants;
 import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class OptimizedSimultaneousMovement extends Command {
 
   private double m_desiredHeight, m_desiredHeightDelta, m_direction, m_thetaInitial;
-  private double m_elevatorGoal, m_armGoal;
+  private double m_elevatorGoal, m_armGoal, m_timeTaken;
 
   private static final double kArmVmax = ArmConstants.kArmMotionMagicCruiseVelocity;
   private static final double kArmAccel = ArmConstants.kArmMotionMagicMaxAccel;
@@ -42,21 +43,23 @@ public class OptimizedSimultaneousMovement extends Command {
 
   private void searchAndSetGoals() {
     // in radians relative to current angle
-    double currentSearchAngle = ArmConstants.kArmMaxAngleRads - m_thetaInitial;
-    // in inches relative to current elevator height
-    double currentElHeightDelta = 0;
-    // in inches relative to current total height
-    double currentTotalHeightDelta = 0;
-
-    boolean isCurrentSliceFar = true;
-    if (m_direction < 0) {
-      currentSearchAngle = ArmConstants.kArmMinAngleRads - m_thetaInitial;
+    double currentSearchAngle;
+    if (m_direction > 0) {
+      currentSearchAngle = (ArmConstants.kArmMaxAngleRads - m_thetaInitial)/2;
+    } else {
+      currentSearchAngle = (ArmConstants.kArmMinAngleRads - m_thetaInitial)/2;
     }
+    // in inches relative to current elevator height
+    double currentElHeightDelta;
+    // in inches relative to current total height
+    double currentTotalHeightDelta;
+
+    boolean isCurrentSliceFar;
      
     for (int i = 0; i < SuperstructureConstants.kSimultaneousOptimizedSearchIterations; i++) {
       currentElHeightDelta = calcElevatorDistance(currentSearchAngle);
       currentTotalHeightDelta = currentElHeightDelta + kArmL * Math.sin(currentSearchAngle);
-      isCurrentSliceFar = !(currentTotalHeightDelta > m_desiredHeightDelta);
+      isCurrentSliceFar = !(Math.abs(currentTotalHeightDelta) > Math.abs(m_desiredHeightDelta));
       if (isCurrentSliceFar) {
         currentSearchAngle = 1.5 * currentSearchAngle;
       } else {
@@ -64,9 +67,9 @@ public class OptimizedSimultaneousMovement extends Command {
       }
     }
 
-    // in absolute inches
+    // in absolute degrees
     m_armGoal = Robot.arm.getAngle() + NerdyMath.radiansToDegrees(currentSearchAngle);
-    double armGoalHeight = kArmL * NerdyMath.boundBetween(m_armGoal, ArmConstants.kArmMinAngle, ArmConstants.kArmMinAngle);
+    double armGoalHeight = kArmL * Math.sin(NerdyMath.boundBetween(m_armGoal, ArmConstants.kArmMinAngle, ArmConstants.kArmMinAngle));
     m_elevatorGoal = NerdyMath.boundBetween(m_desiredHeight - armGoalHeight, 
       ElevatorConstants.kMinElevatorHeight, ElevatorConstants.kMaxElevatorHeight);
 
@@ -75,11 +78,13 @@ public class OptimizedSimultaneousMovement extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    double initStartTime = Timer.getFPGATimestamp();
     m_direction = Math.signum(m_desiredHeightDelta - (Robot.elevator.getHeight() + 
       Arm.getArmHeight()));
     m_thetaInitial = NerdyMath.degreesToRadians(Robot.arm.getAngle());
     m_desiredHeightDelta = m_desiredHeight - Robot.elevator.getHeight() - Arm.getArmHeight();
     this.searchAndSetGoals();
+    m_timeTaken = Timer.getFPGATimestamp() - initStartTime;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -89,6 +94,8 @@ public class OptimizedSimultaneousMovement extends Command {
     System.out.println(m_elevatorGoal);
     System.out.println("arm goal:");
     System.out.println(m_armGoal);
+    System.out.println("Time taken:");
+    System.out.print(m_timeTaken);
   }
 
   // Make this return true when this Command no longer needs to run execute()

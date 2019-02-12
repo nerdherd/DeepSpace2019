@@ -16,6 +16,7 @@ import com.nerdherd.lib.sensor.HallSensor;
 import com.nerdherd.lib.sensor.TalonTach;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
+import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.utilities.AutoChooser;
@@ -68,16 +69,7 @@ public class Robot extends TimedRobot {
 			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
 				ElevatorConstants.kElevatorHeightOffset);
 
-			arm = new SingleMotorArm(RobotMap.kArmTalonID, "Arm", 
-				ArmConstants.kArmInversion, ArmConstants.kArmSensorPhase);
-			arm.configTalonDeadband(ArmConstants.kArmTalonDeadband);
-			arm.configFFs(ArmConstants.kArmGravityFF, ArmConstants.kArmStaticFrictionFF);
-			arm.configMotionMagic(ArmConstants.kArmMotionMagicMaxAccel, 
-				ArmConstants.kArmMotionMagicCruiseVelocity);
-			arm.configPIDF(ArmConstants.kArmP, ArmConstants.kArmI, 
-				ArmConstants.kArmD, ArmConstants.kArmF);
-			arm.configAngleConversion(ArmConstants.kArmAngleRatio, 
-				ArmConstants.kEffectiveArmAngleOffset);
+			arm = Arm.getInstance();
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);

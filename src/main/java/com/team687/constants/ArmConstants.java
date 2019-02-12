@@ -7,6 +7,8 @@
 
 package com.team687.constants;
 
+import com.nerdherd.lib.misc.NerdyMath;
+
 /**
  * Add your docs here.
  */
@@ -34,4 +36,11 @@ public class ArmConstants {
     public static final double kBacklashOffset = 4;
     public static final double kArmAngleOffset = -24;
     public static final double kEffectiveArmAngleOffset = -kBacklashOffset + kArmAngleOffset;
+
+    public static final double kArmLength = 14;
+    public static final double kArmMaxAngle = 80;
+    public static final double kArmMinAngle = -35;
+    public static final double kArmMaxAngleRads = NerdyMath.degreesToRadians(kArmMaxAngle);
+    public static final double kArmMinAngleRads = NerdyMath.degreesToRadians(kArmMinAngle);
+
 }

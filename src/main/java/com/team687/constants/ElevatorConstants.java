@@ -39,4 +39,7 @@ public class ElevatorConstants {
     public static final double kDroopCompensation = 2;
     public static final double kElevatorHeightOffset = 13.75 - kDroopCompensation;
 
+    public static final double kMaxElevatorHeight = 75;
+    public static final double kMinElevatorHeight = 12;
+
 }

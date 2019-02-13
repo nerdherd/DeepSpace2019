@@ -24,14 +24,13 @@ import com.team687.utilities.AutoChooser;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
  */
 public class Robot extends TimedRobot {
-	
-	public static final String kDate = "2018_09_29_";
+
+	public static final String kDate = "2019_01_29_";
 
 	public static Drive drive;
 	public static Jevois jevois;

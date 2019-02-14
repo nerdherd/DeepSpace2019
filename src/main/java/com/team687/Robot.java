@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 			arm = Arm.getInstance();
 
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
-			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
+			elevatorTach = new TalonTach(elevator, "Elevator Tach", true, false);
 			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 		
 			oi = new OI();

@@ -43,4 +43,7 @@ public class ArmConstants {
     public static final double kArmMaxAngleRads = NerdyMath.degreesToRadians(kArmMaxAngle);
     public static final double kArmMinAngleRads = NerdyMath.degreesToRadians(kArmMinAngle);
 
+    public static final double kArmDegPerS2 = kArmMotionMagicMaxAccel * kArmAngleRatio * 10.;
+    public static final double kArmMaxDegPerS = kArmMotionMagicCruiseVelocity * kArmAngleRatio * 10.;
+
 }

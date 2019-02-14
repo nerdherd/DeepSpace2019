@@ -42,4 +42,7 @@ public class ElevatorConstants {
     public static final double kMaxElevatorHeight = 75;
     public static final double kMinElevatorHeight = 12;
 
+    public static final double kElevatorInPerS2 = kElevatorMotionMagicMaxAccel * kElevatorDistanceRatio * 10.;
+    public static final double kElevatorInPerS = kElevatorMotionMagicCruiseVelocity * kElevatorDistanceRatio * 10.;
+
 }

@@ -22,10 +22,10 @@ public class OptimizedSimultaneousMovement extends Command {
   private double m_desiredHeight, m_desiredHeightDelta, m_direction, m_thetaInitial;
   private double m_elevatorGoal, m_armGoal, m_timeTaken;
 
-  private static final double kArmVmax = ArmConstants.kArmMotionMagicCruiseVelocity;
-  private static final double kArmAccel = ArmConstants.kArmMotionMagicMaxAccel;
-  private static final double kElVmax = ElevatorConstants.kElevatorMotionMagicCruiseVelocity;
-  private static final double kElAccel = ElevatorConstants.kElevatorMotionMagicMaxAccel;
+  private static final double kArmVmax = ArmConstants.kArmMaxDegPerS;
+  private static final double kArmAccel = ArmConstants.kArmDegPerS2;
+  private static final double kElVmax = ElevatorConstants.kElevatorInPerS;
+  private static final double kElAccel = ElevatorConstants.kElevatorInPerS2;
   private static final double kArmL = ArmConstants.kArmLength;
   private static final double kArmMaxAngle = ArmConstants.kArmMaxAngle;
   private static final double kArmMinAngle = ArmConstants.kArmMinAngle;

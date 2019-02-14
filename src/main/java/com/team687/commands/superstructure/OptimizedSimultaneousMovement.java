@@ -27,6 +27,8 @@ public class OptimizedSimultaneousMovement extends Command {
   private static final double kElVmax = ElevatorConstants.kElevatorMotionMagicCruiseVelocity;
   private static final double kElAccel = ElevatorConstants.kElevatorMotionMagicMaxAccel;
   private static final double kArmL = ArmConstants.kArmLength;
+  private static final double kArmMaxAngle = ArmConstants.kArmMaxAngle;
+  private static final double kArmMinAngle = ArmConstants.kArmMinAngle;
 
   public OptimizedSimultaneousMovement(double desiredHeight) {
     m_desiredHeight = desiredHeight;
@@ -37,7 +39,7 @@ public class OptimizedSimultaneousMovement extends Command {
 
   private double calcElevatorDistance(double thetaDelta) {
     double timeDelta = thetaDelta / kArmVmax + kArmVmax / kArmAccel;
-    double heightDelta = kElVmax * timeDelta - (kElVmax * kElVmax / kElAccel);
+    double heightDelta = kElVmax * (timeDelta - (kElVmax / kElAccel));
     return heightDelta;
   }
 
@@ -45,9 +47,9 @@ public class OptimizedSimultaneousMovement extends Command {
     // in radians relative to current angle
     double currentSearchAngle;
     if (m_direction > 0) {
-      currentSearchAngle = (ArmConstants.kArmMaxAngleRads - m_thetaInitial)/2;
+      currentSearchAngle = Math.abs(ArmConstants.kArmMaxAngle - m_thetaInitial)/2;
     } else {
-      currentSearchAngle = (ArmConstants.kArmMinAngleRads - m_thetaInitial)/2;
+      currentSearchAngle = Math.abs(ArmConstants.kArmMinAngle - m_thetaInitial)/2;
     }
     // in inches relative to current elevator height
     double currentElHeightDelta;
@@ -58,18 +60,29 @@ public class OptimizedSimultaneousMovement extends Command {
      
     for (int i = 0; i < SuperstructureConstants.kSimultaneousOptimizedSearchIterations; i++) {
       currentElHeightDelta = calcElevatorDistance(currentSearchAngle);
-      currentTotalHeightDelta = currentElHeightDelta + kArmL * Math.sin(currentSearchAngle);
+      currentTotalHeightDelta = currentElHeightDelta + 
+        kArmL * Math.sin(NerdyMath.degreesToRadians(currentSearchAngle));
       isCurrentSliceFar = !(Math.abs(currentTotalHeightDelta) > Math.abs(m_desiredHeightDelta));
       if (isCurrentSliceFar) {
-        currentSearchAngle = 1.5 * currentSearchAngle;
+        currentSearchAngle += Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial);
       } else {
-        currentSearchAngle = 0.5 * currentSearchAngle;
+        currentSearchAngle -= Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial);
       }
     }
 
     // in absolute degrees
-    m_armGoal = Robot.arm.getAngle() + NerdyMath.radiansToDegrees(currentSearchAngle);
-    double armGoalHeight = kArmL * Math.sin(NerdyMath.boundBetween(m_armGoal, ArmConstants.kArmMinAngle, ArmConstants.kArmMinAngle));
+    m_armGoal = m_thetaInitial + currentSearchAngle;
+    double armGoalHeight = kArmL * Math.sin(NerdyMath.degreesToRadians(
+      NerdyMath.boundBetween(m_armGoal, 
+      ArmConstants.kArmMinAngle, ArmConstants.kArmMinAngle)));
+    m_elevatorGoal = NerdyMath.boundBetween(m_desiredHeight - armGoalHeight, 
+      ElevatorConstants.kMinElevatorHeight, ElevatorConstants.kMaxElevatorHeight);
+    if (!NerdyMath.isApproximately(m_elevatorGoal + armGoalHeight, m_desiredHeight, 0.001)) {
+      m_armGoal = NerdyMath.boundBetween(
+        NerdyMath.radiansToDegrees(
+          Math.asin((m_desiredHeight - m_elevatorGoal) / kArmL)), 
+        kArmMinAngle, kArmMaxAngle);
+    }
     m_elevatorGoal = NerdyMath.boundBetween(m_desiredHeight - armGoalHeight, 
       ElevatorConstants.kMinElevatorHeight, ElevatorConstants.kMaxElevatorHeight);
 
@@ -81,7 +94,7 @@ public class OptimizedSimultaneousMovement extends Command {
     double initStartTime = Timer.getFPGATimestamp();
     m_direction = Math.signum(m_desiredHeightDelta - (Robot.elevator.getHeight() + 
       Arm.getArmHeight()));
-    m_thetaInitial = NerdyMath.degreesToRadians(Robot.arm.getAngle());
+    m_thetaInitial = Robot.arm.getAngle();
     m_desiredHeightDelta = m_desiredHeight - Robot.elevator.getHeight() - Arm.getArmHeight();
     this.searchAndSetGoals();
     m_timeTaken = Timer.getFPGATimestamp() - initStartTime;

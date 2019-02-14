@@ -74,7 +74,7 @@ public class OptimizedSimultaneousMovement extends Command {
     m_armGoal = m_thetaInitial + currentSearchAngle;
     double armGoalHeight = kArmL * Math.sin(NerdyMath.degreesToRadians(
       NerdyMath.boundBetween(m_armGoal, 
-      ArmConstants.kArmMinAngle, ArmConstants.kArmMinAngle)));
+      ArmConstants.kArmMinAngle, ArmConstants.kArmMaxAngle)));
     m_elevatorGoal = NerdyMath.boundBetween(m_desiredHeight - armGoalHeight, 
       ElevatorConstants.kMinElevatorHeight, ElevatorConstants.kMaxElevatorHeight);
     if (!NerdyMath.isApproximately(m_elevatorGoal + armGoalHeight, m_desiredHeight, 0.001)) {

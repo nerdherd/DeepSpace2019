@@ -48,13 +48,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
-	    // jevois = new Jevois(115200, SerialPort.Port.kUSB);
-	    // livestream = new Streamer();
-	    drive = new Drive();
+	    drive = Drive.getInstance();
 			ds = DriverStation.getInstance();
-
 			claw = new Piston(4, 3);
-			
 			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
 				ElevatorConstants.kElevatorInversion, ElevatorConstants.kElevatorSensorPhase);
 			elevator.configTalonDeadband(ElevatorConstants.kElevatorTalonDeadband);
@@ -66,15 +62,11 @@ public class Robot extends TimedRobot {
 				ElevatorConstants.kElevatorD, ElevatorConstants.kElevatorF);
 			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
 				ElevatorConstants.kElevatorHeightOffset);
-
 			arm = Arm.getInstance();
-
 			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
 			elevatorTach = new TalonTach(elevator, "Elevator Tach", true, false);
 			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
-		
 			oi = new OI();
-
 			NerdyBadlog.initAndLog("/media/sda1/logs/2_14_19_elevatorTesting1.csv", 0.02, 
 				elevator, arm);
 	}
@@ -93,6 +85,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
+		drive.stopLog();
 	}
 
 	@Override
@@ -115,6 +108,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		drive.startLog();
 	}
 
 	/**
@@ -123,6 +117,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		drive.logToCSV();
 	}
 
 	/**

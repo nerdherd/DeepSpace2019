@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 	
 	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow; 
-	public Joystick driveJoyLeft = new Joystick(1);
 	public Joystick driveJoyRight = new Joystick(0);
+	public Joystick driveJoyLeft = new Joystick(1);
 
 	public OI() {
 		

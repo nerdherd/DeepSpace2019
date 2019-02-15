@@ -41,10 +41,16 @@ public class LiveTargetTrack extends Command {
         // SmartDashboard.putNumber("Rotational Power", power);
         // double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         // m_desiredAngle = robotAngle + Robot.leftJevois.getAngularTargetError();
+        
+        boolean headingFound = false;
+        double heading = 0;
 
 
         double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
+        double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
+        double rotError;
         double power = -kP * getAngularTargetError;
+        double rotPower;
 
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyLeftY(), -power + -Robot.oi.getDriveJoyLeftY());
@@ -52,6 +58,19 @@ public class LiveTargetTrack extends Command {
         else{
             Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
             // Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
+        }
+
+        if(Robot.jevois.getDistance() < 35) {
+            if(headingFound == false){
+                headingFound = true;
+                heading = Robot.drive.getRawYaw();
+            }
+            rotError = -heading - robotAngle;
+            
+            rotError = (rotError > 180) ? rotError - 360 : rotError;
+            rotError = (rotError < -180) ? rotError + 360 : rotError;
+            rotPower = rotError * -kP;
+            Robot.drive.setPowerFeedforward(rotPower + Robot.oi.getDriveJoyLeftY(), rotPower - Robot.oi.getDriveJoyLeftY());
         }
 
         // SmartDashboard.putNumber("Robot Angle", robotAngle);

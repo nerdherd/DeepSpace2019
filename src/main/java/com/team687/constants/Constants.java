@@ -21,7 +21,7 @@ public class Constants {
     public final static double kCameraMountHeight = 38.50;
     public final static double kCameraHorizontalOffset = 5.5;
     
-    public final static double kTargetHeight = 28.75; // inches
+    public final static double kTargetHeight = 28.50; // inches
     
     public final static double kDriveRotationDeadband = 1.75;
 

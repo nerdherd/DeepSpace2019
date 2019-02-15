@@ -116,7 +116,11 @@ public class OI {
 
 		SmartDashboard.putData("Elevator set position 0", new SetElevatorHeightMotionMagic(Robot.elevator, 11.75));
 
+		SmartDashboard.putData("Elevator zero with tach", new ZeroMechanismWithHallEffect(Robot.elevator, Robot.elevatorTach, -1));
+
 		SmartDashboard.putData("Set Optimized height 60", new OptimizedSimultaneousMovement(60));
+		SmartDashboard.putData("Set Optimized height 80", new OptimizedSimultaneousMovement(80));
+		SmartDashboard.putData("Set Optimized height 7", new OptimizedSimultaneousMovement(7));
 
 	}
 

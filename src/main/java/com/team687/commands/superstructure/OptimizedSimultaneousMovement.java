@@ -32,8 +32,8 @@ public class OptimizedSimultaneousMovement extends Command {
 
   public OptimizedSimultaneousMovement(double desiredHeight) {
     m_desiredHeight = desiredHeight;
-    // requires(Robot.elevator);
-    // requires(Robot.arm);
+    requires(Robot.elevator);
+    requires(Robot.arm);
 
   }
 
@@ -109,6 +109,8 @@ public class OptimizedSimultaneousMovement extends Command {
     System.out.println(m_armGoal);
     System.out.println("Time taken:");
     System.out.print(m_timeTaken);
+    Robot.elevator.setHeightMotionMagic(m_elevatorGoal);
+    Robot.arm.setAngleMotionMagic(m_armGoal);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
 		
 			oi = new OI();
 
-			NerdyBadlog.initAndLog("/media/sda1/logs/2_9_19_elevatorTesting1.csv", 0.02, 
+			NerdyBadlog.initAndLog("/media/sda1/logs/2_14_19_elevatorTesting1.csv", 0.02, 
 				elevator, arm);
 	}
 

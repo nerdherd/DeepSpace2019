@@ -5,19 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.routines;
+package com.team687.commands.climber;
 
-import com.team687.commands.drive.auto.DriveTrajectory;
-import com.team687.constants.AutoConstants;
+import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
+import com.team687.Robot;
+import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ChainedPathAuto extends CommandGroup {
+public class RetractKickerWheels extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public ChainedPathAuto() {
-    addSequential(new DriveTrajectory(AutoConstants.testTraj, 5, true, 0.2, 0));
-    addSequential(new DriveTrajectory(AutoConstants.testTraj2, 5, true, 0.2, 0));
+  public RetractKickerWheels() {
+    // addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelDeployPosition, 100, false));
+    // addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelDeployPosition, 100, false));
   }
 }

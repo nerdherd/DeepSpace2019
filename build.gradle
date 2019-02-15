@@ -41,7 +41,6 @@ def includeDesktopSupport = true
 repositories {
     mavenCentral()
     maven {
-        url 'https://dev.imjac.in/maven/'
         url "https://jitpack.io"
     }
 }

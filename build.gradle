@@ -53,7 +53,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    compile 'com.github.nerdherd:NerdyLib:8bf9d684672357f648a78067c278852b71458d94'
+    compile 'com.github.nerdherd:NerdyLib:33e167f7e40c425942258bb9b2d7689a0c0eb388'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

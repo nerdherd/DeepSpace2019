@@ -73,14 +73,14 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		// elevator.reportToSmartDashboard();
-		// arm.reportToSmartDashboard();
-		// intake.reportToSmartDashboard();
-		// elevatorTach.reportToSmartDashboard();
-		// SmartDashboard.putString("Reverse tach", String.valueOf(elevator.motor.getSensorCollection().isRevLimitSwitchClosed()));
+		elevator.reportToSmartDashboard();
+		arm.reportToSmartDashboard();
+		intake.reportToSmartDashboard();
+		elevatorTach.reportToSmartDashboard();
+		SmartDashboard.putString("Reverse tach", String.valueOf(elevator.motor.getSensorCollection().isRevLimitSwitchClosed()));
 		// elevatorHallEffect.reportToSmartDashboard();
 
-		// NerdyBadlog.log();
+		NerdyBadlog.log();
 	}
 
 	@Override

@@ -23,17 +23,33 @@ class HSVDetector:
 
         self.blur_output = None
 
-        self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [75.25423728813558, 115.96383772442704]
-        self.__hsv_threshold_saturation = [33.61581920903955, 255.0]
-        self.__hsv_threshold_value = [153.6723163841808, 255.0]
+        self.__desaturate_input = self.blur_output
+
+        self.desaturate_output = None
+
+        self.__cv_threshold_src = self.desaturate_output
+        self.__cv_threshold_thresh = 11.0
+        self.__cv_threshold_maxval = 50.0
+        self.__cv_threshold_type = cv2.THRESH_BINARY
+
+        self.cv_threshold_output = None
+
+        self.__mask_input = self.blur_output
+        self.__mask_mask = self.cv_threshold_output
+
+        self.mask_output = None
+
+        self.__hsv_threshold_input = self.mask_output
+        self.__hsv_threshold_hue = [36.27118644067796, 94.58612561006309]
+        self.__hsv_threshold_saturation = [196.60325001916027, 255.0]
+        self.__hsv_threshold_value = [12.295051442726924, 58.89891588922344]
 
         self.hsv_threshold_output = None
 
         self.__cv_erode_src = self.hsv_threshold_output
         self.__cv_erode_kernel = None
         self.__cv_erode_anchor = (-1, -1)
-        self.__cv_erode_iterations = 1.0
+        self.__cv_erode_iterations = 2.0
         self.__cv_erode_bordertype = cv2.BORDER_CONSTANT
         self.__cv_erode_bordervalue = (-1)
 
@@ -42,7 +58,7 @@ class HSVDetector:
         self.__cv_dilate_src = self.cv_erode_output
         self.__cv_dilate_kernel = None
         self.__cv_dilate_anchor = (-1, -1)
-        self.__cv_dilate_iterations = 7.0
+        self.__cv_dilate_iterations = 5.0
         self.__cv_dilate_bordertype = cv2.BORDER_CONSTANT
         self.__cv_dilate_bordervalue = (-1)
 
@@ -58,7 +74,7 @@ class HSVDetector:
         self.convex_hulls_output = None
 
         self.__filter_contours_contours = self.convex_hulls_output
-        self.__filter_contours_min_area = 300.0
+        self.__filter_contours_min_area = 150.0
         self.__filter_contours_min_perimeter = 0.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 100000.0
@@ -71,7 +87,6 @@ class HSVDetector:
         self.__filter_contours_max_ratio = 100.0
 
         self.filter_contours_output = None
-
 
         # self.start_time = 0
         # self.end_time = 0

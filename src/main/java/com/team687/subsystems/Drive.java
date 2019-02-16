@@ -307,7 +307,6 @@ public class Drive extends Subsystem {
 		// 	int x = SerialPort.Port.values();
 
 		// }
-		System.out.println("hi");
 
 		calcXY();
     	

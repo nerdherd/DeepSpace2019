@@ -27,11 +27,13 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
 		SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
-		SmartDashboard.putData("Drive 3V", new OpenLoopDrive(Robot.drive,0.25));
-		SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 50000, 5000, 5000));
+		SmartDashboard.putData("Drive 1.2V", new OpenLoopDrive(Robot.drive,0.1));
+		SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 25000, 1000, 1000));
 		SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));
-		SmartDashboard.putData("Right Rocket", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath1, 3, true, 0.04, 0));
-		SmartDashboard.putData("TUrn 90 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.004, 0.0004));
+		SmartDashboard.putData("Left Rocket", new DriveFalconTrajectory(Robot.drive, AutoConstants.LeftRocketPath1, 3, true, 0.075, 0));
+		SmartDashboard.putData("Left Rocket 2", new DriveFalconTrajectory(Robot.drive, AutoConstants.LeftRocketPath2, 3, false, 0.075, 0.0005));
+
+		SmartDashboard.putData("TUrn 90 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.009, 0.0004));
 		
 		
 

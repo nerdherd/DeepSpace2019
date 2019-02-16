@@ -31,7 +31,7 @@ public class AutoConstants {
     public static final double kCruiseVelocity = 13;
     // Jerk is set to a high number since jerk barely matters, poofs don't jerk anymore
     public static final double kJerk = 100;
-    public static final double kCentripetalAcceleration = 20;
+    public static final double kCentripetalAcceleration = 10;
 
     private static double kRobotLength = 0;
     private static double kRobotWidth = 0;
@@ -120,10 +120,10 @@ public class AutoConstants {
     //Left Rocket Paths
       
     // Left Rocket Path One
-    private static double kLeftRobotOriginX = 5.5;
-    private static double kLeftRobotOriginY = 17;
-    private static double kLeftRocketPathOnePointTwoX = 21.5; 
-    private static double kLeftRocketPathOnePointTwoY = 25;
+    private static double kLeftRobotOriginX = 5.417;
+    private static double kLeftRobotOriginY = 18;
+    private static double kLeftRocketPathOnePointTwoX = 22; 
+    private static double kLeftRocketPathOnePointTwoY = 25.25;
 
     public static ArrayList<TrajectoryPoint> LeftRocketPath1 = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kLeftRobotOriginX, kLeftRobotOriginY, 0).pose, 
@@ -131,17 +131,17 @@ public class AutoConstants {
      kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
     // Left Rocket Path Two
-    private static double kLeftRocketPathTwoPointOneX = 0;
-    private static double kLeftRocketPathTwoPointOneY = 0;
-    private static double kLeftRocketPathTwoPointTwoX = 0;
-    private static double kLeftRocketPathTwoPointTwoY = 0;
-    private static double kLeftRocketPathTwoPointThreeX = 0;
-    private static double kLeftRocketPathTwoPointThreeY = 0;
+    private static double kLeftRocketPathTwoPointOneX = 22;
+    private static double kLeftRocketPathTwoPointOneY = 25.25;
+    private static double kLeftRocketPathTwoPointTwoX = 19.167;
+    private static double kLeftRocketPathTwoPointTwoY = 21.5;
+    private static double kLeftRocketPathTwoPointThreeX = 1.5;
+    private static double kLeftRocketPathTwoPointThreeY = 24.71;
 
     public static ArrayList<TrajectoryPoint> LeftRocketPath2 = gen.generateTrajectory(
-        Arrays.asList(new Pose2D(kLeftRocketPathTwoPointOneX, kLeftRocketPathTwoPointOneY, 0).pose, 
-        new Pose2D(kLeftRocketPathTwoPointTwoX, kLeftRocketPathTwoPointTwoY, -150).pose,
-        new Pose2D(kLeftRocketPathTwoPointThreeX, kLeftRocketPathTwoPointThreeY, 0).pose),
+        Arrays.asList(new Pose2D(kLeftRocketPathTwoPointOneX, kLeftRocketPathTwoPointOneY, -30).pose, 
+        new Pose2D(kLeftRocketPathTwoPointTwoX, kLeftRocketPathTwoPointTwoY, -180).pose,
+        new Pose2D(kLeftRocketPathTwoPointThreeX, kLeftRocketPathTwoPointThreeY, -180).pose),
      kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
     // Left Rocket Path Three

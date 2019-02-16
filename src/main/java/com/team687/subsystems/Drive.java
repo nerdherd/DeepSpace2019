@@ -22,21 +22,19 @@ import com.team687.constants.DriveConstants;
 public class Drive extends Drivetrain {
 
 
-	private static Drive m_driveInstance = null;
-
-  private Drive() {
+  public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
      new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kRightSlaveTalon1ID)
+       new NerdyTalon(RobotMap.kLeftSlaveTalon1ID)
      },
      new NerdyTalon[] {
        new NerdyTalon(RobotMap.kRightSlaveTalon1ID)
      },
-     true, true);
+     false, true);
     
      super.configAutoChooser(Robot.chooser);
      super.configMaxVelocity(DriveConstants.kMaxVelocity);
-     super.configSensorPhase(false, true);
+     super.configSensorPhase(true, true);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
      super.configDate("2019_2_15_");
@@ -46,12 +44,6 @@ public class Drive extends Drivetrain {
      super.configStaticFeedforward(DriveConstants.kLeftStatic, DriveConstants.kRightStatic);
   }
 
-  public static Drive getInstance() {
-	  if (m_driveInstance == null) {
-		  m_driveInstance = new Drive();
-	  }
-	  return m_driveInstance;
-  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

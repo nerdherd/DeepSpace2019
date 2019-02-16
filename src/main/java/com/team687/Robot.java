@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
-	    drive = Drive.getInstance();
+	    drive = new Drive();
 			ds = DriverStation.getInstance();
 			claw = new Piston(4, 3);
 			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
@@ -73,11 +73,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		elevator.reportToSmartDashboard();
-		arm.reportToSmartDashboard();
-		intake.reportToSmartDashboard();
-		elevatorTach.reportToSmartDashboard();
-		SmartDashboard.putString("Reverse tach", String.valueOf(elevator.motor.getSensorCollection().isRevLimitSwitchClosed()));
+		// elevator.reportToSmartDashboard();
+		// arm.reportToSmartDashboard();
+		// intake.reportToSmartDashboard();
+		// elevatorTach.reportToSmartDashboard();
+		// SmartDashboard.putString("Reverse tach", String.valueOf(elevator.motor.getSensorCollection().isRevLimitSwitchClosed()));
 		// elevatorHallEffect.reportToSmartDashboard();
 
 		// NerdyBadlog.log();

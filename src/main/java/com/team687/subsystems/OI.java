@@ -1,10 +1,12 @@
 package com.team687.subsystems;
 
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
 import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.team687.Robot;
+import com.team687.commands.superstructure.OptimizedSimultaneousMovement;
 import com.team687.commands.superstructure.SimultaneousMovement;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,17 +31,6 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Left Rocket 2", new DriveFalconTrajectory(Robot.drive, AutoConstants.LeftRocketPath2, 3, false, 0.075, 0.0005));
 
 		// SmartDashboard.putData("TUrn 90 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.009, 0.0004));
-		
-		
-
-
-
-
-
-
-
-
-		
 
 		// SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
@@ -77,19 +68,13 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
-		// SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
-		// SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
-		// SmartDashboard.putData("Set arm angle 4 deg", new SetArmAngleMotionMagic(Robot.arm, 4));
-		// SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
-		// SmartDashboard.putData("Set arm angle -26 deg", new SetArmAngleMotionMagic(Robot.arm, -26));
-		// SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
-		SmartDashboard.putData("Set arm angle 71 deg", new SetArmAngleMotionMagic(Robot.arm, 71));
+		SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
+		SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
+		SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
+		SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
 		SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
-		SmartDashboard.putData("Set arm angle 36 deg", new SetArmAngleMotionMagic(Robot.arm, 36));
 		SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Robot.arm, 45));
-		SmartDashboard.putData("Set arm angle 49 deg", new SetArmAngleMotionMagic(Robot.arm, 49));
 		SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Robot.arm, 22));
-		SmartDashboard.putData("Set arm angle 26 deg", new SetArmAngleMotionMagic(Robot.arm, 26));
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
@@ -103,9 +88,16 @@ public class OI extends DefaultOI {
 
 		// SmartDashboard.putData("Elevator zero with tach", new ZeroMechanismWithHallEffect(Robot.elevator, Robot.elevatorTach, -1));
 
-		// SmartDashboard.putData("Set Optimized height 60", new OptimizedSimultaneousMovement(60));
-		// SmartDashboard.putData("Set Optimized height 80", new OptimizedSimultaneousMovement(80));
-		// SmartDashboard.putData("Set Optimized height 7", new OptimizedSimultaneousMovement(7));
+		SmartDashboard.putData("Set Optimized height 60", new OptimizedSimultaneousMovement(60));
+		SmartDashboard.putData("Set Optimized height 80", new OptimizedSimultaneousMovement(80));
+		SmartDashboard.putData("Set Optimized height 7", new OptimizedSimultaneousMovement(7));
+
+		SmartDashboard.putData("Optimized hatch 1", new OptimizedSimultaneousMovement(21.5));
+		SmartDashboard.putData("Optimized hatch 2", new OptimizedSimultaneousMovement(49));
+		SmartDashboard.putData("Optimized hatch 3", new OptimizedSimultaneousMovement(75));
+		SmartDashboard.putData("Optimized cargo 1", new OptimizedSimultaneousMovement(30));
+		SmartDashboard.putData("Optimized cargo 2", new OptimizedSimultaneousMovement(57.5));
+		SmartDashboard.putData("Optimized cargo 3", new OptimizedSimultaneousMovement(83.5));
 
 	}
 }

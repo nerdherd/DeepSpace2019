@@ -49,7 +49,7 @@ public class OptimizedSimultaneousMovement extends Command {
     if (m_direction > 0) {
       currentSearchAngle = Math.abs(ArmConstants.kArmMaxAngle - m_thetaInitial)/2;
     } else {
-      currentSearchAngle = Math.abs(ArmConstants.kArmMinAngle - m_thetaInitial)/2;
+      currentSearchAngle = -Math.abs(ArmConstants.kArmMinAngle - m_thetaInitial)/2;
     }
     // in inches relative to current elevator height
     double currentElHeightDelta;
@@ -64,9 +64,9 @@ public class OptimizedSimultaneousMovement extends Command {
         kArmL * Math.sin(NerdyMath.degreesToRadians(currentSearchAngle));
       isCurrentSliceFar = !(Math.abs(currentTotalHeightDelta) > Math.abs(m_desiredHeightDelta));
       if (isCurrentSliceFar) {
-        currentSearchAngle += Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial);
+        currentSearchAngle += Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial) * m_direction;
       } else {
-        currentSearchAngle -= Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial);
+        currentSearchAngle -= Math.pow(0.5, i+2) * (kArmMaxAngle - m_thetaInitial) * m_direction;
       }
     }
 
@@ -92,11 +92,16 @@ public class OptimizedSimultaneousMovement extends Command {
   @Override
   protected void initialize() {
     double initStartTime = Timer.getFPGATimestamp();
-    m_direction = Math.signum(m_desiredHeightDelta - (Robot.elevator.getHeight() + 
+    m_direction = Math.signum(m_desiredHeight - (Robot.elevator.getHeight() + 
       Arm.getArmHeight()));
     m_thetaInitial = Robot.arm.getAngle();
     m_desiredHeightDelta = m_desiredHeight - Robot.elevator.getHeight() - Arm.getArmHeight();
-    this.searchAndSetGoals();
+    if (m_direction == 0) {
+      m_armGoal = Robot.arm.getAngle();
+      m_elevatorGoal = m_desiredHeight - Arm.getArmHeight();
+    } else {
+      this.searchAndSetGoals();
+    }
     m_timeTaken = Timer.getFPGATimestamp() - initStartTime;
   }
 

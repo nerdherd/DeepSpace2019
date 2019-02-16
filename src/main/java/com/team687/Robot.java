@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 			elevatorTach = new TalonTach(elevator, "Elevator Tach", true, false);
 			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 			oi = new OI();
-			NerdyBadlog.initAndLog("/media/sda1/logs/2_14_19_elevatorTesting1.csv", 0.02, 
+			NerdyBadlog.initAndLog("/media/sda1/logs/", "2_16_19_elevatorTesting", 0.02, 
 				elevator, arm);
 	}
 

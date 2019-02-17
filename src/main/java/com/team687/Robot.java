@@ -43,8 +43,6 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static OI oi;
-	public static TalonTach elevatorTach; 
-	//public static HallSensor elevatorHallEffect;
 
 
 	@Override
@@ -69,8 +67,6 @@ public class Robot extends TimedRobot {
 			leftIntake = new SingleMotorTalonSRX(RobotMap.kLeftIntakeTalonID, "LeftIntake", true, true);
 			rightIntake = new SingleMotorTalonSRX(RobotMap.kRightIntakeTalonID, "RightIntake", true, true);
 			intake = new DualMotorIntake(leftIntake, rightIntake);
-			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
-			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 
 			chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 		
@@ -83,9 +79,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
-		elevatorTach.reportToSmartDashboard();
-
-		// elevatorHallEffect.reportToSmartDashboard();
 
 		NerdyBadlog.log();
 	}

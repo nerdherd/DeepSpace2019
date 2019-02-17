@@ -16,6 +16,12 @@ public class Constants {
     public final static double kXFocalLength = 341.3307738; // focalLength = px_width / (2 * tan(FOV / 2))
     public final static double kYFocalLength = 332.3115843;
 
+    // camera instrinsics
+    public final static double kF_X = 341.3307738;
+    public final static double kF_Y = 332.3115843;
+    public final static double kG_X = 0;
+    public final static double kG_Y = 0;
+
     // Physical camera constants
     public final static double kCameraHorizontalMountAngle = 5; 
     public final static double kCameraMountHeight = 38.50;

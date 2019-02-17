@@ -8,6 +8,9 @@ import java.nio.file.Paths;
 
 import com.team687.constants.Constants;
 import com.team687.Robot;
+import com.team687.utilities.odinsbane.leastsquares.Function;
+import com.team687.utilities.odinsbane.leastsquares.Fitter;
+import com.team687.utilities.odinsbane.leastsquares.fitters.*;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,9 +24,6 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_threshold = 25.4;
 	public double m_offset; 
 	public double m_distinguish = 0.0;
-	
-
-
 	private boolean writeException = false;
 
 	String[] parts;
@@ -68,6 +68,50 @@ public class Jevois extends Subsystem implements Runnable {
 				}
 			}
 		}
+	}
+
+	private double[] m_cornerX = new double[4];
+	private double[] m_cornerY = new double[4];
+
+	Function fun = new Function(){
+		@Override
+		public double evaluate(double[] values, double[] parameters) {
+			double a = parameters[0];
+			double tx = parameters[1];
+			double tz = parameters[2];
+			double x_I = values[0];
+			double y_I = values[1];
+			double x = values[2];
+			double y = values[3];
+			double z = values[4];
+
+			double c = Math.cos(a);
+			double s = Math.sin(a);
+
+			double _y = c * z - s * x + tz;
+			double _x = c * x + s * z + tx;
+			double _fy = Constants.kF_Y * y / (y_I - Constants.kG_Y);
+			double _fx = Constants.kF_X / (x_I - Constants.kG_X);
+			
+			double yResidual = _fy - _y;
+			double xResidual = _fx - (_y / _x);
+			return Math.sqrt(Math.pow(yResidual, 2) + Math.pow(xResidual, 2));
+		}
+		@Override
+		public int getNParameters() {
+			return 3;
+		}
+
+		@Override
+		public int getNInputs() {
+			return 1;
+		}
+	};
+
+	Fitter fit = new MarquardtFitter(fun);
+
+	public void fit(double[][] xs){
+		fit.setData()
 	}
 
 	// Robot functionalities

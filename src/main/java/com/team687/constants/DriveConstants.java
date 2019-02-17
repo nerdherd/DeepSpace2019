@@ -3,20 +3,20 @@ package com.team687.constants;
 public class DriveConstants {
 
 //	TalonSRX Constants
-	public static final double kLeftP = 0.0001;
+	public static final double kLeftP = 0.0001122;
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
-	public static final double kLeftF = 0.263934;
+	public static final double kLeftF = 0.25890425;
 	
 	
-	public static final double kRightP = 0.00001;
+	public static final double kRightP = 0.00004222;
 	public static final double kRightI = 0;
 	public static final double kRightD = 0;
-	public static final double kRightF = 0.25583525;
+	public static final double kRightF = 0.256773;
 	
-	public static final double kLeftStatic = 1.395;
+	public static final double kLeftStatic = 1.436;
 
-	public static final double kRightStatic = 1.493;
+	public static final double kRightStatic = 1.459;
 	
 	public static final int kMaxAcceleration = 32000;
 	public static final int kMaxVelocity = 24000;

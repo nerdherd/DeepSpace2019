@@ -27,23 +27,23 @@ public class AutoConstants {
     // pathfinder constants
     public static final double dt = 0.02;
     // max speed and accel
-    public static final double kAcceleration = 13;
-    public static final double kCruiseVelocity = 13;
+    public static final double kAcceleration = 20;
+    public static final double kCruiseVelocity = 20;
     // Jerk is set to a high number since jerk barely matters, poofs don't jerk anymore
     public static final double kJerk = 100;
-    public static final double kCentripetalAcceleration = 10;
+    public static final double kCentripetalAcceleration = 5;
 
     private static double kRobotLength = 0;
     private static double kRobotWidth = 0;
     private static double kTapeLength = 18;
 
     // Right Rocket Path One
-    private static double kRightRobotOriginX = 8.0; //5.5
-    private static double kRightRobotOriginY = 8.0; //9.5
-    private static double kRightRocketPathOnePointTwoX = 22.0;  
-    private static double kRightRocketPathOnePointTwoY = 3.15; //2.25
-    private static double kRightRocketPathOnePointThreeX = 0;
-    private static double kRightRocketPathOnePointThreeY = 0;
+    private static double kRightRobotOriginX = 6.67; //5.5
+    private static double kRightRobotOriginY = 9.41; //9.5
+    private static double kRightRocketPathOnePointTwoX = 22.75;  
+    private static double kRightRocketPathOnePointTwoY = 3.5; //2.25
+    private static double kRightRocketPathOnePointThreeX = 22.75;
+    private static double kRightRocketPathOnePointThreeY = 2;
 
     public static ArrayList<TrajectoryPoint> RightRocketPath1 = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kRightRobotOriginX, kRightRobotOriginY, 0).pose, 
@@ -52,18 +52,18 @@ public class AutoConstants {
      kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false); 
 
     // Right Rocket Path Two
-    private static double kRightRocketPathTwoPointOneX = 0;
-    private static double kRightRocketPathTwoPointOneY = 0;
-    private static double kRightRocketPathTwoPointTwoX = 0;
-    private static double kRightRocketPathTwoPointTwoY = 0;
-    private static double kRightRocketPathTwoPointThreeX = 0;
-    private static double kRightRocketPathTwoPointThreeY = 0;
+    private static double kRightRocketPathTwoPointOneX = 22.75;
+    private static double kRightRocketPathTwoPointOneY = 2.0;
+    private static double kRightRocketPathTwoPointTwoX = 22.75;
+    private static double kRightRocketPathTwoPointTwoY = 5.5;
+    private static double kRightRocketPathTwoPointThreeX = 4;
+    private static double kRightRocketPathTwoPointThreeY = 4;
 
     public static ArrayList<TrajectoryPoint> RightRocketPath2 = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kRightRocketPathTwoPointOneX, kRightRocketPathTwoPointOneY, 30).pose, 
         new Pose2D(kRightRocketPathTwoPointTwoX, kRightRocketPathTwoPointTwoY, -180).pose,
         new Pose2D(kRightRocketPathTwoPointThreeX, kRightRocketPathTwoPointThreeY, -180).pose),
-     kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
+     kCentripetalAcceleration , 0, 0, kCruiseVelocity, kAcceleration, false);
 
     // Right Rocket Path Three
     private static double kRightRocketPathThreePointOneX = 0;
@@ -208,7 +208,7 @@ public class AutoConstants {
     public static ArrayList<TrajectoryPoint> straightLine = gen.generateTrajectory(
         Arrays.asList(new Pose2D(0, 0, 0).pose, 
         new Pose2D(10, 0, 0).pose),
-        100, 0, 0, 5, 5, false);
+        100, 0, 0, kCruiseVelocity, kAcceleration, false);
     
     private static double kMidCargoPathPointOneX = 0;
     private static double kMidCargoPathPointOneY = 0;
@@ -233,7 +233,7 @@ public class AutoConstants {
         new Pose2D(kRightCargoPathOnePointThreeX, kRightCargoPathOnePointThreeY, 0).pose), 
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
         
-    private static double k
+    // private static double k
     //  public static ArrayList<TrajectoryPoint> RightRocketPath2 = gen.generateTrajectory(Arrays.asList(new Pose2D), 
     //  centripetalAccel, startVelocity, endVelocity, maxVelocity, accel, reversed)
     

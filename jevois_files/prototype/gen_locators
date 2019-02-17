@@ -1,0 +1,172 @@
+import noise
+
+import cv2
+import numpy as np
+import os
+import sys
+
+import tensorflow as tf
+
+import pickle
+
+# Image size
+WIDTH = 320
+HEIGHT = 240
+
+HATCH_PROB = 0.5
+
+THRESHOLD = True
+
+cam_intrinsics = np.matrix([
+    [WIDTH/2,   0,          WIDTH/2],
+    [0,         WIDTH/2,    HEIGHT/2],
+    [0,         0,          1]])
+
+# Camera position is at origin pointing in +z, so we don't need to include it in calculations
+
+
+def createTargets() :
+    # Targets returned with innermost points on y=0 plane, facing -z
+
+    # TBD: Randomize angle, length a bit?
+    # Target dimensions
+    pts = np.matrix([[0, 0], [0, 5.25], [-2, 5.25], [-2, 0]]).T
+    angle = -14.5 * np.pi / 180.0
+
+    rmat = np.matrix([[np.cos(angle), np.sin(angle)], [-np.sin(angle), np.cos(angle)]])
+
+    lf_target = np.concatenate(((rmat * pts) + [[-4], [0]], [[0]*4]), axis=0)
+    rt_target = lf_target.copy()
+    rt_target[0] *= -1
+
+    return lf_target, rt_target
+
+targets = createTargets()
+
+hatch_pts = np.matrix([[9.5 * np.sin(x*np.pi/12), 9.5 * np.cos(x*np.pi/12) + 9.5 + 2.5, 0] for x in range(24)]).T
+
+
+def drawTarget(img, pts, color=128) :
+    coords = cam_intrinsics * pts
+    coords = coords[:2] / coords[-1]    # Homogeneous coordinates
+
+    coords = np.array(coords.T, int)     # Again, make opencv happy
+
+    cv2.fillConvexPoly(img, coords, color)
+
+
+def drawTargets(img, targets) :
+    for target in targets :
+        drawTarget(img, target)
+
+
+def drawHatch(img, pos, transform) :
+    pts = transformTargets([hatch_pts + pos], transform)
+
+    drawTarget(img, pts[0], 16)
+
+
+def addNoise(img, amp = 128, freq = 32, octaves = 2, offset = 30) :
+    z = np.random.rand() * 1000
+
+    for y in range(WIDTH):
+        for x in range(HEIGHT):
+            img[x,y] = max(0, img[x,y] + int(noise.pnoise3(x / freq, y / freq, z, octaves) * amp + offset))
+
+def threshold(img, thresh=110) :
+    if not THRESHOLD :
+        return img
+    return cv2.threshold(img, thresh, 255, cv2.THRESH_BINARY)[1]
+
+
+def transformTargets(targets, transform) :
+    new_targets = []
+    for target in targets :
+        new_targets.append(transform[0] * target + transform[1])
+    return new_targets
+
+def getHatchPosition() :
+    x = np.random.rand() * 4 - 2
+    z = np.random.rand() * 8 - 4
+    return np.matrix([x, 0, z]).T
+
+def getRandomTransform() :
+    # TBD, height settings?
+    angle = -10
+    while abs(angle) > np.pi/3 :
+        angle = np.random.normal(0, 0.4)
+
+    distance = 0
+    while distance < 12 or distance > 120 :
+        distance = np.clip(np.random.normal(24, 24), 12, 120)
+
+    heading = -10
+    while abs(heading) > np.pi/6 :
+        heading = np.clip(np.random.normal(0, 0.25), -np.pi/6, np.pi/6)
+
+    translation = np.array([[np.sin(heading) * distance, 0, np.cos(heading) * distance]]).T
+
+    rotation = np.matrix([
+        [np.cos(angle), 0, np.sin(angle)],
+        [0, 1, 0],
+        [-np.sin(angle), 0, np.cos(angle)]
+    ])
+
+    return rotation, translation, 180*angle/np.pi
+
+session = tf.Session()
+
+#Create a saver object to load the model
+saver = tf.train.import_meta_graph(os.path.join('checkpoints','.meta'))
+
+#restore the model from our checkpoints folder
+saver.restore(session,os.path.join('checkpoints', '.\\'))
+
+#Create graph object for getting the same network architecture
+graph = tf.get_default_graph()
+
+#Get the last layer of the network by it's name which includes all the previous layers too
+network = graph.get_tensor_by_name("Tanh:0")
+im_ph = graph.get_tensor_by_name("Placeholder:0")
+label_ph = graph.get_tensor_by_name("Placeholder_1:0")
+
+#with open("./image_samples.npy", 'a+b') as f :
+for i in range(20000) :
+    img = np.zeros([HEIGHT, WIDTH, 1], np.uint8)
+    transform = getRandomTransform()
+    tdata = [transform[2], transform[1][0,0], transform[1][2,0]]
+
+    ttargets = transformTargets(targets, transform[:-1])
+    drawTargets(img, ttargets)
+
+    if np.random.rand() < HATCH_PROB :
+        drawHatch(img, getHatchPosition(), transform[:-1])
+    addNoise(img)
+    img = threshold(img)
+
+    # np.save(f, img)
+    # np.save(f, tdata)
+    data = img.reshape(1,240,320,1).astype(np.float)/255
+
+    result = session.run(network, feed_dict={im_ph:data, label_ph:[tdata]})
+    print(i, tdata, result*360)
+
+    cv2.imshow("Noise", img)
+    x = cv2.waitKey(0)
+    if x == ord('q') :
+        sys.exit(0)
+
+# with open("./image_samples.npy", 'rb') as f :
+#     # Get file size so we can end cleanly
+#     f.seek(0, 2)
+#     end = f.tell()
+#     f.seek(0)
+#     while f.tell() < end :
+#         i = np.load(f)
+#         t = np.load(f)
+#         print (i.shape, t.shape)
+#
+#         cv2.imshow("Noise", i)
+#         x = cv2.waitKey(0)
+#         if x == ord('q') :
+#             sys.exit(0)

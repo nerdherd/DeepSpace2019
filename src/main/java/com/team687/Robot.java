@@ -18,7 +18,7 @@ import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
-import com.team687.subsystems.OI;
+import com.team687.OI;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;

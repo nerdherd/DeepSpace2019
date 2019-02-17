@@ -1,4 +1,4 @@
-package com.team687.subsystems;
+package com.team687;
 
 import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
 import com.nerdherd.lib.drivetrain.auto.DriveFalconTrajectory;

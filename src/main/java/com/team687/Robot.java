@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -49,13 +50,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
-	    // jevois = new Jevois(115200, SerialPort.Port.kUSB);
-	    // livestream = new Streamer();
 	    drive = new Drive();
 			ds = DriverStation.getInstance();
-
 			claw = new Piston(4, 3);
-			
 			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
 				ElevatorConstants.kElevatorInversion, ElevatorConstants.kElevatorSensorPhase);
 			elevator.configTalonDeadband(ElevatorConstants.kElevatorTalonDeadband);
@@ -67,7 +64,6 @@ public class Robot extends TimedRobot {
 				ElevatorConstants.kElevatorD, ElevatorConstants.kElevatorF);
 			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
 				ElevatorConstants.kElevatorHeightOffset);
-
 			arm = Arm.getInstance();
 
 			leftIntake = new SingleMotorTalonSRX(RobotMap.kLeftIntakeTalonID, "LeftIntake", true, true);
@@ -79,8 +75,7 @@ public class Robot extends TimedRobot {
 			chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 		
 			oi = new OI();
-
-			NerdyBadlog.initAndLog("/media/sda1/logs/2_9_19_elevatorTesting1.csv", 0.02, 
+			NerdyBadlog.initAndLog("/media/sda1/logs/", "2_16_19_elevatorTesting", 0.02, 
 				elevator, arm);
 	}
 
@@ -89,13 +84,15 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		elevatorTach.reportToSmartDashboard();
+
 		// elevatorHallEffect.reportToSmartDashboard();
 
-		// NerdyBadlog.log();
+		NerdyBadlog.log();
 	}
 
 	@Override
 	public void disabledInit() {
+		drive.stopLog();
 	}
 
 	@Override
@@ -118,6 +115,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		drive.startLog();
 	}
 
 	/**
@@ -126,6 +124,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		drive.logToCSV();
 	}
 
 	/**

@@ -33,7 +33,10 @@ public class RobotMap {
     // public static final int kChevalLockPiston1ID = 0;
     // public static final int kChevalLockPiston2ID = 0;
 
-    public static final int kArmTalonID = 13;
-    public static final int kIntakeTalonID = 12;
-    public static final int kElevatorTalonID = 20;
+    public static final int kArmTalonID = 0;
+    public static final int kElevatorTalonID = 0;
+    
+    public static final int kLeftIntakeTalonID = 0;
+    public static final int kRightIntakeTalonID = 0;
+
 }

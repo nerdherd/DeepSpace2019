@@ -14,17 +14,15 @@ import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
-import com.nerdherd.lib.sensor.TalonTach;
-import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
+import com.team687.subsystems.Elevator;
 import com.team687.subsystems.OI;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -43,8 +41,6 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static OI oi;
-	public static TalonTach elevatorTach; 
-	//public static HallSensor elevatorHallEffect;
 
 
 	@Override
@@ -53,29 +49,17 @@ public class Robot extends TimedRobot {
 	    drive = new Drive();
 			ds = DriverStation.getInstance();
 			claw = new Piston(4, 3);
-			elevator = new SingleMotorElevator(RobotMap.kElevatorTalonID, "Elevator",
-				ElevatorConstants.kElevatorInversion, ElevatorConstants.kElevatorSensorPhase);
-			elevator.configTalonDeadband(ElevatorConstants.kElevatorTalonDeadband);
-			elevator.configFFs(ElevatorConstants.kElevatorGravityFF, 
-				ElevatorConstants.kElevatorStaticFrictionFF);
-			elevator.configMotionMagic(ElevatorConstants.kElevatorMotionMagicMaxAccel,
-				ElevatorConstants.kElevatorMotionMagicCruiseVelocity);
-			elevator.configPIDF(ElevatorConstants.kElevatorP, ElevatorConstants.kElevatorI,
-				ElevatorConstants.kElevatorD, ElevatorConstants.kElevatorF);
-			elevator.configHeightConversion(ElevatorConstants.kElevatorDistanceRatio,
-				ElevatorConstants.kElevatorHeightOffset);
+			elevator = Elevator.getInstance();
 			arm = Arm.getInstance();
 
 			leftIntake = new SingleMotorTalonSRX(RobotMap.kLeftIntakeTalonID, "LeftIntake", true, true);
 			rightIntake = new SingleMotorTalonSRX(RobotMap.kRightIntakeTalonID, "RightIntake", true, true);
 			intake = new DualMotorIntake(leftIntake, rightIntake);
-			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
-			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
 
 			chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 		
 			oi = new OI();
-			NerdyBadlog.initAndLog("/media/sda1/logs/", "2_16_19_elevatorTesting", 0.02, 
+			NerdyBadlog.initAndLog("/media/sda1/logs/", "Testing", 0.02, 
 				elevator, arm);
 	}
 
@@ -83,11 +67,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
-		elevatorTach.reportToSmartDashboard();
-
-		// elevatorHallEffect.reportToSmartDashboard();
-
-		NerdyBadlog.log();
 	}
 
 	@Override

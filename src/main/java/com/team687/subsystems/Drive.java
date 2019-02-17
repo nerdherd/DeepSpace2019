@@ -24,11 +24,13 @@ public class Drive extends Drivetrain {
 
   public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kLeftSlaveTalon1ID)
+     new VictorSPX[] {
+       new VictorSPX(RobotMap.kLeftSlaveVictor1ID),
+       new VictorSPX(RobotMap.kLeftSlaveVictor2ID)
      },
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kRightSlaveTalon1ID)
+     new VictorSPX[] {
+       new VictorSPX(RobotMap.kRightSlaveVictor1ID),
+       new VictorSPX(RobotMap.kRightSlaveVictor2ID)
      },
      false, true);
     

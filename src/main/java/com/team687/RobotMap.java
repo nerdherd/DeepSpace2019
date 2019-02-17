@@ -37,6 +37,8 @@ public class RobotMap {
     public static final int kChevalLockPiston2ID = 0;
 
     public static final int kArmTalonID = 0;
-    public static final int kIntakeTalonID = 0;
     public static final int kElevatorTalonID = 0;
+    
+    public static final int kLeftIntakeTalonID = 0;
+    public static final int kRightIntakeTalonID = 0;
 }

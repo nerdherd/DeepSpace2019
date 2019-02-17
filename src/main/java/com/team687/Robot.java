@@ -9,6 +9,7 @@ package com.team687;
 
 import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
@@ -37,7 +38,8 @@ public class Robot extends TimedRobot {
 	public static AutoChooser chooser;
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
-	public static SingleMotorTalonSRX intake;
+	public static SingleMotorTalonSRX chevalRamp, leftIntake, rightIntake;
+	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static OI oi;
 	public static TalonTach elevatorTach; 
@@ -68,9 +70,13 @@ public class Robot extends TimedRobot {
 
 			arm = Arm.getInstance();
 
-			intake = new SingleMotorTalonSRX(RobotMap.kIntakeTalonID, "Intake", true, true);
+			leftIntake = new SingleMotorTalonSRX(RobotMap.kLeftIntakeTalonID, "LeftIntake", true, true);
+			rightIntake = new SingleMotorTalonSRX(RobotMap.kRightIntakeTalonID, "RightIntake", true, true);
+			intake = new DualMotorIntake(leftIntake, rightIntake);
 			elevatorTach = new TalonTach(elevator, "Elevator Tach", true);
 			// elevatorHallEffect = new HallSensor(1, "Elevator Hall Effect", false);
+
+			chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 		
 			oi = new OI();
 
@@ -82,7 +88,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
-		intake.reportToSmartDashboard();
 		elevatorTach.reportToSmartDashboard();
 		// elevatorHallEffect.reportToSmartDashboard();
 

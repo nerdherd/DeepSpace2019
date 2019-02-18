@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class OptimizedSimultaneousMovement extends Command {
 
-  private double m_desiredHeight, m_desiredHeightDelta, m_direction, m_thetaInitial;
+  protected double m_desiredHeight;
+  private double m_desiredHeightDelta, m_direction, m_thetaInitial;
   private double m_elevatorGoal, m_armGoal, m_timeTaken;
 
   private static final double kArmVmax = ArmConstants.kArmMaxDegPerS;

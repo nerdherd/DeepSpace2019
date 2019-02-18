@@ -19,6 +19,7 @@ import com.nerdherd.lib.sensor.HallSensor;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
+import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	// big yummy
 	public static HallSensor armHallEffect;
+	public static Superstructure superstructureData;
 
 
 	@Override
@@ -58,6 +60,8 @@ public class Robot extends TimedRobot {
 
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true));
+
+		superstructureData = Superstructure.getInstance();
 
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
@@ -76,6 +80,7 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		armHallEffect.reportToSmartDashboard();
+		superstructureData.reportToSmartDashboard();
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class ElevatorConstants {
     public static final double kDroopCompensation = 0;
     public static final double kElevatorHeightOffset = 9 - kDroopCompensation;
 
-    public static final double kMaxElevatorHeight = 75;
+    public static final double kMaxElevatorHeight = 76;
     public static final double kMinElevatorHeight = 12;
 
     public static final double kElevatorInPerS2 = kElevatorMotionMagicMaxAccel * kElevatorDistanceRatio * 10.;

@@ -29,7 +29,7 @@ public class ArmConstants {
     public static final double kArmF = 2.41;
 
     public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 22.;
-    public static final double kBacklashOffset = -1;
+    public static final double kBacklashOffset = 2;
 
     public static final double kArmAngleOffset = -18;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;

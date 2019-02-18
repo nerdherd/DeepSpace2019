@@ -109,14 +109,10 @@ public class OptimizedSimultaneousMovement extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("elevator goal:");
-    System.out.println(m_elevatorGoal);
-    System.out.println("arm goal:");
-    System.out.println(m_armGoal);
-    System.out.println("Time taken:");
-    System.out.print(m_timeTaken);
     Robot.elevator.setHeightMotionMagic(m_elevatorGoal);
     Robot.arm.setAngleMotionMagic(m_armGoal);
+    Robot.optimizedElSetpoint.publish(String.valueOf(m_elevatorGoal));
+    Robot.optimizedArmSetpoint.publish(String.valueOf(m_armGoal));
   }
 
   // Make this return true when this Command no longer needs to run execute()

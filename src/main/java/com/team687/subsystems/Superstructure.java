@@ -7,6 +7,9 @@
 
 package com.team687.subsystems;
 
+import com.nerdherd.lib.misc.Loggable;
+import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.misc.NerdyMath;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * This technically isn't a subsystem oops
  */
-public class Superstructure {
+public class Superstructure implements Loggable { 
   
   public boolean isHatchMode;
   private static Superstructure m_superstructureInstance = null;
@@ -30,9 +33,20 @@ public class Superstructure {
     return m_superstructureInstance;
   }
 
+  public double getSuperstructureHeight() {
+    return Arm.getArmHeight() + Robot.elevator.getHeight();
+  }
+
   public void reportToSmartDashboard() {
     SmartDashboard.putBoolean("Is Hatch Mode?", Superstructure.getInstance().isHatchMode);
     SmartDashboard.putBoolean("Is Cargo Mode?", !Superstructure.getInstance().isHatchMode);
     SmartDashboard.putNumber("Superstructure Height", Arm.getArmHeight() + Robot.elevator.getHeight());
   }
+
+  @Override
+  public void initLoggingData() {
+    NerdyBadlog.createTopic("Superstructure/HatchMode", () -> NerdyMath.boolToDouble(m_superstructureInstance.isHatchMode));
+    NerdyBadlog.createTopic("Superstructure/Height", () -> Arm.getArmHeight() + Robot.elevator.getHeight());
+  }
+
 }

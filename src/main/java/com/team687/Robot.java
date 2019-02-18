@@ -10,6 +10,7 @@ package com.team687;
 import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.misc.LoggableLambda;
 import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.misc.SubscribedLoggable;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
@@ -21,10 +22,12 @@ import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Superstructure;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -46,7 +49,7 @@ public class Robot extends TimedRobot {
 	// big yummy
 	public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
-
+	public static SubscribedLoggable optimizedElSetpoint, optimizedArmSetpoint;
 
 	@Override
 	public void robotInit() {
@@ -66,13 +69,17 @@ public class Robot extends TimedRobot {
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
-				() -> (double) arm.motor.getClosedLoopError());
+			() -> (double) arm.motor.getClosedLoopError());
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
-				() -> (double) arm.motor.getClosedLoopError());
+			() -> (double) arm.motor.getClosedLoopError());
+		optimizedElSetpoint = new SubscribedLoggable("Elevator/OptimizedSetPoint");
+		optimizedArmSetpoint = new SubscribedLoggable("Arm/OptimizedSetPoint");
 	
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt4201_", 0.02, 
-			elevator, arm, armClosedLoopError, elevatorClosedLoopError, armHallEffect);
+			elevator, elevatorClosedLoopError, optimizedElSetpoint, arm, 
+			armClosedLoopError, optimizedArmSetpoint, armHallEffect);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
@@ -81,6 +88,8 @@ public class Robot extends TimedRobot {
 		arm.reportToSmartDashboard();
 		armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
+		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
+		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 	}
 
 	@Override

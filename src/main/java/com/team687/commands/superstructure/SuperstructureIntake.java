@@ -31,10 +31,10 @@ public class SuperstructureIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setReverse();
+    Robot.claw.setForwards();
     Robot.intake.setPower(0.75, -0.75);
-    Robot.arm.setAngle(-35);
-    Robot.elevator.setHeight(15);
+    Robot.arm.setAngleMotionMagic(-35);
+    Robot.elevator.setHeightMotionMagic(15);
   }
 
   // Make this return true when this Command no longer needs to run execute()

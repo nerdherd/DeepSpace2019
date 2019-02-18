@@ -10,12 +10,20 @@ import com.team687.constants.Constants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Jevois extends Subsystem implements Runnable {
 	private SerialPort m_cam;
+	private UsbCamera m_visionCam;
+	private MjpegServer m_camServer;
+	
 	private Thread m_stream;
 	private boolean m_send;
 	private double m_threshold = 25.4;
@@ -44,6 +52,17 @@ public class Jevois extends Subsystem implements Runnable {
 		m_cam = new SerialPort(baud, port);
 		m_stream = new Thread(this);
 		m_stream.start();
+		startCameraStream();
+	}
+
+	private void startCameraStream(){
+		try{
+			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
+			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+
+		} catch(Exception e){ 
+
+		}
 	}
 
 	public void run() {

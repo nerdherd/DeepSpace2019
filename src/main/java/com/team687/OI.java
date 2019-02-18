@@ -1,17 +1,17 @@
 package com.team687;
 
-import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
-import com.nerdherd.lib.drivetrain.auto.DriveFalconTrajectory;
-import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
-import com.nerdherd.lib.drivetrain.auto.ResetGyro;
-import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
-import com.nerdherd.lib.drivetrain.characterization.OpenLoopDrive;
-import com.nerdherd.lib.drivetrain.characterization.VelocityTest;
+import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
+import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
+import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.nerdherd.lib.motor.commands.SetDualMotorPower;
+import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
+import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
-import com.team687.Robot;
-import com.team687.commands.TurnAngle;
-import com.team687.constants.AutoConstants;
+import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
+import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.superstructure.OptimizedSimultaneousMovement;
 
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -19,34 +19,95 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI extends DefaultOI {
 
-	
-	// public JoystickButton deployChevalRamps_, deployKickerWheels_, retractChevalRamps_, retractKickerWheels_;
+	public JoystickButton midElevator_9, lowElevator_11, hatchArm_10, cargoArm_8, intakeArm_12,
+		intakeRollers_1, outtakeRollers_2, stopRollers_3, clawClose_5, clawOpen_6, highElevator_7;
+		// public JoystickButton highHatch_7, highCargo_8, lowHatch_11, midCargo_10, intakeArm_4,
+		// 	intakeRollers_1, outtakeRollers_2, stopRollers_3, clawClose_5, clawOpen_6, lowCargo_12,
+		// 	midHatch_9;
+
+	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
+	// retractChevalRamps_, retractKickerWheels_;
 	
 	public OI() {
 		super();
-		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
-		SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
-		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
-		SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
-		SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 25000, 1000, 1000));
-		SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));
-		SmartDashboard.putData("Right Rocket", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath1, 3, true, 0.0984, 0.00224));
-		SmartDashboard.putData("Right Rocket 2", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath2, 3, false, 0.0984, 0.00011));
 
-		SmartDashboard.putData("Turn 180 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.0025, 0.00042));
-		SmartDashboard.putData("Turn 0 deg", new TurnAngle(Robot.drive, 0, 1, 5, 0.009, 0.0004));
+		// intakeRollers_1 = new JoystickButton(super.operatorJoy, 1);
+		// outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
+		// stopRollers_3 = new JoystickButton(super.operatorJoy, 3);
+		// intakeArm_4 = new JoystickButton(super.operatorJoy, 4);
+		// clawClose_5 = new JoystickButton(super.operatorJoy, 5);
+		// clawOpen_6 = new JoystickButton(super.operatorJoy, 6);
+		// highHatch_7 = new JoystickButton(super.operatorJoy, 7);
+		// highCargo_8 = new JoystickButton(super.operatorJoy, 8);
+		// lowHatch_11 = new JoystickButton(super.operatorJoy, 11);
+		// midCargo_10 = new JoystickButton(super.operatorJoy, 10);
+		// lowCargo_12 = new JoystickButton(super.operatorJoy, 12);
+		// midHatch_9 = new JoystickButton(super.operatorJoy, 9);
+
+		// intakeRollers_1.whenPressed(new SetDualMotorPower(Robot.intake, .75, -0.75));
+		// outtakeRollers_2.whenPressed(new SetDualMotorPower(Robot.intake, -.75, 0.75));
+		// stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
+		// intakeArm_4.whenPressed(new OptimizedSimultaneousMovement(8));
+		// clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
+		// clawOpen_6.whenPressed(new RetractPiston(Robot.claw));
+		// highHatch_7.whenPressed(new OptimizedSimultaneousMovement(76));
+		// highCargo_8.whenPressed(new OptimizedSimultaneousMovement(84));
+		// midHatch_9.whenPressed(new OptimizedSimultaneousMovement(48));
+		// midCargo_10.whenPressed(new OptimizedSimultaneousMovement(56));
+		// lowHatch_11.whenPressed(new OptimizedSimultaneousMovement(20));
+		// lowCargo_12.whenPressed(new OptimizedSimultaneousMovement(28));
+
+		intakeRollers_1 = new JoystickButton(super.operatorJoy, 1);
+		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
+		stopRollers_3 = new JoystickButton(super.operatorJoy, 3);
+		intakeArm_12 = new JoystickButton(super.operatorJoy, 12);
+		clawClose_5 = new JoystickButton(super.operatorJoy, 5);
+		clawOpen_6 = new JoystickButton(super.operatorJoy, 6);
+		midElevator_9 = new JoystickButton(super.operatorJoy, 9);
+		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
+		hatchArm_10 = new JoystickButton(super.operatorJoy, 10);
+		cargoArm_8 = new JoystickButton(super.operatorJoy, 8);
+		highElevator_7 = new JoystickButton(super.operatorJoy, 7);
+
+		intakeRollers_1.whenPressed(new SetDualMotorPower(Robot.intake, .75, -0.75));
+		outtakeRollers_2.whenPressed(new SetDualMotorPower(Robot.intake, -.75, 0.75));
+		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
+		intakeArm_12.whenPressed(new SetArmAngleMotionMagic(Robot.arm, -30));
+		clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
+		clawOpen_6.whenPressed(new RetractPiston(Robot.claw));
+		midElevator_9.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 44));
+		lowElevator_11.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 16));
+		hatchArm_10.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 20));
+		cargoArm_8.whenPressed(new SetArmAngleMotionMagic(Robot.arm, 70));
+		highElevator_7.whenPressed(new SetElevatorHeightMotionMagic(Robot.elevator, 70.6));
+
+
+		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
+		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
+
+		// SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
+		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
+		// SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 25000, 1000, 1000));
+		// SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));
+		// SmartDashboard.putData("Right Rocket", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath1, 3, true, 0.0984, 0.00224));
+		// SmartDashboard.putData("Right Rocket 2", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath2, 3, false, 0.0984, 0.00011));
+
+		// SmartDashboard.putData("Turn 180 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.0025, 0.00042));
+		// SmartDashboard.putData("Turn 0 deg", new TurnAngle(Robot.drive, 0, 1, 5, 0.009, 0.0004));
 
 		// SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
 
-		// SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
+		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
 
-		// // SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));
-		// // SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
-		// // SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
-		// // SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
-		// // SmartDashboard.putData("Elevator MM up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 18000));
+		// SmartDashboard.putData("Elevator MM up pos", new SetMotorMotionMagic(Robot.elevator, 8000));
+		// SmartDashboard.putData("Elevator MM up up pos", new SetMotorMotionMagic(Robot.elevator, 10000));
+		// SmartDashboard.putData("Elevator MM up up up pos", new SetMotorMotionMagic(Robot.elevator, 15380));
+		// SmartDashboard.putData("Elevator MM up up up up pos", new SetMotorMotionMagic(Robot.elevator, 16780));
+		// SmartDashboard.putData("Elevator MM up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 18000));
 		// // SmartDashboard.putData("Elevator MM up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 20560));
 		// // SmartDashboard.putData("Elevator MM up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 27000));
 		// // SmartDashboard.putData("Elevator MM up up up up up up up up pos", new SetMotorMotionMagic(Robot.elevator, 28000));
@@ -72,14 +133,16 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
-		// SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
+		// // SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
 		// SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
 		// SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
 		// SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
 		// SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
 		// SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Robot.arm, 45));
 		// SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Robot.arm, 22));
-		// SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
+		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
+		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Robot.arm, 
+		// 						Robot.armHallEffect, 2./12.));
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
 		// SmartDashboard.putData("Set both intake sides -3V", new SetMotorPower(Robot.intake, -.25));

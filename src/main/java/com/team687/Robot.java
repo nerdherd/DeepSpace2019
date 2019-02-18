@@ -8,17 +8,17 @@
 package com.team687;
 
 import com.nerdherd.lib.misc.AutoChooser;
+import com.nerdherd.lib.misc.LoggableLambda;
 import com.nerdherd.lib.misc.NerdyBadlog;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
-import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.nerdherd.lib.sensor.HallSensor;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
-import com.team687.OI;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,11 +38,12 @@ public class Robot extends TimedRobot {
 	public static AutoChooser chooser;
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
-	public static SingleMotorVictorSPX leftIntake, rightIntake;
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static OI oi;
+	// big yummy
+	public static HallSensor armHallEffect;
 
 
 	@Override
@@ -53,22 +54,28 @@ public class Robot extends TimedRobot {
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
 		elevator = Elevator.getInstance();
 		arm = Arm.getInstance();
+		armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 
-		leftIntake = new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true);
-		rightIntake = new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true);
-		intake = new DualMotorIntake(leftIntake, rightIntake);
+		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true), 
+									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true));
 
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
+
+		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
+				() -> (double) arm.motor.getClosedLoopError());
+		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
+				() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "Testing", 0.02, 
-			elevator, arm);
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt4201_", 0.02, 
+			elevator, arm, armClosedLoopError, elevatorClosedLoopError, armHallEffect);
 	}
 
 	@Override
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
+		armHallEffect.reportToSmartDashboard();
 	}
 
 	@Override

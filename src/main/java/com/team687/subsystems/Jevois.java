@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Jevois extends Subsystem implements Runnable {
 	private SerialPort m_cam;
 	private UsbCamera m_visionCam;
-	private MjpegServer m_camServer;
 	
 	private Thread m_stream;
 	private boolean m_send;
@@ -58,7 +57,7 @@ public class Jevois extends Subsystem implements Runnable {
 	private void startCameraStream(){
 		try{
 			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
-			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
 
 		} catch(Exception e){ 
 

@@ -20,9 +20,9 @@ public class LineFollow extends Command {
 
   public LineFollow(double power) {
     m_power = power;
-    m_threshold = 3409; //3150 is white, 3309 is blue
+    m_threshold = 3150; //3150 is white, 3309 is blue
     m_offset = 0.25;
-    m_lineFollowOffset = 150;
+    m_lineFollowOffset = 200;
     requires(Robot.drive);
   }
 
@@ -41,9 +41,9 @@ public class LineFollow extends Command {
 
     // when it's over blue, it's less
 
-    if (Robot.sensor.getValue1() < (m_threshold + 100)) {
+    if (Robot.sensor.getValue1() < (m_threshold + 150)) {
       if (Robot.sensor.getValue0() < m_threshold + m_lineFollowOffset) {
-        Robot.drive.setPower(-m_power + (m_offset + 0.02), -m_power - (m_offset + 0.02));
+        Robot.drive.setPowerFeedforward(-m_power + (m_offset + 0.02), -m_power - (m_offset + 0.02));
         SmartDashboard.putString("Turn", "Right");
       } 
   
@@ -55,16 +55,18 @@ public class LineFollow extends Command {
       else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
                 && Robot.sensor.getValue1() < m_threshold) {
         SmartDashboard.putString("Turn", "Neither");
-        Robot.drive.setPower(-m_power, -m_power);
+        Robot.drive.setPowerFeedforward(-m_power, -m_power);
       } 
       
+    }
+    // else if(Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold){
+    else{
+      SmartDashboard.putString("Turn", "ugh!!!");
+      Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
 
-    else if(Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold){
-      Robot.drive.setPower(0, 0);
-      SmartDashboard.putString("Turn", "ugh");
     }
      
-  }
+  
 
   }
   // Make this return true when this Command no longer needs to run execute()

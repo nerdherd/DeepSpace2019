@@ -10,7 +10,6 @@ package com.team687;
 import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.misc.LoggableLambda;
 import com.nerdherd.lib.misc.NerdyBadlog;
-import com.nerdherd.lib.misc.SubscribedLoggable;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
@@ -20,16 +19,15 @@ import com.nerdherd.lib.sensor.HallSensor;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
-import com.team687.subsystems.Superstructure;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Sensor;
-import com.team687.utilities.AutoChooser;
+import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -50,12 +48,12 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
+	public static Jevois jevois;
 
 	public static OI oi;
 	// big yummy
 	public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
-	public static SubscribedLoggable optimizedElSetpoint, optimizedArmSetpoint;
 
 	@Override
 	public void robotInit() {
@@ -81,13 +79,11 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
 			() -> (double) arm.motor.getClosedLoopError());
-		optimizedElSetpoint = new SubscribedLoggable("Elevator/OptimizedSetPoint");
-		optimizedArmSetpoint = new SubscribedLoggable("Arm/OptimizedSetPoint");
 	
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt4201_", 0.02, 
-			elevator, elevatorClosedLoopError, optimizedElSetpoint, arm, 
-			armClosedLoopError, optimizedArmSetpoint, armHallEffect);
+			elevator, elevatorClosedLoopError, arm, 
+			armClosedLoopError, armHallEffect);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 

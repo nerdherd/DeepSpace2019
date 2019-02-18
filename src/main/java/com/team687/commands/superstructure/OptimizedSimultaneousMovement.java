@@ -111,8 +111,6 @@ public class OptimizedSimultaneousMovement extends Command {
   protected void execute() {
     Robot.elevator.setHeightMotionMagic(m_elevatorGoal);
     Robot.arm.setAngleMotionMagic(m_armGoal);
-    Robot.optimizedElSetpoint.publish(String.valueOf(m_elevatorGoal));
-    Robot.optimizedArmSetpoint.publish(String.valueOf(m_armGoal));
   }
 
   // Make this return true when this Command no longer needs to run execute()

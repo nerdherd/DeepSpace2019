@@ -194,6 +194,18 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Robot.arm, 
 		// 						Robot.armHallEffect, 2./12.));
+		liveTargetTrack.whileHeld(new LiveTargetTrack());
+
+		lineFollow = new JoystickButton(driveJoyRight, 11);
+		lineFollow.whileHeld(new LineFollow(0.254));
+
+		//disableStream = new JoystickButton(driveJoyLeft,2);
+		//disableStream.whenPressed(new DisableStream());
+		
+		//enableStream = new JoystickButton(driveJoyLeft,3);
+		//enableStream.whenPressed(new EnableStream());
+			
+		liveTargetTrack = new JoystickButton(driveJoyLeft, 1);
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
 		// SmartDashboard.putData("Set both intake sides -3V", new SetMotorPower(Robot.intake, -.25));

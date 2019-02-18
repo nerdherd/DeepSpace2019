@@ -2,6 +2,7 @@ import libjevois as jevois
 import cv2
 import numpy as np
 import time
+import math
 
 class HSVDetector:
     # ###################################################################################################
@@ -17,22 +18,21 @@ class HSVDetector:
 
     # ###################################################################################################
         # ALL CONSTANTS GO UNDER HERE (make sure to remove the self.__blur_type line)
-
-        self.__blur_radius = 9.178990311065784
+        self.__blur_radius = 0.9433962264150944
 
         self.blur_output = None
 
         self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [29.746372393610535, 47.98476859988284]
-        self.__hsv_threshold_saturation = [197.21223021582736, 255.0]
-        self.__hsv_threshold_value = [0.0, 255.0]
+        self.__hsv_threshold_hue = [70.16949152542374, 100.01347291641724]
+        self.__hsv_threshold_saturation = [232.909604519774, 255.0]
+        self.__hsv_threshold_value = [24.01129943502825, 82.46045694200349]
 
         self.hsv_threshold_output = None
 
         self.__cv_erode_src = self.hsv_threshold_output
         self.__cv_erode_kernel = None
         self.__cv_erode_anchor = (-1, -1)
-        self.__cv_erode_iterations = 6.0
+        self.__cv_erode_iterations = 1.0
         self.__cv_erode_bordertype = cv2.BORDER_CONSTANT
         self.__cv_erode_bordervalue = (-1)
 
@@ -41,7 +41,7 @@ class HSVDetector:
         self.__cv_dilate_src = self.cv_erode_output
         self.__cv_dilate_kernel = None
         self.__cv_dilate_anchor = (-1, -1)
-        self.__cv_dilate_iterations = 6.0
+        self.__cv_dilate_iterations = 1.0
         self.__cv_dilate_bordertype = cv2.BORDER_CONSTANT
         self.__cv_dilate_bordervalue = (-1)
 
@@ -52,8 +52,12 @@ class HSVDetector:
 
         self.find_contours_output = None
 
-        self.__filter_contours_contours = self.find_contours_output
-        self.__filter_contours_min_area = 6000.0
+        self.__convex_hulls_contours = self.find_contours_output
+
+        self.convex_hulls_output = None
+
+        self.__filter_contours_contours = self.convex_hulls_output
+        self.__filter_contours_min_area = 300.0
         self.__filter_contours_min_perimeter = 0.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 100000.0
@@ -147,31 +151,216 @@ class HSVDetector:
 
 ##################################################################################################
 
-        # Draws all contours on original image in red
-        # cv2.drawContours(self.outimg, self.filter_contours_output, -1, (0, 0, 255), 1)
+        CAMERA_MATRIX = np.array([[332.75, 0, 160],
+                                 [0, 332.77, 120],
+                                 [0,0,1]])
 
-        # Gets number of contours
+        OBJ_POINTS = [(149, 67), (123, 59), (139, 5), (166 , 13)]
+
+        def polygon(c, epsil):
+            """Remove concavities from a contour and turn it into a polygon."""
+            hull = cv2.convexHull(c)
+            epsilon = epsil * cv2.arcLength(hull, True)
+            goal = cv2.approxPolyDP(hull, epsilon, True)
+            return goal
+
+        def draw_extreme_points(left_contour, right_contour):
+            # determine the most extreme points along the contour
+            left_c = left_contour
+            right_c = right_contour
+
+            left_extLeft = tuple(left_c[left_c[:, :, 0].argmin()][0])
+            left_extRight = tuple(left_c[left_c[:, :, 0].argmax()][0])
+            left_extTop = tuple(left_c[left_c[:, :, 1].argmin()][0])
+            left_extBot = tuple(left_c[left_c[:, :, 1].argmax()][0])
+
+            right_extLeft = tuple(right_c[right_c[:, :, 0].argmin()][0])
+            right_extRight = tuple(right_c[right_c[:, :, 0].argmax()][0])
+            right_extTop = tuple(right_c[right_c[:, :, 1].argmin()][0])
+            right_extBot = tuple(right_c[right_c[:, :, 1].argmax()][0])
+
+            cv2.circle(self.outimg, left_extLeft, 3, (0, 0, 255), -1)
+            cv2.circle(self.outimg, left_extRight, 3, (0, 255, 0), -1)
+            cv2.circle(self.outimg, left_extTop, 3, (255, 0, 0), -1)
+            cv2.circle(self.outimg, left_extBot, 3, (255, 255, 0), -1)
+
+            cv2.circle(self.outimg, right_extLeft, 3, (0, 0, 255), -1)
+            cv2.circle(self.outimg, right_extRight, 3, (0, 255, 0), -1)
+            cv2.circle(self.outimg, right_extTop, 3, (255, 0, 0), -1)
+            cv2.circle(self.outimg, right_extBot, 3, (255, 255, 0), -1)
+
+
+
+        def solvePnP(imgPoints):
+            rvec, tvec = cv2.solvePnP(OBJ_POINTS, imgPoints, CAMERA_MATRIX, None)
+            return(rvec, tvec)
+
+        def draw(img, corners, rvec, tvec):
+            axis = np.float32([[0,0,0], [0,3,0], [3,3,0], [3,0,0], 
+            [0,0,-3],[0,3,-3],[3,3,-3],[3,0,-3] ])
+
+            imgpts, jac = cv2.projectPoints(axis, rvec, tvec, CAMERA_MATRIX, None)
+
+            imgpts = np.int32(imgpts).reshape(-1,2)
+            # draw ground floor in green
+            img = cv2.drawContours(img, [imgpts[:4]],-1,(0,255,0),-3)
+            # draw pillars in blue color
+            for i,j in zip(range(4),range(4,8)):
+                img = cv2.line(img, tuple(imgpts[i]), tuple(imgpts[j]),(255),3)
+            # draw top layer in red color
+            img = cv2.drawContours(img, [imgpts[4:]],-1,(0,0,255),3)
+
+            return img
+
+        def getContourCorners(cnt):
+            contour_rect = cv2.minAreaRect(cnt)
+            contour_corners = cv2.boxPoints(contour_rect)
+            contour_corners = np.int0(contour_corners)
+            return contour_corners
+        
+        def sortByPosition(conts):
+            sortedBy = sorted(conts, key=getXcoord)
+            return sortedBy
+
+        # checks if the contour is tilted to the right based on y-differences
+        def get_orientation(cnt): 
+            contour_rect = cv2.minAreaRect(cnt)
+            contour_corners = cv2.boxPoints(contour_rect)
+            contour_corners = np.int0(contour_corners)
+
+            contour_ab = contour_corners[0][1] - contour_corners[1][1]
+            contour_ad = contour_corners[0][1] - contour_corners[3][1]
+            
+            # 1 is oriented left, 2 is right, 3 is vertical
+            if(contour_ab < contour_ad):
+                return 1
+            elif(contour_ab > contour_ad):
+                return 2
+            elif(contour_corners[2][0] == contour_corners[1][0] or contour_corners[2][1] == contour_corners[2][1]):
+                return 3
+    
+        def getTwoContourCenter(left_contour, right_contour):
+            center_x = (getXcoord(left_contour) + getXcoord(right_contour)) / 2
+            center_y = (getYcoord(left_contour) + getYcoord(right_contour)) / 2
+            return(center_x, center_y)
+
+        def getXCenter(left_contour, right_contour):
+            return getTwoContourCenter(left_contour, right_contour)[0]
+
+        def getYCenter(left_contour, right_contour):
+            return getTwoContourCenter(left_contour, right_contour)[1]
+
+        def drawRectContours(left_contour, right_contour):
+            center_x, center_y = getTwoContourCenter(left_contour, right_contour)
+            center = (int(center_x), int(center_y))
+
+            left_rect = cv2.minAreaRect(left_contour)
+            left_box = cv2.boxPoints(left_rect)
+            left_box = np.int0(left_box)
+
+            right_rect = cv2.minAreaRect(right_contour)
+            right_box = cv2.boxPoints(right_rect)
+            right_box = np.int0(right_box)
+
+            cv2.circle(self.outimg,center, 5, (0,0,255), 2)
+            cv2.drawContours(self.outimg,[left_box],0,(255,0,0),2)
+            cv2.drawContours(self.outimg,[right_box],0,(0,0,255),2)
+
+        def getTargetYDegrees():
+            m_focalLength = (320 / 2) / math.tan(math.radians(55 / 2))
+            pixel_y = 120 - getYCenter(left_contour, right_contour)            
+            angle = math.copysign(1.0, pixel_y) * math.atan(abs(pixel_y / m_focalLength))
+
+            return math.degrees(angle)
+ 
+        def getTargetXDegrees():
+            m_focalLength = (320 / 2) / math.tan(math.radians(55 / 2))
+            pixel_x = getXCenter(left_contour, right_contour) - 160            
+            angle = math.copysign(1.0, pixel_x) * math.atan(abs(pixel_x / m_focalLength))
+
+            return math.degrees(angle)
+
+        def getDistance():
+            mount_height = 31
+            target_height = 28.75
+            angle = getTargetYDegrees()
+            radian = math.radians(angle)
+            if (math.tan(radian)) == 0:
+                radian = 1
+                distance = abs((mount_height - target_height) / math.tan(radian))
+            else: 
+                distance = abs((mount_height - target_height) / math.tan(radian))
+            return distance
+
+        def getRobotAngleToTurn():
+            angleOffset = 6
+            radians = math.radians(getTargetXDegrees() + angleOffset) 
+            # - 10 if camera is on the right, + 10 if camera is on the left
+
+            horizontalAngle = math.pi / 2 - radians
+            distance = getDistance()
+            cameraHorizontalOffset = 5.5
+
+            f = math.sqrt(distance * distance + math.pow(cameraHorizontalOffset, 2) - 2 * distance * cameraHorizontalOffset * math.cos(horizontalAngle))
+            c= math.asin(cameraHorizontalOffset * math.sin(horizontalAngle) / f)
+            b = math.pi - horizontalAngle - c
+            calculatedAngle = math.degrees((math.pi / 2 - b))
+            return calculatedAngle
+
         contourNum = len(self.filter_contours_output)
 
         # Sorts contours by the smallest area first
         newContours = sortByArea(self.filter_contours_output)
 
-        # Send the contour data over Serial
-        for i in range (contourNum):
-            cnt = newContours[i]
-            x,y,w,h = cv2.boundingRect(cnt) # Get the stats of the contour including width and height
+        if(contourNum == 2):
+            newContours = sortByPosition(self.filter_contours_output)
+            if(get_orientation(newContours[0]) == 1 or get_orientation(newContours[1]) == 2):
+                if(getXcoord(newContours[0]) < getXcoord(newContours[1])):
+                    left_contour = newContours[0]
+                    right_contour = newContours[1]
+                    drawRectContours(left_contour, right_contour)
+                    draw_extreme_points(left_contour, right_contour)
+                    # toSend = ("/" + str(contourNum) +
+                    #     "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                    #     "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                    #     "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
+                    # rvec, tvec = solvePnP(getContourCorners(left_contour))
+                    # draw(self.outimg, corners, rvec, tvec)
+                    toSend = ("Degrees: " + str(getTargetYDegrees()) + 
+                        "Distance: " + str(getDistance()) + 
+                        "Horizontal Angle: " + str(getRobotAngleToTurn()))
+                    jevois.sendSerial(toSend)
+            elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
+                toSend = "rip"
+                jevois.sendSerial(toSend)
 
-            # which contour, 0 is first
-            toSend = ("/" + str(i) +
-                     "/" + str(getArea(cnt)) +  # Area of contour
-                     "/" + str(round(getXcoord(cnt)-160, 2)) +  # x-coordinate of centroid of contour, -160 to 160 rounded to 2 decimal
-                     "/" + str(round(120-getYcoord(cnt), 2)) +  # y-coordinate of contour, -120 to 120 rounded to 2 decimal
-                     "/" + str(round(h, 2)) +  # Height of contour, 0-320 rounded to 2 decimal
-                     "/" + str(round(w, 2))) # Width of contour, 0-240 rounded to 2 decimal
+        elif (contourNum == 3):
+            sortedByPosition = sortByPosition(self.filter_contours_output) # left to right
+            mid_contour = sortedByPosition[1]
+            if(get_orientation(mid_contour) == 1):
+                left_contour = mid_contour 
+                right_contour = sortedByPosition[2]
+            elif(get_orientation(mid_contour) == 2):
+                right_contour = mid_contour
+                left_contour = sortedByPosition[0]
+                drawRectContours(left_contour, right_contour)
+            draw_extreme_points(left_contour, right_contour)
+            toSend = ("/" + str(contourNum) +
+                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
+            # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
+            # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
+            #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
+            #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
+            jevois.sendSerial(toSend)
+
+        else:
+            toSend = "/0/0/0/0/0/0"
             jevois.sendSerial(toSend)
 
         # Write a title:
-        # cv2.putText(self.outimg, "Nerdy Jevois No USB", (3, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+      #  cv2.putText(self.outimg, "687 Nerdy JeVois", (3, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         # Write frames/s info from our timer into the edge map (NOTE: does not account for output conversion time):
         # fps = self.timer.stop()
@@ -179,7 +368,7 @@ class HSVDetector:
         # self.end_time = time.time()
         # delta_time = self.end_time - self.start_time
 
-        height, width, channels = self.outimg.shape
+        #height, width, channels = self.outimg.shape
         # cv2.putText(outimg, fps, (3, height - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
     def process(self, inframe, outframe):
@@ -375,6 +564,3 @@ class HSVDetector:
                 continue
             output.append(contour)
         return output
-
-
-#BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')

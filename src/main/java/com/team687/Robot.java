@@ -21,11 +21,15 @@ import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Superstructure;
+import com.team687.subsystems.Jevois;
+import com.team687.subsystems.Sensor;
+import com.team687.utilities.AutoChooser;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -45,6 +49,8 @@ public class Robot extends TimedRobot {
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
 	public static Piston claw;
+	public static Sensor sensor;
+
 	public static OI oi;
 	// big yummy
 	public static HallSensor armHallEffect;
@@ -53,6 +59,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		sensor = new Sensor();
+
 		chooser = new AutoChooser();
 	    drive = new Drive();
 		ds = DriverStation.getInstance();
@@ -95,10 +104,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		drive.stopLog();
+		jevois.stopLog();
+		jevois.enableStream();	
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		jevois.reportToSmartDashboard();
+		drive.reportToSmartDashboard();
+		
+		sensor.reportToSmartDashboard();
+
 		Scheduler.getInstance().run();
 	}
 
@@ -117,6 +133,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		jevois.startLog();
+		// rightJevois.startLog();
 		drive.startLog();
 		drive.setCoastMode();
 	}
@@ -128,6 +146,13 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		drive.logToCSV();
+		jevois.reportToSmartDashboard();
+		sensor.reportToSmartDashboard();
+		drive.reportToSmartDashboard();
+
+
+		jevois.logToCSV();
+		Scheduler.getInstance().run();
 	}
 
 	/**

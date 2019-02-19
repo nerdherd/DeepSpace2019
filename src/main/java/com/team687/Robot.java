@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 	// big yummy
 	public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
-	public static SubscribedLoggable optimizedElSetpoint, optimizedArmSetpoint;
+	// public static SubscribedLoggable optimizedElSetpoint, optimizedArmSetpoint;
 
 	@Override
 	public void robotInit() {
@@ -72,14 +72,14 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
 			() -> (double) arm.motor.getClosedLoopError());
-		optimizedElSetpoint = new SubscribedLoggable("Elevator/OptimizedSetPoint");
-		optimizedArmSetpoint = new SubscribedLoggable("Arm/OptimizedSetPoint");
+		// optimizedElSetpoint = new SubscribedLoggable("Elevator/OptimizedSetPoint");
+		// optimizedArmSetpoint = new SubscribedLoggable("Arm/OptimizedSetPoint");
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt4201_", 0.02, 
-			elevator, elevatorClosedLoopError, optimizedElSetpoint, arm, 
-			armClosedLoopError, optimizedArmSetpoint, armHallEffect);
-		CameraServer.getInstance().startAutomaticCapture();
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "2_18_testingAt4201_", 0.02, 
+			elevator, elevatorClosedLoopError, arm, 
+			armClosedLoopError, armHallEffect);
+		// CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override

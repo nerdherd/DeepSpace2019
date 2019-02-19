@@ -33,8 +33,8 @@ public class SuperstructureIntake extends Command {
   protected void execute() {
     Robot.claw.setForwards();
     Robot.intake.setPower(0.75, -0.75);
-    Robot.arm.setAngleMotionMagic(-35);
-    Robot.elevator.setHeightMotionMagic(15);
+    Robot.arm.setAngleMotionMagic(-15);
+    Robot.elevator.setHeightMotionMagic(10);
   }
 
   // Make this return true when this Command no longer needs to run execute()

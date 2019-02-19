@@ -11,6 +11,7 @@ import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.superstructure.SimultaneousMovement;
 import com.team687.commands.superstructure.StopIntaking;
+import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
@@ -53,7 +54,7 @@ public class OI extends DefaultOI {
 		clawOpen_6.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
 		midElevator_9.whenPressed(new TeleopSimultaneous(39));
-		stow_10.whenPressed(new SimultaneousMovement(15, 70));
+		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 

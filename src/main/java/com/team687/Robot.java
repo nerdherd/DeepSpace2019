@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
 		jevois.startLog();
 		// rightJevois.startLog();
 		drive.startLog();
-		drive.setCoastMode();
+		// drive.setCoastMode();
 	}
 
 	/**

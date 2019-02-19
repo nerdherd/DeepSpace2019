@@ -37,7 +37,7 @@ public class Drive extends ShiftingDrivetrain {
     
      super.configAutoChooser(Robot.chooser);
      super.configMaxVelocity(DriveConstants.kMaxVelocity);
-     super.configSensorPhase(true, true);
+     super.configSensorPhase(false, true);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
      super.configDate("2019_2_15_");

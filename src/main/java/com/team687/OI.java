@@ -1,5 +1,9 @@
 package com.team687;
 
+import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
+import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
+import com.nerdherd.lib.drivetrain.auto.ResetGyro;
+import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
@@ -62,11 +66,11 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
-		// SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
-		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
-		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
+		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
-		// SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 25000, 1000, 1000));
+		SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 100000, 10000, 10000));
 		// SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));
 		// SmartDashboard.putData("Right Rocket", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath1, 3, true, 0.0984, 0.00224));
 		// SmartDashboard.putData("Right Rocket 2", new DriveFalconTrajectory(Robot.drive, AutoConstants.RightRocketPath2, 3, false, 0.0984, 0.00011));

@@ -6,17 +6,17 @@ public class DriveConstants {
 	public static final double kLeftP = 0.0001122;
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
-	public static final double kLeftF = 0.25890425;
+	public static final double kLeftF = 0.02437;
 	
 	
-	public static final double kRightP = 0.00004222;
+	public static final double kRightP = 0.0001122;
 	public static final double kRightI = 0;
 	public static final double kRightD = 0;
-	public static final double kRightF = 0.256773;
+	public static final double kRightF = 0.02396;
 	
-	public static final double kLeftStatic = 1.436;
+	public static final double kLeftStatic = 0.9411;
 
-	public static final double kRightStatic = 1.459;
+	public static final double kRightStatic = 0.9341;
 	
 	public static final int kMaxAcceleration = 32000;
 	public static final int kMaxVelocity = 24000;

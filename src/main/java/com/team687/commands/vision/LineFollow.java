@@ -18,8 +18,8 @@ public class LineFollow extends Command {
   private double m_power;
   private double m_offset;
 
-  public LineFollow(double power) {
-    m_power = power;
+  public LineFollow() {
+    m_power = 0.254;
     m_threshold = 3150; //3150 is white, 3309 is blue
     m_offset = 0.25;
     m_lineFollowOffset = 200;

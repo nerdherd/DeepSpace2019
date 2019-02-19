@@ -17,13 +17,14 @@ public class Constants {
     public final static double kYFocalLength = 332.3115843;
 
     // Physical camera constants
-    public final static double kCameraHorizontalMountAngle = 5; 
-    public final static double kCameraMountHeight = 38.50;
-    public final static double kCameraHorizontalOffset = 5.5;
+    public final static double kCameraHorizontalMountAngle = -5; 
+    public final static double kCameraMountHeight = 32;
+    public final static double kCameraHorizontalOffset = 8;
     
     public final static double kTargetHeight = 28.50; // inches
     
     public final static double kDriveRotationDeadband = 1.75;
+    public final static double kDetectDistance = 9;
 
     public final static double kJoystickDeadband = 0.02;
     public final static double kAngleTolerance = 0.1;

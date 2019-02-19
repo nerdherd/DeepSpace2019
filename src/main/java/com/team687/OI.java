@@ -19,6 +19,7 @@ import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
+import com.team687.commands.vision.LiveTargetTrack;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +31,8 @@ public class OI extends DefaultOI {
 
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, 
-	clawOpen_6, highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12;
+	clawOpen_6, highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, 
+	liveTargetTrack_L1;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
@@ -50,6 +52,8 @@ public class OI extends DefaultOI {
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
+		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
+
 		intakeArm_1.whenPressed(new SuperstructureIntake());
 		outtakeRollers_2.whenPressed(new SetDualMotorPower(Robot.intake, -.75, 0.75));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
@@ -62,6 +66,7 @@ public class OI extends DefaultOI {
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
+		liveTargetTrack_L1.whileHeld(new LiveTargetTrack());
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
@@ -124,7 +129,6 @@ public class OI extends DefaultOI {
 		//enableStream = new JoystickButton(driveJoyLeft,3);
 		//enableStream.whenPressed(new EnableStream());
 			
-		// liveTargetTrack = new JoystickButton(super.driveJoyLeft, 1);
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
 		// SmartDashboard.putData("Set both intake sides -3V", new SetMotorPower(Robot.intake, -.25));

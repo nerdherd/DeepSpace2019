@@ -11,16 +11,10 @@ import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SimultaneousMovement extends Command {
-
-  protected double m_elevatorHeight;
-protected double m_armAngle;
-
-  public SimultaneousMovement(double elevatorHeightInches, double armAngleDegrees) {
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    m_elevatorHeight = elevatorHeightInches;
-    m_armAngle = armAngleDegrees;
+public class StopIntaking extends Command {
+  public StopIntaking() {
+    requires(Robot.intake);
+    requires(Robot.claw);
   }
 
   // Called just before this Command runs the first time
@@ -31,8 +25,8 @@ protected double m_armAngle;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setHeightMotionMagic(m_elevatorHeight);
-    Robot.arm.setAngleMotionMagic(m_armAngle);
+    Robot.claw.setReverse();
+    Robot.intake.setPower(0, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

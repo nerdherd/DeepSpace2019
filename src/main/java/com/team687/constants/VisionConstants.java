@@ -1,14 +1,6 @@
 package com.team687.constants;
 
-
-
-/**
- * Important constants
- */
-
-public class Constants {    
-
-    // Camera constants
+public class VisionConstants {    
     public final static double kHorizontalFOV = 55;
     public final static double kVerticalFOV = 42.65386; // calculated from focalLength
     public final static double kHorizontalPixels = 320;
@@ -25,8 +17,4 @@ public class Constants {
     
     public final static double kDriveRotationDeadband = 1.75;
     public final static double kDetectDistance = 9;
-
-    public final static double kJoystickDeadband = 0.02;
-    public final static double kAngleTolerance = 0.1;
-    public final static double kDistanceTolerance = 0.1; 
 }

@@ -1,7 +1,7 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.Constants;
+import com.team687.constants.VisionConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,11 +26,11 @@ public class LiveTargetTrack extends Command {
         double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
         double power = -kP * getAngularTargetError;
 
-        if(Robot.jevois.getDistance() < Constants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
+        if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
             Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
         }
         
-        if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
+        if(!(Math.abs(getAngularTargetError) < VisionConstants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + Robot.oi.getDriveJoyRightY(), -power + Robot.oi.getDriveJoyRightY());
         }
         else{

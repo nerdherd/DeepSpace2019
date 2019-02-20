@@ -24,7 +24,7 @@ public class LiveTargetTrack extends Command {
     @Override
     protected void execute() {
         double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
-        double power = -kP * getAngularTargetError;
+        double power = kP * getAngularTargetError;
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
             Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());

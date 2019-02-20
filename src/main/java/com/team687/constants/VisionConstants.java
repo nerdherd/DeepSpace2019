@@ -9,9 +9,9 @@ public class VisionConstants {
     public final static double kYFocalLength = 332.3115843;
 
     // Physical camera constants
-    public final static double kCameraHorizontalMountAngle = -5; 
-    public final static double kCameraMountHeight = 32;
-    public final static double kCameraHorizontalOffset = 8;
+    public final static double kCameraHorizontalMountAngle = -10; 
+    public final static double kCameraMountHeight = 34.5;
+    public final static double kCameraHorizontalOffset = -8;
     
     public final static double kTargetHeight = 28.50; // inches
     

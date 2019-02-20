@@ -82,7 +82,7 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	private double yPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kYFocalLength));
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kXFocalLength));
 		double degree = 180 / Math.PI * radian;
 		return degree;
 	}
@@ -105,7 +105,7 @@ public class Jevois extends Subsystem implements Runnable {
 		if (getTargetX() == 0) {
 			return 0;
 		} else {
-			return calculatedAngle;
+			return -calculatedAngle;
 		}
 	}
 

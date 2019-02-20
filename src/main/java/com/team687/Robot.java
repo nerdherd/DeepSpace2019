@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
-	public static Jevois jevois;
+	// public static Jevois jevois;
 
 	public static OI oi;
 	// big yummy
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		// jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		sensor = new Sensor();
 
 		chooser = new AutoChooser();
@@ -100,13 +100,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		drive.stopLog();
-		jevois.stopLog();
-		jevois.enableStream();	
+		// jevois.stopLog();
+		// jevois.enableStream();	
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		
 		sensor.reportToSmartDashboard();
@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		jevois.startLog();
+		// jevois.startLog();
 		// rightJevois.startLog();
 		drive.startLog();
 		// drive.setCoastMode();
@@ -142,12 +142,12 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		drive.logToCSV();
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		sensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 
 
-		jevois.logToCSV();
+		// jevois.logToCSV();
 		Scheduler.getInstance().run();
 	}
 

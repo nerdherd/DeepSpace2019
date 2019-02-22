@@ -320,15 +320,15 @@ class HSVDetector:
                     right_contour = newContours[1]
                     drawRectContours(left_contour, right_contour)
                     draw_extreme_points(left_contour, right_contour)
-                    # toSend = ("/" + str(contourNum) +
-                    #     "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
-                    #     "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                    #     "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
+                    toSend = ("/" + str(contourNum) +
+                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
                     # rvec, tvec = solvePnP(getContourCorners(left_contour))
                     # draw(self.outimg, corners, rvec, tvec)
-                    toSend = ("Degrees: " + str(getTargetYDegrees()) + 
-                        "Distance: " + str(getDistance()) + 
-                        "Horizontal Angle: " + str(getRobotAngleToTurn()))
+                    # toSend = ("Degrees: " + str(getTargetYDegrees()) + 
+                    #     "Distance: " + str(getDistance()) + 
+                    #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
                     jevois.sendSerial(toSend)
             elif(get_orientation(newContours[0]) == 3 or get_orientation(newContours[1]) == 3):
                 toSend = "rip"

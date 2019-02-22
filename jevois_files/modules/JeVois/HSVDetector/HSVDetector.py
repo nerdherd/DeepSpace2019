@@ -292,6 +292,23 @@ class HSVDetector:
                 distance = abs((mount_height - target_height) / math.tan(radian))
             return distance
 
+        def getDistanceWithArea(left_contour, right_contour):
+            left_contour_rect = cv2.minAreaRect(left_contour)
+            left_contour_corners = cv2.boxPoints(left_contour_rect)
+            left_contour_corners = np.int0(left_contour_corners)
+            left_inward_point = left_contour_corners[3][0]
+            
+            right_contour_rect = cv2.minAreaRect(right_contour)
+            right_contour_corners = cv2.boxPoints(right_contour_rect)
+            right_contour_corners = np.int0(right_contour_corners)
+            right_inward_point = right_contour_corners[1][0]
+
+            target_width_px = right_inward_point - left_inward_point
+            focal_length = 341.3307738
+            target_width_inches = 8
+            distance = (target_width_inches * focal_length) / target_width_px
+            return distance
+
         def getRobotAngleToTurn():
             angleOffset = 6
             radians = math.radians(getTargetXDegrees() + angleOffset) 
@@ -323,7 +340,8 @@ class HSVDetector:
                     toSend = ("/" + str(contourNum) +
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
+                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
+                        "/" + str(round(getDistanceWithArea(left_contour, right_contour))))
                     # rvec, tvec = solvePnP(getContourCorners(left_contour))
                     # draw(self.outimg, corners, rvec, tvec)
                     # toSend = ("Degrees: " + str(getTargetYDegrees()) + 
@@ -346,10 +364,11 @@ class HSVDetector:
                 drawRectContours(left_contour, right_contour)
             draw_extreme_points(left_contour, right_contour)
             toSend = ("/" + str(contourNum) +
-                        "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
-                        "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
-                        "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2))) # center y point
-            # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
+                    "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
+                    "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
+                    "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
+                    "/" + str(round(getDistanceWithArea(left_contour, right_contour))))
+                    # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
             # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
             #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
             #     "Horizontal Angle: " + str(getRobotAngleToTurn()))

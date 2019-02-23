@@ -17,9 +17,9 @@ public class Constants {
     public final static double kYFocalLength = 332.3115843;
 
     // Physical camera constants
-    public final static double kCameraHorizontalMountAngle = 5; 
+    public final static double kCameraHorizontalMountAngle = -10; 
     public final static double kCameraMountHeight = 38.50;
-    public final static double kCameraHorizontalOffset = 5.5;
+    public final static double kCameraHorizontalOffset = -4;
     
     public final static double kTargetHeight = 28.50; // inches
     

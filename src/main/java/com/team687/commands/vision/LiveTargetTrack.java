@@ -54,15 +54,15 @@ public class LiveTargetTrack extends Command {
         double power = -kP * getAngularTargetError;
         double rotPower;
 
-        if(Robot.jevois.getDistance() < 35 && Robot.jevois.getContourNum() > 0) {
-            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
-        }
+        // if(Robot.jevois.getDistance() < 35 && Robot.jevois.getContourNum() > 0) {
+        //     Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
+        // }
         
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyLeftY(), -power + -Robot.oi.getDriveJoyLeftY());
+            Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(), -power + -Robot.oi.getDriveJoyRightY());
         }
         else{
-            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
+            Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY(), -Robot.oi.getDriveJoyRightY());
             // Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
         }
 

@@ -18,14 +18,14 @@ class HSVDetector:
 
     # ###################################################################################################
         # ALL CONSTANTS GO UNDER HERE (make sure to remove the self.__blur_type line)
-        self.__blur_radius = 0.9433962264150944
+        self.__blur_radius = 0.0
 
         self.blur_output = None
 
         self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [70.16949152542374, 100.01347291641724]
-        self.__hsv_threshold_saturation = [232.909604519774, 255.0]
-        self.__hsv_threshold_value = [24.01129943502825, 82.46045694200349]
+        self.__hsv_threshold_hue = [50.847457627118644, 100.91388400702989]
+        self.__hsv_threshold_saturation = [220.90395480225988, 255.0]
+        self.__hsv_threshold_value = [21.610169491525422, 78.19164315434134]
 
         self.hsv_threshold_output = None
 
@@ -41,7 +41,7 @@ class HSVDetector:
         self.__cv_dilate_src = self.cv_erode_output
         self.__cv_dilate_kernel = None
         self.__cv_dilate_anchor = (-1, -1)
-        self.__cv_dilate_iterations = 1.0
+        self.__cv_dilate_iterations = 5.0
         self.__cv_dilate_bordertype = cv2.BORDER_CONSTANT
         self.__cv_dilate_bordervalue = (-1)
 
@@ -70,6 +70,7 @@ class HSVDetector:
         self.__filter_contours_max_ratio = 100.0
 
         self.filter_contours_output = None
+
 
         # self.start_time = 0
         # self.end_time = 0
@@ -296,16 +297,16 @@ class HSVDetector:
             left_contour_rect = cv2.minAreaRect(left_contour)
             left_contour_corners = cv2.boxPoints(left_contour_rect)
             left_contour_corners = np.int0(left_contour_corners)
-            left_inward_point = left_contour_corners[3][0]
+            left_inward_point = left_contour_corners[1][0]
             
             right_contour_rect = cv2.minAreaRect(right_contour)
             right_contour_corners = cv2.boxPoints(right_contour_rect)
             right_contour_corners = np.int0(right_contour_corners)
-            right_inward_point = right_contour_corners[1][0]
+            right_inward_point = right_contour_corners[3][0]
 
             target_width_px = right_inward_point - left_inward_point
             focal_length = 341.3307738
-            target_width_inches = 8
+            target_width_inches = 15.5
             distance = (target_width_inches * focal_length) / target_width_px
             return distance
 

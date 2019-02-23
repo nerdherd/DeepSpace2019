@@ -20,7 +20,7 @@ public class LineFollow extends Command {
 
   public LineFollow(double power) {
     m_power = power;
-    m_threshold = 3150; //3150 is white, 3309 is blue
+    m_threshold = 2900; //3150 is white, 3309 is blue
     m_powerOffset = 0.25;
     m_lineFollowOffset = 200;
     requires(Robot.drive);
@@ -43,27 +43,26 @@ public class LineFollow extends Command {
 
     if (Robot.sensor.getValue1() < (m_threshold + 150)) {
       if (Robot.sensor.getValue0() < m_threshold + m_lineFollowOffset) {
-        Robot.drive.setPowerFeedforward(-m_power + (m_powerOffset + 0.02), -m_power - (m_powerOffset + 0.02));
+        Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + (m_powerOffset + 0.02), -Robot.oi.getDriveJoyRightY() - (m_powerOffset + 0.02));
         SmartDashboard.putString("Turn", "Right");
       } 
   
       else if (Robot.sensor.getValue2() < m_threshold + (m_lineFollowOffset)) {
-        Robot.drive.setPower(
-          -m_power - (m_powerOffset), -m_power + (m_powerOffset));
+        Robot.drive.setPower(-Robot.oi.getDriveJoyRightY() - (m_powerOffset), -Robot.oi.getDriveJoyRightY() + (m_powerOffset));
         SmartDashboard.putString("Turn", "Left");
       }
 
       else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
                 && Robot.sensor.getValue1() < m_threshold) {
         SmartDashboard.putString("Turn", "Neither");
-        Robot.drive.setPowerFeedforward(-m_power, -m_power);
+        Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY(), -Robot.oi.getDriveJoyRightY());
       } 
       
     }
     // else if(Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold){
     else{
       SmartDashboard.putString("Turn", "ono");
-      Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
+      Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + Robot.oi.getDriveJoyLeftX(),-Robot.oi.getDriveJoyLeftX() - Robot.oi.getDriveJoyRightY());
 
     }
      
@@ -73,8 +72,8 @@ public class LineFollow extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold);
-    //return false;
+    // return (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold);
+    return false;
   }
 
   // Called once after isFinished returns trSue

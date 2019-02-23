@@ -43,7 +43,7 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_logStartTime = 0;
 
 	// Jevois Serial Output Data
-	private double m_contourNum, m_area, m_centerX, m_centerY;
+	private double m_contourNum, m_area, m_centerX, m_centerY, m_distance;
 
 	public Jevois(int baud, SerialPort.Port port) {
 		m_send = false;
@@ -57,7 +57,7 @@ public class Jevois extends Subsystem implements Runnable {
 	private void startCameraStream(){
 		try{
 			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
-			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
+			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
 
 		} catch(Exception e){ 
 
@@ -80,6 +80,7 @@ public class Jevois extends Subsystem implements Runnable {
 					m_area = Double.parseDouble(getData(2));
 					m_centerX = Double.parseDouble(getData(3));
 					m_centerY = Double.parseDouble(getData(4));
+					m_distance = Double.parseDouble(getData(5));
 				} else {
 					System.out.println(read);
 					// System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
@@ -106,10 +107,7 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	public double getDistance(){
-		double verticalAngle = yPixelToDegree(getTargetY());
-		double radian = Math.PI / 180 * verticalAngle;
-		double distance = Math.abs((Constants.kCameraMountHeight - Constants.kTargetHeight) / Math.tan(radian));
-		return distance;
+		return m_distance;
 	}
 
 	public double getOffsetAngleToTurn(){

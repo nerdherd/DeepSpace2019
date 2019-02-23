@@ -297,14 +297,14 @@ class HSVDetector:
             left_contour_rect = cv2.minAreaRect(left_contour)
             left_contour_corners = cv2.boxPoints(left_contour_rect)
             left_contour_corners = np.int0(left_contour_corners)
-            left_inward_point = left_contour_corners[1][0]
+            left_outward_point = left_contour_corners[1][0]
             
             right_contour_rect = cv2.minAreaRect(right_contour)
             right_contour_corners = cv2.boxPoints(right_contour_rect)
             right_contour_corners = np.int0(right_contour_corners)
-            right_inward_point = right_contour_corners[3][0]
+            right_outward_point = right_contour_corners[3][0]
 
-            target_width_px = right_inward_point - left_inward_point
+            target_width_px = right_outward_point - left_outward_point
             focal_length = 341.3307738
             target_width_inches = 15.5
             distance = (target_width_inches * focal_length) / target_width_px

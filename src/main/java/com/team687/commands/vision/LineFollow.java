@@ -16,12 +16,12 @@ public class LineFollow extends Command {
   private int m_threshold; 
   private double m_lineFollowOffset;
   private double m_power;
-  private double m_offset;
+  private double m_powerOffset;
 
   public LineFollow(double power) {
     m_power = power;
     m_threshold = 3150; //3150 is white, 3309 is blue
-    m_offset = 0.25;
+    m_powerOffset = 0.25;
     m_lineFollowOffset = 200;
     requires(Robot.drive);
   }
@@ -36,19 +36,20 @@ public class LineFollow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putBoolean("Line Found, Left", Robot.sensor.getValue0() < m_threshold);
-    SmartDashboard.putBoolean("Line Found, Right", Robot.sensor.getValue2() < m_threshold);
+    SmartDashboard.putBoolean("Detected!, Left", Robot.sensor.getValue0() < m_threshold);
+    SmartDashboard.putBoolean("Detected!, Right", Robot.sensor.getValue2() < m_threshold);
 
     // when it's over blue, it's less
 
     if (Robot.sensor.getValue1() < (m_threshold + 150)) {
       if (Robot.sensor.getValue0() < m_threshold + m_lineFollowOffset) {
-        Robot.drive.setPowerFeedforward(-m_power + (m_offset + 0.02), -m_power - (m_offset + 0.02));
+        Robot.drive.setPowerFeedforward(-m_power + (m_powerOffset + 0.02), -m_power - (m_powerOffset + 0.02));
         SmartDashboard.putString("Turn", "Right");
       } 
   
       else if (Robot.sensor.getValue2() < m_threshold + (m_lineFollowOffset)) {
-        Robot.drive.setPower(-m_power - (m_offset - 0.00), -m_power + (m_offset - 0.00));
+        Robot.drive.setPower(
+          -m_power - (m_powerOffset), -m_power + (m_powerOffset));
         SmartDashboard.putString("Turn", "Left");
       }
 
@@ -61,7 +62,7 @@ public class LineFollow extends Command {
     }
     // else if(Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue1() > m_threshold && Robot.sensor.getValue2() > m_threshold){
     else{
-      SmartDashboard.putString("Turn", "ugh!!!");
+      SmartDashboard.putString("Turn", "ono");
       Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyLeftY(), -Robot.oi.getDriveJoyLeftY());
 
     }

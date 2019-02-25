@@ -1,5 +1,6 @@
 package com.team687;
 
+import com.team687.commands.vision.DriveAtHeading;
 import com.team687.commands.vision.LineFollow;
 import com.team687.commands.vision.LiveTargetTrack;
 
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI {
 	
-	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow; 
+	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow, driveAtHeading; 
 	public Joystick driveJoyLeft = new Joystick(0);
 	public Joystick driveJoyRight = new Joystick(1);
 
@@ -25,6 +26,9 @@ public class OI {
 		
 		liveTargetTrack = new JoystickButton(driveJoyRight, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack());
+
+		driveAtHeading = new JoystickButton(driveJoyRight, 11);
+		driveAtHeading.whenPressed(new DriveAtHeading(0.25, Robot.jevois.getDistance(), 0.0139));
 
 		// lineFollow = new JoystickButton(driveJoyLeft, 1);
 		// lineFollow.whileHeld(new LineFollow(0.254));

@@ -58,6 +58,9 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
+
+		double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
+    SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
 		
 		sensor.reportToSmartDashboard();
 

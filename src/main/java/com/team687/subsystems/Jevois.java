@@ -110,6 +110,10 @@ public class Jevois extends Subsystem implements Runnable {
 		return m_distance;
 	}
 
+	public double getDistanceFeet(){
+		return m_distance / 12;
+	}
+
 	public double getOffsetAngleToTurn(){
 		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;

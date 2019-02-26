@@ -257,9 +257,9 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				// m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
-				// 		+ getTargetX() + "," + getTargetY());
-				m_writer.append("yeetus");
+				m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
+						+ getTargetX() + "," + getTargetY());
+				// m_writer.append("yeetus");
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

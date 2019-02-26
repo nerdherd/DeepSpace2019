@@ -300,7 +300,7 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("left Velocity", getLeftMasterSpeed());
 		SmartDashboard.putNumber("Right Velocity", getRightMasterSpeed());
 		SmartDashboard.putNumber("Yaw", getRawYaw());
-    	SmartDashboard.putNumber("X pos", m_currentX);
+    SmartDashboard.putNumber("X pos", m_currentX);
 		SmartDashboard.putNumber("Y pos", m_currentY);
 
 		// for(int i = 0; i < SerialPort.Port.values().length - 1; i++){
@@ -341,9 +341,10 @@ public class Drive extends Subsystem {
 			}
 			try {
 				m_writer = new FileWriter(m_file);
-				m_writer.append("Time,RightPosition,LeftPosition,RightVelocity,LeftVelocity,RightDesiredVel,LeftDesiredVel,RightVoltage,LeftVoltage,"
-						+ "RightMasterCurrent,LeftMasterCurrent,BusVoltage,Yaw,Pitch,Roll,LeftSlaveVoltage,RightSlaveVoltage," +
-						"LeftVelocityFPS,RightVelocityFPS,RobotX,RobotY,LookaheadX,LookaheadY,AngularVelX,AngularVelY,AngularVelZ,AccelX,AccelY,AccelZ\n");
+				// m_writer.append("Time,RightPosition,LeftPosition,RightVelocity,LeftVelocity,RightDesiredVel,LeftDesiredVel,RightVoltage,LeftVoltage,"
+				// 		+ "RightMasterCurrent,LeftMasterCurrent,BusVoltage,Yaw,Pitch,Roll,LeftSlaveVoltage,RightSlaveVoltage," +
+				// 		"LeftVelocityFPS,RightVelocityFPS,RobotX,RobotY,LookaheadX,LookaheadY,AngularVelX,AngularVelY,AngularVelZ,AccelX,AccelY,AccelZ\n");
+				m_writer.append("Time,LeftSpeed,RightSpeed");
 				m_writer.flush();
 				m_logStartTime = Timer.getFPGATimestamp();
 			} catch (IOException e) {
@@ -367,18 +368,20 @@ public class Drive extends Subsystem {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," + String.valueOf(getRightMasterPosition()) + ","
-						+ String.valueOf(getLeftMasterPosition()) + "," + String.valueOf(m_rightMaster.getSelectedSensorVelocity(0)) + ","
-						+ String.valueOf(m_leftMaster.getSelectedSensorVelocity(0)) + "," + String.valueOf(m_rightDesiredVel) + "," + String.valueOf(m_leftDesiredVel)
-						+ "," + String.valueOf(m_rightMaster.getMotorOutputVoltage())
-						+ "," + String.valueOf(m_leftMaster.getMotorOutputVoltage()) + ","
-						+ String.valueOf(m_rightMaster.getOutputCurrent()) + ","
-						+ String.valueOf(m_leftMaster.getOutputCurrent()) + ","
-												+ String.valueOf(getRawYaw()) + "," + String.valueOf(getPitch()) + "," + String.valueOf(getRoll()) +
-						"," + String.valueOf(m_leftSlave1.getMotorOutputVoltage()) + "," + String.valueOf(m_rightSlave1.getMotorOutputVoltage()) + 
-						"," + String.valueOf(getLeftVelocityFeet()) + "," + String.valueOf(getRightVelocityFeet()) +  "," + String.valueOf(m_currentX) + "," 
-						+ String.valueOf(m_currentY) + "," + String.valueOf(m_lookaheadX) +"," + String.valueOf(m_lookaheadY) + "," + String.valueOf(getAngularVelocityX()) + "," + String.valueOf(getAngularVelocityY()) +
-						"," + String.valueOf(getAngularVelocityZ()) + "," + String.valueOf(getAccelX()) + "," + String.valueOf(getAccelY()) + "," + String.valueOf(getAccelZ()) + "\n");
+				m_writer.append(String.valueOf(timestamp) + "," + String.valueOf(getLeftMasterSpeed()) + "," 
+												+ String.valueOf(getRightMasterSpeed()));
+				// m_writer.append(String.valueOf(timestamp) + "," + String.valueOf(getRightMasterPosition()) + ","
+				// 		+ String.valueOf(getLeftMasterPosition()) + "," + String.valueOf(m_rightMaster.getSelectedSensorVelocity(0)) + ","
+				// 		+ String.valueOf(m_leftMaster.getSelectedSensorVelocity(0)) + "," + String.valueOf(m_rightDesiredVel) + "," + String.valueOf(m_leftDesiredVel)
+				// 		+ "," + String.valueOf(m_rightMaster.getMotorOutputVoltage())
+				// 		+ "," + String.valueOf(m_leftMaster.getMotorOutputVoltage()) + ","
+				// 		+ String.valueOf(m_rightMaster.getOutputCurrent()) + ","
+				// 		+ String.valueOf(m_leftMaster.getOutputCurrent()) + ","
+				// 								+ String.valueOf(getRawYaw()) + "," + String.valueOf(getPitch()) + "," + String.valueOf(getRoll()) +
+				// 		"," + String.valueOf(m_leftSlave1.getMotorOutputVoltage()) + "," + String.valueOf(m_rightSlave1.getMotorOutputVoltage()) + 
+				// 		"," + String.valueOf(getLeftVelocityFeet()) + "," + String.valueOf(getRightVelocityFeet()) +  "," + String.valueOf(m_currentX) + "," 
+				// 		+ String.valueOf(m_currentY) + "," + String.valueOf(m_lookaheadX) +"," + String.valueOf(m_lookaheadY) + "," + String.valueOf(getAngularVelocityX()) + "," + String.valueOf(getAngularVelocityY()) +
+				// 		"," + String.valueOf(getAngularVelocityZ()) + "," + String.valueOf(getAccelX()) + "," + String.valueOf(getAccelY()) + "," + String.valueOf(getAccelZ()) + "\n");
 				m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

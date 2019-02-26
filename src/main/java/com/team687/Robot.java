@@ -11,6 +11,8 @@ import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Sensor;
 import com.team687.utilities.AutoChooser;
+import com.team687.constants.DriveConstants;
+
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -60,7 +62,10 @@ public class Robot extends TimedRobot {
 		drive.reportToSmartDashboard();
 
 		double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
-    SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
+		SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
+		double m_initDistance = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight); 
+		SmartDashboard.putNumber("InitDistance", m_initDistance);
+
 		
 		sensor.reportToSmartDashboard();
 

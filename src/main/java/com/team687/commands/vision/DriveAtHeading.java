@@ -8,15 +8,15 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
+import com.team687.constants.DriveConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveAtHeading extends Command {
-
-  private double m_straightPower;
-  private double m_distance;
   private double m_rotP = 0.0139;
+  private double m_strP = 0.0000228571;
+  private double m_initDistance;
 
 
   /**
@@ -24,10 +24,9 @@ public class DriveAtHeading extends Command {
    * @param distance      (absolute value)
    * @param kRotP
    */
-  public DriveAtHeading(double straightPower, double distance, double kRotP) {
-    m_straightPower = straightPower;
-    m_distance = distance;
+  public DriveAtHeading(double kRotP, double kStrP) {
     m_rotP = kRotP;
+    m_strP = kStrP;
 
     requires(Robot.drive);
     requires(Robot.jevois);
@@ -38,6 +37,11 @@ public class DriveAtHeading extends Command {
     SmartDashboard.putString("Current Command", "DriveAtHeading");
     SmartDashboard.putNumber("Distance in ft", Robot.jevois.getDistanceFeet());
     Robot.jevois.enableStream();
+    Robot.drive.resetEncoders();
+
+    m_initDistance = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight);
+    SmartDashboard.getNumber("InitDistance", m_initDistance);
+   
 
   }
 
@@ -45,17 +49,22 @@ public class DriveAtHeading extends Command {
   protected void execute() {
     double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
     double rotPower = -m_rotP * getAngularTargetError;
+    // double straightPower = -m_strP * Robot.jevois.getDistance();
+    double straightError = m_initDistance - Robot.drive.getAverageEncoderPosition();
+    double straightPower = straightError * m_strP;
 
-    Robot.drive.setPowerFeedforward(rotPower + -m_straightPower, rotPower - m_straightPower);
+    Robot.drive.setPowerFeedforward(-(rotPower + -straightPower), -(-rotPower + -straightPower));
+    
 
     double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
     SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
+    SmartDashboard.putNumber("InitDistance", m_initDistance);
   }
 
   @Override
   protected boolean isFinished() {
-    double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
-    return averagePositionFeet >= m_distance;
+    // double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
+    return Robot.drive.getAverageEncoderPosition() >= m_initDistance;
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.team687;
 
+import com.team687.commands.drive.auto.ResetDriveEncoders;
 import com.team687.commands.vision.DriveAtHeading;
 import com.team687.commands.vision.LineFollow;
 import com.team687.commands.vision.LiveTargetTrack;
@@ -27,11 +28,12 @@ public class OI {
 		liveTargetTrack = new JoystickButton(driveJoyRight, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack());
 
-		driveAtHeading = new JoystickButton(driveJoyRight, 11);
-		driveAtHeading.whenPressed(new DriveAtHeading(0.25, Robot.jevois.getDistance(), 0.0139));
+		//driveAtHeading = new JoystickButton(driveJoyRight, 11);
+		//driveAtHeading.whenPressed(new DriveAtHeading(0.25, Robot.jevois.getDistance(), 0.0139));
 
-		// lineFollow = new JoystickButton(driveJoyLeft, 1);
-		// lineFollow.whileHeld(new LineFollow(0.254));
+		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(0.0139, 0.0128));
+
+		SmartDashboard.putData("Reset Encoders", new ResetDriveEncoders());
 
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());

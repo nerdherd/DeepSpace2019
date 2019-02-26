@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.0139;
-    
-    public LiveTargetTrack() {
+    private double m_rotP;
+
+    public LiveTargetTrack(double kRotP) {
         requires(Robot.drive);
         requires(Robot.jevois);
+
+        m_rotP = kRotP;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class LiveTargetTrack extends Command {
 
         double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
-        double power = -kP * getAngularTargetError;
+        double power = -m_rotP * getAngularTargetError;
 
         if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(), -power + -Robot.oi.getDriveJoyRightY());

@@ -26,12 +26,12 @@ public class OI {
 	public OI() {
 		
 		liveTargetTrack = new JoystickButton(driveJoyRight, 1);
-		liveTargetTrack.whileHeld(new LiveTargetTrack());
+		liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
 
 		//driveAtHeading = new JoystickButton(driveJoyRight, 11);
 		//driveAtHeading.whenPressed(new DriveAtHeading(0.25, Robot.jevois.getDistance(), 0.0139));
 
-		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(0.0139, 0.0128));
+		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(0.0139, 0.005));
 
 		SmartDashboard.putData("Reset Encoders", new ResetDriveEncoders());
 

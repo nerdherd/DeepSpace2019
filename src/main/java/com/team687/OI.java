@@ -20,20 +20,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 	
 	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow, driveAtHeading; 
-	public Joystick driveJoyLeft = new Joystick(0);
-	public Joystick driveJoyRight = new Joystick(1);
+	public Joystick driveJoyRight = new Joystick(0);
+	public Joystick driveJoyLeft = new Joystick(1);
 
 	public OI() {
 		
 		liveTargetTrack = new JoystickButton(driveJoyRight, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
 
-		//driveAtHeading = new JoystickButton(driveJoyRight, 11);
-		//driveAtHeading.whenPressed(new DriveAtHeading(0.25, Robot.jevois.getDistance(), 0.0139));
+		// lineFollow = new JoystickButton(driveJoyRight, 11);
+		// lineFollow.whileHeld(new LineFollow(0.254));
 
-		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(0.0139, 0.005));
-
-		SmartDashboard.putData("Reset Encoders", new ResetDriveEncoders());
+		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
+		SmartDashboard.putData("RESET ENCODERS", new ResetDriveEncoders());
 
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());

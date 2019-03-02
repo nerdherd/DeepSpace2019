@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.team687.constants.Constants;
+import com.team687.constants.DriveConstants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -199,6 +200,8 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
 		SmartDashboard.putNumber("Angle to Turn", getOffsetAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
+		double m_initDistanceTicks = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight);
+		SmartDashboard.putNumber("Initial Distance", m_initDistanceTicks);
 		// SmartDashboard.putNumber("Angular Target Error", getAngularTargetError()); // 4th 
 		// SmartDashboard.putNumber("Offset", getOffset());
 

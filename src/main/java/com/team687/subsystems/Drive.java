@@ -306,6 +306,7 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Yaw", getRawYaw());
 		SmartDashboard.putNumber("X pos", m_currentX);
 		SmartDashboard.putNumber("Y pos", m_currentY);
+		SmartDashboard.putNumber("Average Encoder Ticks", getAverageEncoderPosition());
 
 		// for(int i = 0; i < SerialPort.Port.values().length - 1; i++){
 		// int x = SerialPort.Port.values();

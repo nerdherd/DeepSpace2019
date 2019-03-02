@@ -6,11 +6,11 @@ import com.team687.constants.Constants;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LiveTargetTrack extends Command {
+public class TurnToAngle extends Command {
 
     private double m_rotP;
 
-    public LiveTargetTrack(double kRotP) {
+    public TurnToAngle(double kRotP) {
         requires(Robot.drive);
         requires(Robot.jevois);
 
@@ -48,7 +48,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return(Robot.jevois.getOffsetAngleToTurn() <= Constants.kDriveRotationDeadband);
     }
 
     @Override

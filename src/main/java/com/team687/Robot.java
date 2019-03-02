@@ -38,14 +38,15 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-	//	autoChooser = new AutoChooser();
+		autoChooser = new AutoChooser();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois.startCameraStream();
 		sensor = new Sensor();
-		// CameraServer.getInstance().startAutomaticCapture();
 
-	    drive = new Drive();
-	    oi = new OI();
+		drive = new Drive();
 		ds = DriverStation.getInstance();	
+
+	  oi = new OI();
 	}
 
 	@Override

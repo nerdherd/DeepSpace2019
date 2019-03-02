@@ -52,10 +52,10 @@ public class Jevois extends Subsystem implements Runnable {
 		m_cam = new SerialPort(baud, port);
 		m_stream = new Thread(this);
 		m_stream.start();
-		startCameraStream();
+		// startCameraStream();
 	}
 
-	private void startCameraStream(){
+	public void startCameraStream(){
 		try{
 			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
 			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);

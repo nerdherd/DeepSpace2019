@@ -17,23 +17,22 @@ public class OI extends DefaultOI{
 
 
 	public OI() {
+		super();
 		
 		liveTargetTrack = new JoystickButton(super.driveJoyRight, 1);
 		liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
 
-		// lineFollow = new JoystickButton(driveJoyRight, 11);
-		// lineFollow.whileHeld(new LineFollow(0.254));
-
+		
 		
 		SmartDashboard.putData("TurnAndApproach", new TurnAndApproach());
 		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
 		SmartDashboard.putData("LiveTargetTrack", new LiveTargetTrack(0.0139));
-	
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());
 		
-		//enableStream = new JoystickButton(driveJoyLeft,3);
-		//enableStream.whenPressed(new EnableStream());
+		// enableStream = new JoystickButton(driveJoyLeft,3);
+		// enableStream.whenPressed(new EnableStream());
 			
 
 	}

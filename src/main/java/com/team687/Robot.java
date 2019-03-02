@@ -7,26 +7,24 @@
 
 package com.team687;
 
+import com.nerdherd.lib.misc.AutoChooser;
+import com.team687.constants.DriveConstants;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Sensor;
-import com.team687.utilities.AutoChooser;
-import com.team687.constants.DriveConstants;
 
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
  */
 public class Robot extends TimedRobot {
-	
+
 	public static final String kDate = "2019_01_26_";
 
 	public static Drive drive;

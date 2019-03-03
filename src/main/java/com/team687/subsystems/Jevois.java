@@ -52,14 +52,13 @@ public class Jevois extends Subsystem implements Runnable {
 		m_cam = new SerialPort(baud, port);
 		m_stream = new Thread(this);
 		m_stream.start();
-		// startCameraStream();
+		startCameraStream();
 	}
 
 	public void startCameraStream(){
 		try{
-			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
+			m_visionCam = CameraServer.getInstance().startAutomaticCapture(1);
 			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
-
 		} catch(Exception e){ 
 
 		}
@@ -262,7 +261,7 @@ public class Jevois extends Subsystem implements Runnable {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
 				m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
 						+ getTargetX() + "," + getTargetY());
-				// m_writer.append("yeetus");
+				
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -19,8 +19,8 @@ public class OI extends DefaultOI{
 	public OI() {
 		super();
 		
-		liveTargetTrack = new JoystickButton(super.driveJoyRight, 1);
-		liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
+		// liveTargetTrack = new JoystickButton(super.driveJoyRight, 1);
+		// liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
 
 		
 		

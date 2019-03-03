@@ -43,7 +43,7 @@ def includeDesktopSupport = true
 repositories {
     mavenCentral()
     maven {
-        url 'https://dev.imjac.in/maven/'
+        url "https://jitpack.io"
     }
 }
 
@@ -55,8 +55,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    compile 'grpl.pathfinder:Pathfinder-Java:2.0.0-prealpha'
-    compile 'grpl.pathfinder:Pathfinder-JNI:2.0.0-prealpha'
+    compile 'com.github.nerdherd:NerdyLib:645afd4b3f738ca185869cc137aeca6003cfe89e'
+
+  
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

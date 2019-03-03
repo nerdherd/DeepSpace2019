@@ -236,7 +236,7 @@ public class Jevois extends Subsystem implements Runnable {
 			}
 			try {
 				m_writer = new FileWriter(m_file);
-				m_writer.append("Time,Contours,Area,TargetX,TargetY,Length,Height\n");
+				m_writer.append("Time,Velocity,Contours,Area,TargetX,TargetY,Length,Height\n");
 				m_logStartTime = Timer.getFPGATimestamp();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -259,9 +259,12 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
-						+ getTargetX() + "," + getTargetY());
-				
+				m_writer.append(String.valueOf(timestamp) + "," 
+					+ String.valueOf((Robot.drive.getLeftMasterVelocity() + Robot.drive.getRightMasterVelocity()) / 2) + "," 
+					+ String.valueOf(getContourNum()) + ","
+					+ String.valueOf(getTargetArea()) + ","
+					+ String.valueOf(getTargetX()) + ","
+					 + String.valueOf(getTargetY()));
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -31,7 +31,7 @@ public class LightGreen extends Command {
   @Override
   protected void execute() {
     
-    if(Robot.jevois.getContourNum() > 0) {
+    if(Robot.jevois.getContourNum() >= 2) {
       Robot.led.setColorRGB(0, 255, 0);
     }
     else {

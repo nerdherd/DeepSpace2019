@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-  /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -11,6 +11,7 @@ import com.nerdherd.lib.misc.AutoChooser;
 import com.team687.constants.DriveConstants;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
+import com.team687.subsystems.LED;
 import com.team687.subsystems.Sensor;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,14 +41,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		led = new LED();
+		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
 		jevois.startCameraStream();
 		sensor = new Sensor();
-		
-
 		drive = new Drive();
 		ds = DriverStation.getInstance();	
-
 	  oi = new OI();
 	}
 
@@ -55,20 +54,12 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		jevois.stopLog();
 		jevois.enableStream();	
-		// led.makeLEDBlue();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		jevois.reportToSmartDashboard();
 		// drive.reportToSmartDashboard();
-
-		// double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
-		// SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
-		// double m_initDistance = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight); 
-		// SmartDashboard.putNumber("InitDistance", m_initDistance);
-
-		
 		// sensor.reportToSmartDashboard();
 
 		Scheduler.getInstance().run();
@@ -90,11 +81,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		jevois.startLog();
-		// rightJevois.startLog();
-		// led.makeLEDGreen();
-		// led.makeColor(100, 0, 253);
-		// led.setColorRGB(0, 255, 0);
-
 	}
 
 	/**
@@ -107,9 +93,6 @@ public class Robot extends TimedRobot {
 		// drive.reportToSmartDashboard();
 		jevois.logToCSV();
 		Scheduler.getInstance().run();
-		// led.makeLEDGreen();
-		// led.setColorRGB(0, 0, 255);
-
 	}
 
 	/**

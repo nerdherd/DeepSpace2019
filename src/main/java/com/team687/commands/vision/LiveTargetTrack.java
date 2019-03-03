@@ -19,31 +19,26 @@ public class LiveTargetTrack extends Command {
 
     @Override
 
-   
     protected void initialize() {
         Robot.jevois.enableStream();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
-
     }
 
     @Override
     protected void execute() {
-
-        double getAngularTargetError = Robot.jevois.getOffsetAngleToTurn();
+        double getAngularTargetError = Robot.jevois.getAngleToTurn();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         double power = -m_rotP * getAngularTargetError;
-
-        if(!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(), -power + -Robot.oi.getDriveJoyRightY());
-        }
-        else{
+        if (!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)) {
+            Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(),
+                    -power + -Robot.oi.getDriveJoyRightY());
+        } else {
             Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY(), -Robot.oi.getDriveJoyRightY());
         }
 
         SmartDashboard.putNumber("Left Power", power);
         SmartDashboard.putNumber("Right Power", -power);
         SmartDashboard.putNumber("Robot Angle", robotAngle);
-        
     }
 
     @Override

@@ -19,8 +19,7 @@ public class DriveAtHeading extends Command {
   private double m_initDistanceTicks;
   private double m_rotP;
   private double m_strP;
-  private double timeStart = 0;
-  private boolean lostTarget;
+
   /**
    * @param straightPower (determines direction and magnitude)
    * @param distance      (absolute value)
@@ -37,46 +36,28 @@ public class DriveAtHeading extends Command {
   @Override
   protected void initialize() {
     Robot.jevois.enableStream();
-    lostTarget = false;
-    // Robot.drive.resetEncoders();
+    Robot.drive.resetEncoders();
 
     SmartDashboard.putString("Current Command", "DriveAtHeading");
     SmartDashboard.putNumber("Distance in ft", Robot.jevois.getDistanceFeet());
 
     m_initDistanceTicks = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight);
     SmartDashboard.putNumber("Initial Distance Ticks", m_initDistanceTicks);
-
   }
 
   @Override
   protected void execute() {
-
     double straightError = m_initDistanceTicks + Robot.drive.getAverageEncoderPosition();
     double straightPower = straightError * m_strP;
-
-    double angularTargetError = Robot.jevois.getOffsetAngleToTurn();
+    double angularTargetError = Robot.jevois.getAngleToTurn();
     double rotPower = -m_rotP * angularTargetError;
 
-    Robot.drive.setPowerFeedforward(rotPower + -straightPower, -rotPower + -straightPower);  
-
-    // if(Robot.jevois.getDistance() <= 40 && !lostTarget){
-    //     timeStart = Timer.getFPGATimestamp();
-    //     Robot.drive.setPowerFeedforward(-0.10, -0.10);
-    //     lostTarget = true;
-    // }
-    // else if(Robot.jevois.getDistance() > 40){
-      // double straightPower = Robot.jevois.getDistance() * m_strP;
-
-    // }
-   
-    double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
-    SmartDashboard.putNumber("Average Position Feet", averagePositionFeet);
+    Robot.drive.setPowerFeedforward(rotPower + -straightPower, -rotPower + -straightPower);
   }
 
   @Override
   protected boolean isFinished() {
     return Robot.drive.getAverageEncoderPosition() >= m_initDistanceTicks;
-    // double averagePositionFeet = (Robot.drive.getLeftPositionFeet() + Robot.drive.getRightPositionFeet()) / 2;
   }
 
   @Override

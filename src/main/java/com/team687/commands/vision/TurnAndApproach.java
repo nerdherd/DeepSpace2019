@@ -8,7 +8,6 @@
 package com.team687.commands.vision;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import com.team687.commands.vision.LiveTargetTrack;
 import com.team687.commands.vision.TurnToAngle;
 import com.team687.commands.vision.DriveAtHeading;
 

@@ -23,20 +23,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Jevois extends Subsystem implements Runnable {
 	private SerialPort m_cam;
 	private UsbCamera m_visionCam;
-	
 	private Thread m_stream;
 	private boolean m_send;
-	private double m_threshold = 25.4;
-	public double m_offset; 
+	public double m_offset;
 	public double m_distinguish = 0.0;
-	
-
+	private double m_threshold = 25.4;
 
 	private boolean writeException = false;
-
 	String[] parts;
 	private String sendValue;
-
 	private String m_filePath1 = "/media/sda1/logs/";
 	private String m_filePath2 = "/home/lvuser/logs/";
 	private File m_file;
@@ -52,22 +47,19 @@ public class Jevois extends Subsystem implements Runnable {
 		m_cam = new SerialPort(baud, port);
 		m_stream = new Thread(this);
 		m_stream.start();
-		startCameraStream();
 	}
 
-	public void startCameraStream(){
-		try{
+	public void startCameraStream() {
+		try {
 			m_visionCam = CameraServer.getInstance().startAutomaticCapture(1);
 			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
-		} catch(Exception e){ 
-
+		} catch (Exception e) {
 		}
 	}
 
 	public void run() {
 		while (m_stream.isAlive()) {
 			Timer.delay(0.001);
-
 			if (m_send) {
 				m_cam.writeString(sendValue);
 				m_send = false;
@@ -83,43 +75,24 @@ public class Jevois extends Subsystem implements Runnable {
 					m_distance = Double.parseDouble(getData(5));
 				} else {
 					System.out.println(read);
-					// System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
 				}
 			}
 		}
 	}
 
-	// Robot functionalities
-	public double getAngularTargetError() {
+	// use if jevois is centered on robot
+	public double getSimpleAngleToTurn() {
 		return xPixelToDegree(getTargetX());
 	}
 
-	private double xPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
-		double degree = 180 / Math.PI * radian;
-		return degree;
-	}
-
-	private double yPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kYFocalLength));
-		double degree = 180 / Math.PI * radian;
-		return degree;
-	}
-
-	public double getDistance(){
-		return m_distance;
-	}
-
-	public double getDistanceFeet(){
-		return m_distance / 12;
-	}
-
-	public double getOffsetAngleToTurn(){
+	// use if jevois is horizontally offset from center
+	public double getAngleToTurn() {
 		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
-		double f = Math.sqrt(distance * distance + Math.pow(Constants.kCameraHorizontalOffset, 2) - 2 * distance * Constants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
-		double c= Math.asin(Constants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
+		double f = Math.sqrt(distance * distance + Math.pow(Constants.kCameraHorizontalOffset, 2)
+				- 2 * distance * Constants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
+		double c = Math.asin(Constants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
 		double b = Math.PI - horizontalAngle - c;
 		double calculatedAngle = (180 / Math.PI) * (Math.PI / 2 - b);
 		if (getTargetX() == 0) {
@@ -129,20 +102,32 @@ public class Jevois extends Subsystem implements Runnable {
 		}
 	}
 
-	public double getOffset() {
-        double angularError = getAngularTargetError();
-        if(-m_threshold < angularError && angularError < m_threshold){
-            m_offset = 0.0;
-        }
-        else if(m_threshold > 0){
-            m_offset = angularError - m_threshold; 
-        }
-        else if(m_threshold < 0){
-            m_offset = angularError + m_threshold;
-        }
-        return m_offset; 
-    }
+	private double xPixelToDegree(double pixel) {
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
+		double degree = 180 / Math.PI * radian;
+		return degree;
+	}
 
+	public double getDistance() {
+		return m_distance;
+	}
+
+	public double getDistanceFeet() {
+		return m_distance / 12;
+	}
+
+	// use if overshooting the turn
+	public double getOffset() {
+		double angularError = getSimpleAngleToTurn();
+		if (-m_threshold < angularError && angularError < m_threshold) {
+			m_offset = 0.0;
+		} else if (m_threshold > 0) {
+			m_offset = angularError - m_threshold;
+		} else if (m_threshold < 0) {
+			m_offset = angularError + m_threshold;
+		}
+		return m_offset;
+	}
 
 	public double getContourNum() {
 		return m_contourNum;
@@ -159,8 +144,6 @@ public class Jevois extends Subsystem implements Runnable {
 	public double getTargetArea() {
 		return m_area;
 	}
-
-
 
 	public void end() {
 		m_stream.interrupt();
@@ -193,17 +176,12 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	public void reportToSmartDashboard() {
-		SmartDashboard.putNumber("Total contours", getContourNum()); // 1st in data output
-		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
-		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
-		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
-		SmartDashboard.putNumber("Angle to Turn", getOffsetAngleToTurn());
+		SmartDashboard.putNumber("Total contours", getContourNum());
+		SmartDashboard.putNumber("Area", getTargetArea());
+		SmartDashboard.putNumber("Y coord", getTargetY());
+		SmartDashboard.putNumber("X coord", getTargetX());
+		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
-		double m_initDistanceTicks = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight);
-		SmartDashboard.putNumber("Initial Distance", m_initDistanceTicks);
-		// SmartDashboard.putNumber("Angular Target Error", getAngularTargetError()); // 4th 
-		// SmartDashboard.putNumber("Offset", getOffset());
-
 	}
 
 	public void startLog() {
@@ -259,12 +237,11 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				m_writer.append(String.valueOf(timestamp) + "," 
-					+ String.valueOf((Robot.drive.getLeftMasterVelocity() + Robot.drive.getRightMasterVelocity()) / 2) + "," 
-					+ String.valueOf(getContourNum()) + ","
-					+ String.valueOf(getTargetArea()) + ","
-					+ String.valueOf(getTargetX()) + ","
-					 + String.valueOf(getTargetY()));
+				m_writer.append(String.valueOf(timestamp) + ","
+						+ String.valueOf(
+								(Robot.drive.getLeftMasterVelocity() + Robot.drive.getRightMasterVelocity()) / 2)
+						+ "," + String.valueOf(getContourNum()) + "," + String.valueOf(getTargetArea()) + ","
+						+ String.valueOf(getTargetX()) + "," + String.valueOf(getTargetY()));
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

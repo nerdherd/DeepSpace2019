@@ -6,7 +6,11 @@ package com.team687.constants;
  * Important constants
  */
 
-public class Constants {    
+public class Constants {   
+    
+    // LED constants
+
+    public final static String kWesleyBlue = "14 59 141";
 
     // Camera constants
     public final static double kHorizontalFOV = 55;

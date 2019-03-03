@@ -1,8 +1,10 @@
 package com.team687;
 
 import com.team687.commands.drive.auto.ResetDriveEncoders;
+import com.team687.commands.led.LedBlue;
+import com.team687.commands.led.LedRed;
+import com.team687.commands.led.LightGreen;
 import com.team687.commands.vision.DriveAtHeading;
-import com.team687.commands.vision.LineFollow;
 import com.team687.commands.vision.LiveTargetTrack;
 import com.team687.commands.vision.TurnAndApproach;
 
@@ -37,6 +39,8 @@ public class OI {
 		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
 		SmartDashboard.putData("LiveTargetTrack", new LiveTargetTrack(0.0139));
 		SmartDashboard.putData("RESET ENCODERS", new ResetDriveEncoders());
+		SmartDashboard.putData("Blue", new LedBlue());
+		SmartDashboard.putData("Green", new LightGreen());
 	
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());

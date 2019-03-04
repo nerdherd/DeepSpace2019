@@ -7,9 +7,9 @@
 
 package com.team687;
 
+import com.nerdherd.lib.logging.LoggableLambda;
+import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.misc.AutoChooser;
-import com.nerdherd.lib.misc.LoggableLambda;
-import com.nerdherd.lib.misc.NerdyBadlog;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
-	// public static Jevois jevois;
+	public static Jevois jevois;
 
 	public static OI oi;
 	// big yummy
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		// jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		sensor = new Sensor();
 
 		chooser = new AutoChooser();

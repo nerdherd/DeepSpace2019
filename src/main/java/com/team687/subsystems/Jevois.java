@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.team687.constants.Constants;
+import com.team687.constants.VisionConstants;
 import com.team687.constants.DriveConstants;
 import com.team687.Robot;
 
@@ -87,12 +87,12 @@ public class Jevois extends Subsystem implements Runnable {
 
 	// use if jevois is horizontally offset from center
 	public double getAngleToTurn() {
-		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + Constants.kCameraHorizontalMountAngle);
+		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + VisionConstants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
-		double f = Math.sqrt(distance * distance + Math.pow(Constants.kCameraHorizontalOffset, 2)
-				- 2 * distance * Constants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
-		double c = Math.asin(Constants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
+		double f = Math.sqrt(distance * distance + Math.pow(VisionConstants.kCameraHorizontalOffset, 2)
+				- 2 * distance * VisionConstants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
+		double c = Math.asin(VisionConstants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
 		double b = Math.PI - horizontalAngle - c;
 		double calculatedAngle = (180 / Math.PI) * (Math.PI / 2 - b);
 		if (getTargetX() == 0) {
@@ -103,7 +103,7 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	private double xPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kXFocalLength));
 		double degree = 180 / Math.PI * radian;
 		return degree;
 	}

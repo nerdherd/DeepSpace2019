@@ -1,7 +1,7 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.Constants;
+import com.team687.constants.VisionConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,7 +29,7 @@ public class LiveTargetTrack extends Command {
         double getAngularTargetError = Robot.jevois.getAngleToTurn();
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         double power = -m_rotP * getAngularTargetError;
-        if (!(Math.abs(getAngularTargetError) < Constants.kDriveRotationDeadband)) {
+        if (!(Math.abs(getAngularTargetError) < VisionConstants.kDriveRotationDeadband)) {
             Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(),
                     -power + -Robot.oi.getDriveJoyRightY());
         } else {

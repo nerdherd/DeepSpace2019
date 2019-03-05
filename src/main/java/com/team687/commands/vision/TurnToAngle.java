@@ -1,7 +1,7 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.Constants;
+import com.team687.constants.VisionConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,7 +29,7 @@ public class TurnToAngle extends Command {
         double robotAngle = (360 - Robot.drive.getRawYaw()) % 360;
         double power = -m_rotP * rotError;
 
-        if (!(Math.abs(rotError) < Constants.kDriveRotationDeadband)) {
+        if (!(Math.abs(rotError) < VisionConstants.kDriveRotationDeadband)) {
             Robot.drive.setPowerFeedforward(power + -Robot.oi.getDriveJoyRightY(),
                     -power + -Robot.oi.getDriveJoyRightY());
         } else {
@@ -43,7 +43,7 @@ public class TurnToAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return (Robot.jevois.getAngleToTurn() <= Constants.kDriveRotationDeadband);
+        return (Robot.jevois.getAngleToTurn() <= VisionConstants.kDriveRotationDeadband);
     }
 
     @Override

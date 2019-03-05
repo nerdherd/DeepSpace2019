@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.team687.constants.Constants;
+import com.team687.constants.VisionConstants;
 
 /**
  * Add your docs here.
@@ -25,7 +25,7 @@ public class LED extends Subsystem {
   }
 
   public void makeLEDBlue(){
-    m_arduino.write(Constants.kWesleyBlue.getBytes(), Constants.kWesleyBlue.length());
+    m_arduino.write(VisionConstants.kWesleyBlue.getBytes(), VisionConstants.kWesleyBlue.length());
     // Timer.delay(0.1);
   }
 

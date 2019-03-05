@@ -41,7 +41,7 @@ public class DriveAtHeading extends Command {
     SmartDashboard.putString("Current Command", "DriveAtHeading");
     SmartDashboard.putNumber("Distance in ft", Robot.jevois.getDistanceFeet());
 
-    m_initDistanceTicks = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kTicksPerFootRight);
+    m_initDistanceTicks = Robot.drive.feetToTicks(Robot.jevois.getDistanceFeet(), DriveConstants.kLeftTicksPerFoot);
     SmartDashboard.putNumber("Initial Distance Ticks", m_initDistanceTicks);
   }
 

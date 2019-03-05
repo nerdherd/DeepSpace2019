@@ -72,7 +72,7 @@ public class OI extends DefaultOI {
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
-		liveTargetTrack_L1.whileHeld(new LiveTargetTrack());
+		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));

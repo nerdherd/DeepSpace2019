@@ -96,14 +96,7 @@ public class Jevois extends Subsystem implements Runnable {
 		return degree;
 	}
 
-	public double getDistance(){
-		double verticalAngle = yPixelToDegree(getTargetY());
-		double radian = Math.PI / 180 * verticalAngle;
-		double distance = Math.abs((VisionConstants.kCameraMountHeight - VisionConstants.kTargetHeight) / Math.tan(radian));
-		return distance;
-	}
-
-	public double getOffsetAngleToTurn(){
+	public double getAngleToTurn(){
 		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + VisionConstants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
@@ -116,12 +109,6 @@ public class Jevois extends Subsystem implements Runnable {
 		} else {
 			return -calculatedAngle;
 		}
-	}
-
-	private double xPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
-		double degree = 180 / Math.PI * radian;
-		return degree;
 	}
 
 	public double getDistance() {

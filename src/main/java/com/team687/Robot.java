@@ -20,6 +20,7 @@ import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
+import com.team687.subsystems.LED;
 import com.team687.subsystems.Sensor;
 import com.team687.subsystems.Superstructure;
 
@@ -36,7 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	public static final String kDate = "2019_01_29_";
+	public static final String kDate = "2019_03_02_";
 
 	public static Drive drive;
 	public static Subsystem livestream;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
+	public static LED led;
 	public static Jevois jevois;
 
 	public static OI oi;
@@ -57,7 +59,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		led = new LED();
+		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
+		jevois.startCameraStream();
 		sensor = new Sensor();
 
 		chooser = new AutoChooser();
@@ -108,8 +112,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
-		
-		sensor.reportToSmartDashboard();
+		// sensor.reportToSmartDashboard();
 
 		Scheduler.getInstance().run();
 	}
@@ -140,7 +143,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
 		drive.logToCSV();
 		// jevois.reportToSmartDashboard();
 		sensor.reportToSmartDashboard();

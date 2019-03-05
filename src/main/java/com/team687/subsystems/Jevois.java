@@ -10,25 +10,27 @@ import com.team687.constants.VisionConstants;
 import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Jevois extends Subsystem implements Runnable {
 	private SerialPort m_cam;
+	private UsbCamera m_visionCam;
 	private Thread m_stream;
 	private boolean m_send;
-	private double m_threshold = 25.4;
-	public double m_offset; 
+	public double m_offset;
 	public double m_distinguish = 0.0;
-	
-
+	private double m_threshold = 25.4;
 
 	private boolean writeException = false;
-
 	String[] parts;
 	private String sendValue;
-
 	private String m_filePath1 = "/media/sda1/logs/";
 	private String m_filePath2 = "/home/lvuser/logs/";
 	private File m_file;
@@ -36,7 +38,7 @@ public class Jevois extends Subsystem implements Runnable {
 	private double m_logStartTime = 0;
 
 	// Jevois Serial Output Data
-	private double m_contourNum, m_area, m_centerX, m_centerY;
+	private double m_contourNum, m_area, m_centerX, m_centerY, m_distance;
 
 	public Jevois(int baud, SerialPort.Port port) {
 		m_send = false;
@@ -46,10 +48,17 @@ public class Jevois extends Subsystem implements Runnable {
 		m_stream.start();
 	}
 
+	public void startCameraStream() {
+		try {
+			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
+			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+		} catch (Exception e) {
+		}
+	}
+
 	public void run() {
 		while (m_stream.isAlive()) {
 			Timer.delay(0.001);
-
 			if (m_send) {
 				m_cam.writeString(sendValue);
 				m_send = false;
@@ -62,16 +71,16 @@ public class Jevois extends Subsystem implements Runnable {
 					m_area = Double.parseDouble(getData(2));
 					m_centerX = Double.parseDouble(getData(3));
 					m_centerY = Double.parseDouble(getData(4));
+					m_distance = Double.parseDouble(getData(5));
 				} else {
 					System.out.println(read);
-					// System.out.println("No target detected. Check that videomappings.cfg is set to NONE with an *");
 				}
 			}
 		}
 	}
 
-	// Robot functionalities
-	public double getAngularTargetError() {
+	// use if jevois is centered on robot
+	public double getSimpleAngleToTurn() {
 		return xPixelToDegree(getTargetX());
 	}
 
@@ -109,20 +118,32 @@ public class Jevois extends Subsystem implements Runnable {
 		}
 	}
 
-	public double getOffset() {
-        double angularError = getAngularTargetError();
-        if(-m_threshold < angularError && angularError < m_threshold){
-            m_offset = 0.0;
-        }
-        else if(m_threshold > 0){
-            m_offset = angularError - m_threshold; 
-        }
-        else if(m_threshold < 0){
-            m_offset = angularError + m_threshold;
-        }
-        return m_offset; 
-    }
+	private double xPixelToDegree(double pixel) {
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / Constants.kXFocalLength));
+		double degree = 180 / Math.PI * radian;
+		return degree;
+	}
 
+	public double getDistance() {
+		return m_distance;
+	}
+
+	public double getDistanceFeet() {
+		return m_distance / 12;
+	}
+
+	// use if overshooting the turn
+	public double getOffset() {
+		double angularError = getSimpleAngleToTurn();
+		if (-m_threshold < angularError && angularError < m_threshold) {
+			m_offset = 0.0;
+		} else if (m_threshold > 0) {
+			m_offset = angularError - m_threshold;
+		} else if (m_threshold < 0) {
+			m_offset = angularError + m_threshold;
+		}
+		return m_offset;
+	}
 
 	public double getContourNum() {
 		return m_contourNum;
@@ -139,8 +160,6 @@ public class Jevois extends Subsystem implements Runnable {
 	public double getTargetArea() {
 		return m_area;
 	}
-
-
 
 	public void end() {
 		m_stream.interrupt();
@@ -173,15 +192,12 @@ public class Jevois extends Subsystem implements Runnable {
 	}
 
 	public void reportToSmartDashboard() {
-		SmartDashboard.putNumber("Total contours", getContourNum()); // 1st in data output
-		SmartDashboard.putNumber("Area", getTargetArea()); // 2nd
-		SmartDashboard.putNumber("Y coord", getTargetY()); // 3rd
-		SmartDashboard.putNumber("X coord", getTargetX()); // 3rd
-		SmartDashboard.putNumber("Angle to Turn", getOffsetAngleToTurn());
+		SmartDashboard.putNumber("Total contours", getContourNum());
+		SmartDashboard.putNumber("Area", getTargetArea());
+		SmartDashboard.putNumber("Y coord", getTargetY());
+		SmartDashboard.putNumber("X coord", getTargetX());
+		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
-		// SmartDashboard.putNumber("Angular Target Error", getAngularTargetError()); // 4th 
-		// SmartDashboard.putNumber("Offset", getOffset());
-
 	}
 
 	public void startLog() {
@@ -214,7 +230,7 @@ public class Jevois extends Subsystem implements Runnable {
 			}
 			try {
 				m_writer = new FileWriter(m_file);
-				m_writer.append("Time,Contours,Area,TargetX,TargetY,Length,Height\n");
+				m_writer.append("Time,Velocity,Contours,Area,TargetX,TargetY,Length,Height\n");
 				m_logStartTime = Timer.getFPGATimestamp();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -237,9 +253,11 @@ public class Jevois extends Subsystem implements Runnable {
 		if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
-				// m_writer.append(String.valueOf(timestamp) + "," + getContourNum() + "," + getTargetArea() + ","
-				// 		+ getTargetX() + "," + getTargetY());
-				m_writer.append("yeetus");
+				m_writer.append(String.valueOf(timestamp) + ","
+						+ String.valueOf(
+								(Robot.drive.getLeftMasterVelocity() + Robot.drive.getRightMasterVelocity()) / 2)
+						+ "," + String.valueOf(getContourNum()) + "," + String.valueOf(getTargetArea()) + ","
+						+ String.valueOf(getTargetX()) + "," + String.valueOf(getTargetY()));
 				// m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

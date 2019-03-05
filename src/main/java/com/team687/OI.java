@@ -1,5 +1,10 @@
 package com.team687;
 
+import com.nerdherd.lib.oi.DefaultOI;
+import com.team687.commands.led.LedBlue;
+import com.team687.commands.led.LedOff;
+import com.team687.commands.led.LightGreen;
+import com.team687.commands.vision.DriveAtHeading;
 import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
@@ -20,6 +25,7 @@ import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.vision.LiveTargetTrack;
+import com.team687.commands.vision.TurnAndApproach;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -123,11 +129,19 @@ public class OI extends DefaultOI {
 		// lineFollow = new JoystickButton(super.driv, 11);
 		// lineFollow.whileHeld(new LineFollow(0.254));
 
+		SmartDashboard.putData("TurnAndApproach", new TurnAndApproach());
+		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
+		SmartDashboard.putData("LiveTargetTrack", new LiveTargetTrack(0.0139));
+
+		SmartDashboard.putData("blue", new LedBlue());
+		SmartDashboard.putData("off", new LedOff());
+		SmartDashboard.putData("green", new LightGreen());
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());
 		
-		//enableStream = new JoystickButton(driveJoyLeft,3);
-		//enableStream.whenPressed(new EnableStream());
+		// enableStream = new JoystickButton(driveJoyLeft,3);
+		// enableStream.whenPressed(new EnableStream());
 			
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));

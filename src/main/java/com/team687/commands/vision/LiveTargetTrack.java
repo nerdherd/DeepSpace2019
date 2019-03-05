@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double kP = 0.0139;
-  
-    public LiveTargetTrack() {
+    private double m_rotP;
+
+    public LiveTargetTrack(double kRotP) {
         requires(Robot.drive);
         requires(Robot.jevois);
+
+        m_rotP = kRotP;
     }
 
     @Override
+
     protected void initialize() {
         Robot.jevois.enableStream();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
@@ -40,9 +43,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        // double getAngularTargetError = Robot.jevois.getAngularTargetError();
-
-        return(false);
+        return false;
     }
 
     @Override

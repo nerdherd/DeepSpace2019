@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		jevois.reportToSmartDashboard();
-		// drive.reportToSmartDashboard();
+		drive.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
 
 		Scheduler.getInstance().run();
@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		jevois.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
-		// drive.reportToSmartDashboard();
+		drive.reportToSmartDashboard();
 		jevois.logToCSV();
 		Scheduler.getInstance().run();
 	}

@@ -13,7 +13,7 @@ public class VisionConstants {
     public final static String kWesleyBlue = "14 59 141";
 
     // Camera constants
-    public final static double kHorizontalFOV = 55;
+    public final static double kHorizontalFOV = 50.23;
     public final static double kVerticalFOV = 42.65386; // calculated from focalLength
     public final static double kHorizontalPixels = 320;
     public final static double kVerticalPixels = 240; 

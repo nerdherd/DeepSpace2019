@@ -87,7 +87,8 @@ public class Jevois extends Subsystem implements Runnable {
 
 	// use if jevois is horizontally offset from center
 	public double getAngleToTurn() {
-		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + VisionConstants.kCameraHorizontalMountAngle);
+		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) 
+						+ VisionConstants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
 		double f = Math.sqrt(distance * distance + Math.pow(VisionConstants.kCameraHorizontalOffset, 2)
@@ -127,6 +128,31 @@ public class Jevois extends Subsystem implements Runnable {
 			m_offset = angularError + m_threshold;
 		}
 		return m_offset;
+	}
+
+	public double getExp() {
+		sendCommand("getcam absexp");
+		String read = m_cam.readString();
+		double exp = Double.valueOf(read);
+		return exp;
+	}
+
+	public void increaseExp5(){
+		sendCommand("setcam absexp " + String.valueOf(getExp() + 5));
+	}
+
+	public void decreaseExp5(){
+		sendCommand("setcam absexp " + String.valueOf(getExp() - 5));
+
+	}
+
+	public void increaseExp1(){
+		sendCommand("setcam absexp " + String.valueOf(getExp() + 1));
+	
+	}
+
+	public void decreaseExp1(){
+		sendCommand("setcam absexp " + String.valueOf(getExp() - 1));
 	}
 
 	public double getContourNum() {
@@ -182,6 +208,8 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX());
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
+		SmartDashboard.putNumber("Exposure", getExp());
+
 	}
 
 	public void startLog() {

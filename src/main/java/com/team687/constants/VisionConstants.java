@@ -6,7 +6,7 @@ package com.team687.constants;
  * Important constants
  */
 
-public class Constants {   
+public class VisionConstants {   
     
     // LED constants
 

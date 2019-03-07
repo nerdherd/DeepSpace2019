@@ -41,8 +41,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		autoChooser = new AutoChooser();
-		led = new LED();
-		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
+		// led = new LED();
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		jevois.startCameraStream();
 		sensor = new Sensor();
 		drive = new Drive();

@@ -16,21 +16,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI extends DefaultOI {
 
-	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow, driveAtHeading;
+	JoystickButton ping, disableStream, enableStream, liveTargetTrack, stopDrive, lineFollow, driveAtHeading, TurnAndApproach;
 
 	public OI() {
 		super();
 
-		// liveTargetTrack = new JoystickButton(super.driveJoyRight, 1);
+		//liveTargetTrack = new JoystickButton(super.driveJoyRight, 1);
 		// liveTargetTrack.whileHeld(new LiveTargetTrack(0.0139));
+
+
+		TurnAndApproach = new JoystickButton(super.driveJoyRight, 1);
+		TurnAndApproach.whileHeld(new TurnAndApproach());
 
 		SmartDashboard.putData("TurnAndApproach", new TurnAndApproach());
 		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
 		SmartDashboard.putData("LiveTargetTrack", new LiveTargetTrack(0.0139));
 
-		SmartDashboard.putData("blue", new LedBlue());
-		SmartDashboard.putData("off", new LedOff());
-		SmartDashboard.putData("green", new LightGreen());
+		// SmartDashboard.putData("blue", new LedBlue());
+		// SmartDashboard.putData("off", new LedOff());
+		// SmartDashboard.putData("green", new LightGreen());
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											
 		//disableStream = new JoystickButton(driveJoyLeft,2);
 		//disableStream.whenPressed(new DisableStream());
@@ -39,5 +43,10 @@ public class OI extends DefaultOI {
 		// enableStream.whenPressed(new EnableStream());
 			
 
+	}
+
+	@Override
+	public double getDriveJoyRightY() {
+		return super.driveJoyRight.getY();
 	}
 }

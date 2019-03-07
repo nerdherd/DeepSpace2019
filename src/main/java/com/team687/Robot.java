@@ -7,9 +7,9 @@
 
 package com.team687;
 
+import com.nerdherd.lib.logging.LoggableLambda;
+import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.misc.AutoChooser;
-import com.nerdherd.lib.misc.LoggableLambda;
-import com.nerdherd.lib.misc.NerdyBadlog;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
@@ -25,7 +25,6 @@ import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -48,7 +47,7 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
-	// public static Jevois jevois;
+	public static Jevois jevois;
 
 	public static OI oi;
 	// big yummy

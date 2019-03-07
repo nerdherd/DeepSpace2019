@@ -7,8 +7,8 @@
 
 package com.team687.subsystems;
 
-import com.nerdherd.lib.misc.Loggable;
-import com.nerdherd.lib.misc.NerdyBadlog;
+import com.nerdherd.lib.logging.Loggable;
+import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.misc.NerdyMath;
 import com.team687.Robot;
 
@@ -20,16 +20,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Superstructure implements Loggable { 
   
   public boolean isHatchMode;
-  private static Superstructure m_superstructureInstance = null;
+  private static Superstructure m_superstructureInstance = new Superstructure();
 
   private Superstructure() {
     isHatchMode = false;
   }
   
   public static Superstructure getInstance() {
-    if (m_superstructureInstance == null) {
-      m_superstructureInstance = new Superstructure();
-    }
     return m_superstructureInstance;
   }
 

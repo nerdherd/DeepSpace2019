@@ -1,10 +1,5 @@
 package com.team687;
 
-import com.nerdherd.lib.oi.DefaultOI;
-import com.team687.commands.led.LedBlue;
-import com.team687.commands.led.LedOff;
-import com.team687.commands.led.LightGreen;
-import com.team687.commands.vision.DriveAtHeading;
 import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
@@ -18,12 +13,15 @@ import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
-import com.team687.commands.superstructure.SimultaneousMovement;
+import com.team687.commands.led.LedBlue;
+import com.team687.commands.led.LedOff;
+import com.team687.commands.led.LightGreen;
 import com.team687.commands.superstructure.StopIntaking;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
+import com.team687.commands.vision.DriveAtHeading;
 import com.team687.commands.vision.LiveTargetTrack;
 import com.team687.commands.vision.TurnAndApproach;
 
@@ -35,14 +33,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI extends DefaultOI {
 
-	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo intake)
-	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, 
-	clawOpen_6, highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, 
-	liveTargetTrack_L1;
+	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
+	// intake)
+	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, clawOpen_6,
+			highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
+			shiftHighSpeed_R2, shiftLowSpeed_R3;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
-	
+
 	public OI() {
 		super();
 
@@ -60,6 +59,9 @@ public class OI extends DefaultOI {
 
 		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
 
+		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 2);
+		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
+
 		intakeArm_1.whenPressed(new SuperstructureIntake());
 		outtakeRollers_2.whenPressed(new SetDualMotorPower(Robot.intake, -.75, 0.75));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
@@ -73,6 +75,11 @@ public class OI extends DefaultOI {
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
+
+		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
+		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
+
+
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));

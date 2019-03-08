@@ -9,7 +9,6 @@ package com.team687;
 
 import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
-import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
@@ -28,6 +27,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 	public static Drive drive;
 	public static Subsystem livestream;
 	public static DriverStation ds;
-	public static AutoChooser chooser;
+	public static DeepSpaceAutoChooser chooser;
 	public static SingleMotorElevator elevator;
 	public static SingleMotorArm arm;
 	// public static SingleMotorTalonSRX chevalRamp;
@@ -57,6 +57,8 @@ public class Robot extends TimedRobot {
 	public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
 
+	public static Command autoCommand;
+
 	@Override
 	public void robotInit() {
 		led = new LED();
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
 		jevois.startCameraStream();
 		sensor = new Sensor();
 
-		chooser = new AutoChooser();
+		chooser = new DeepSpaceAutoChooser();
 	    drive = new Drive();
 		ds = DriverStation.getInstance();
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
@@ -119,7 +121,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		
+		drive.setBrakeMode();
+		autoCommand = chooser.getSelectedAuto();
+		if (autoCommand != null) {
+			autoCommand.start();
+		}
 	}
 
 	/**
@@ -128,6 +134,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		if (oi.driveJoyLeft.getRawButton(0) && oi.driveJoyRight.getRawButton(0)) {
+			autoCommand.cancel();
+		}
 	}
 
 	@Override
@@ -135,7 +144,7 @@ public class Robot extends TimedRobot {
 		// jevois.startLog();
 		// rightJevois.startLog();
 		drive.startLog();
-		// drive.setCoastMode();
+		drive.setCoastMode();
 	}
 
 	/**

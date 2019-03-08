@@ -20,7 +20,7 @@ public class TurnToAngle extends Command {
     @Override
     protected void initialize() {
         Robot.jevois.enableStream();
-        SmartDashboard.putString("Current Command", "LiveTargetTrack");
+        SmartDashboard.putString("Current Command", "TurnToAngle");
     }
 
     @Override

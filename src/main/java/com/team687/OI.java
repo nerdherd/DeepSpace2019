@@ -37,7 +37,7 @@ public class OI extends DefaultOI {
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, clawOpen_6,
 			highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			shiftHighSpeed_R2, shiftLowSpeed_R3;
+			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
@@ -58,7 +58,8 @@ public class OI extends DefaultOI {
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
 		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
-
+		turnAndApproach_R1 = new JoystickButton(super.driveJoyRight, 1);
+		
 		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 2);
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 
@@ -74,12 +75,11 @@ public class OI extends DefaultOI {
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
-		// liveTargetTrack_L1.whileHeld(new LiveTargetTrack());
+		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
+		turnAndApproach_R1.whileHeld(new TurnAndApproach());
 
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
-
-
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
@@ -131,25 +131,9 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Robot.arm, 
 		// 						Robot.armHallEffect, 2./12.));
-		// liveTargetTrack.whileHeld(new LiveTargetTrack());
 
 		// lineFollow = new JoystickButton(super.driv, 11);
 		// lineFollow.whileHeld(new LineFollow(0.254));
-
-		SmartDashboard.putData("TurnAndApproach", new TurnAndApproach());
-		SmartDashboard.putData("DriveAtHeading", new DriveAtHeading(.0139, .0000354));
-		SmartDashboard.putData("LiveTargetTrack", new LiveTargetTrack(0.0139));
-
-		SmartDashboard.putData("blue", new LedBlue());
-		SmartDashboard.putData("off", new LedOff());
-		SmartDashboard.putData("green", new LightGreen());
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											
-		//disableStream = new JoystickButton(driveJoyLeft,2);
-		//disableStream.whenPressed(new DisableStream());
-		
-		// enableStream = new JoystickButton(driveJoyLeft,3);
-		// enableStream.whenPressed(new EnableStream());
-			
 
 		// SmartDashboard.putData("Set both intake sides 3V", new SetMotorPower(Robot.intake, .25));
 		// SmartDashboard.putData("Set both intake sides -3V", new SetMotorPower(Robot.intake, -.25));

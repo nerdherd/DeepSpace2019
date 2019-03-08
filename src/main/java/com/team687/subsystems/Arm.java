@@ -17,7 +17,7 @@ import com.team687.constants.ArmConstants;
  */
 public class Arm extends SingleMotorArm {
 
-    private static Arm m_armInstance = null;
+    private static Arm m_armInstance = new Arm();
 
     private Arm() {
         super(RobotMap.kArmTalonID, "Arm", 
@@ -33,10 +33,6 @@ public class Arm extends SingleMotorArm {
     }
 
     public static Arm getInstance() {
-        if (m_armInstance == null) {
-            m_armInstance = new Arm();
-        }
-
         return m_armInstance;
     }
 

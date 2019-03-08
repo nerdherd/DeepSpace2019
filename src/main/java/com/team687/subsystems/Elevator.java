@@ -16,7 +16,7 @@ import com.team687.constants.ElevatorConstants;
  */
 public class Elevator extends SingleMotorElevator {
 
-  private static Elevator m_elevatorInstance = null;
+  private static Elevator m_elevatorInstance = new Elevator();
 
   private Elevator() {
     super(RobotMap.kElevatorTalonID, "Elevator",
@@ -33,9 +33,6 @@ public class Elevator extends SingleMotorElevator {
   }
 
   public static Elevator getInstance() {
-    if (m_elevatorInstance == null) {
-      m_elevatorInstance = new Elevator();
-    }
     return m_elevatorInstance;
   }
 

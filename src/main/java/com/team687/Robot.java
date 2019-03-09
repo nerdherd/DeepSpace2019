@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		autoChooser = new AutoChooser();
 		// led = new LED();
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
 		jevois.startCameraStream();
 		sensor = new Sensor();
 		drive = new Drive();
@@ -102,3 +102,4 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
     }
 }
+ 

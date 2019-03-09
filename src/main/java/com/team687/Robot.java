@@ -65,7 +65,8 @@ public class Robot extends TimedRobot {
 		// jevois.startCameraStream();
 		sensor = new Sensor();
 
-		chooser = new DeepSpaceAutoChooser();
+		chooser = new DeepSpaceAutoChoo
+		ser();
 	    drive = new Drive();
 		ds = DriverStation.getInstance();
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
@@ -111,7 +112,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		// jevois.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
 

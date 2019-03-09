@@ -21,7 +21,7 @@ public class LiveTargetTrack extends Command {
 
     protected void initialize() {
         Robot.jevois.enableStream();
-        SmartDashboard.putString("Current Command", "LiveTargetTrack");
+       // SmartDashboard.putString("Current Command", "LiveTargetTrack");
     }
 
     @Override

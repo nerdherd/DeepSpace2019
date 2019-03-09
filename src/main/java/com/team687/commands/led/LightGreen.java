@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class LightGreen extends Command {
 
   public LightGreen() {
-    requires(Robot.led);
+    // requires(Robot.led);
     requires(Robot.jevois);
   }
 
@@ -32,10 +32,10 @@ public class LightGreen extends Command {
   protected void execute() {
     
     if(Robot.jevois.getContourNum() >= 2) {
-      Robot.led.setColorRGB(0, 255, 0);
+      // Robot.led.setColorRGB(0, 255, 0);
     }
     else {
-      Robot.led.setColorRGB(255, 0, 0);
+      // Robot.led.setColorRGB(255, 0, 0);
     }
   }
 

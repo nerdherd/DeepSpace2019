@@ -14,24 +14,24 @@ import com.nerdherd.lib.misc.NerdyMath;
  */
 public class ArmConstants {
 
-    public static final boolean kArmInversion = false;
+    public static final boolean kArmInversion = true;
     public static final boolean kArmSensorPhase = true;
     public static final double kArmTalonDeadband = 0.004;
 
-    public static final double kArmGravityFF = 1.05;
-    public static final double kArmStaticFrictionFF = 0.15;
-    public static final int kArmMotionMagicMaxAccel = 425;
-    public static final int kArmMotionMagicCruiseVelocity = 425;
+    public static final double kArmGravityFF = 0.765;
+    public static final double kArmStaticFrictionFF = 0.6;
+    public static final int kArmMotionMagicMaxAccel = 640;
+    public static final int kArmMotionMagicCruiseVelocity = 640;
 
     public static final double kArmP = 4;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
-    public static final double kArmF = 2.41;
+    public static final double kArmF = 1.598;
 
     public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 22.;
     public static final double kBacklashOffset = 2;
 
-    public static final double kArmAngleOffset = -16;
+    public static final double kArmAngleOffset = -11;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
 
     public static final double kArmLength = 14;

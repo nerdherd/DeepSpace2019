@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class LedBlue extends Command {
   public LedBlue() {
-    requires(Robot.led);
+    // requires(Robot.led);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Timer.delay(0.05);
-    Robot.led.makeLEDBlue();
+    // Robot.led.makeLEDBlue();
   }
 
   // Called repeatedly when this Command is scheduled to run

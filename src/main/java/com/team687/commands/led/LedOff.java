@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class LedOff extends Command {
   public LedOff() {
-    requires(Robot.led);
+    // requires(Robot.led);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Timer.delay(0.05);
-    Robot.led.setColorRGB(0, 0, 0);
+    // Robot.led.setColorRGB(0, 0, 0);
   }
 
   // Called repeatedly when this Command is scheduled to run

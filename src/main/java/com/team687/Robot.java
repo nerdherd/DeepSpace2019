@@ -40,7 +40,6 @@ public class Robot extends TimedRobot {
 	public static final String kDate = "2019_03_02_";
 
 	public static Drive drive;
-	public static Subsystem livestream;
 	public static DriverStation ds;
 	public static DeepSpaceAutoChooser chooser;
 	public static SingleMotorElevator elevator;
@@ -49,21 +48,21 @@ public class Robot extends TimedRobot {
 	public static DualMotorIntake intake;
 	public static Piston claw;
 	public static Sensor sensor;
-	public static LED led;
+	// public static LED led;
 	public static Jevois jevois;
 
 	public static OI oi;
 	// big yummy
-	public static HallSensor armHallEffect;
+	// public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
 
 	public static Command autoCommand;
 
 	@Override
 	public void robotInit() {
-		led = new LED();
+		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
-		jevois.startCameraStream();
+		// jevois.startCameraStream();
 		sensor = new Sensor();
 
 		chooser = new DeepSpaceAutoChooser();
@@ -72,7 +71,7 @@ public class Robot extends TimedRobot {
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
 		elevator = Elevator.getInstance();
 		arm = Arm.getInstance();
-		armHallEffect = new HallSensor(1, "ArmHallEffect", true);
+		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true));
@@ -87,17 +86,17 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt4201_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sdb1/logs/", "testingAt687_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
-			armClosedLoopError, armHallEffect);
-		CameraServer.getInstance().startAutomaticCapture();
+			armClosedLoopError);
+		// CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
-		armHallEffect.reportToSmartDashboard();
+		// armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());

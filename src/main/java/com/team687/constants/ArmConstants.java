@@ -29,7 +29,7 @@ public class ArmConstants {
     public static final double kArmF = 1.598;
 
     public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 30.;
-    public static final double kBacklashOffset = 0;
+    public static final double kBacklashOffset = 2;
 
     public static final double kArmAngleOffset = -17;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
@@ -43,6 +43,6 @@ public class ArmConstants {
     public static final double kArmDegPerS2 = kArmMotionMagicMaxAccel * kArmAngleRatio * 10.;
     public static final double kArmMaxDegPerS = kArmMotionMagicCruiseVelocity * kArmAngleRatio * 10.;
 
-    public static final double kManualZeroVoltage = -1;
+    public static final double kManualZeroVoltage = -1.5;
 
 }

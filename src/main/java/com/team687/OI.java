@@ -15,16 +15,14 @@ import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
-import com.team687.commands.superstructure.ZeroSuperstructure;
-import com.team687.commands.vision.TurnAndApproach;
-import com.team687.constants.ArmConstants;
-import com.team687.constants.ElevatorConstants;
+import com.team687.commands.vision.LiveTargetTrack;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +34,7 @@ public class OI extends DefaultOI {
 
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
-	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, clawOpen_6,
+	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
 			highElevator_7, zeroSuperstructure_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
 			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3;
 
@@ -50,8 +48,8 @@ public class OI extends DefaultOI {
 		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
 		stopRollers_3 = new JoystickButton(super.operatorJoy, 3);
 		intakeRollers_4 = new JoystickButton(super.operatorJoy, 4);
-		clawClose_5 = new JoystickButton(super.operatorJoy, 5);
-		clawOpen_6 = new JoystickButton(super.operatorJoy, 6);
+		clawClose_6 = new JoystickButton(super.operatorJoy, 6);
+		clawOpen_5 = new JoystickButton(super.operatorJoy, 5);
 		highElevator_7 = new JoystickButton(super.operatorJoy, 7);
 		zeroSuperstructure_8 = new JoystickButton(super.operatorJoy, 8);
 		midElevator_9 = new JoystickButton(super.operatorJoy, 9);
@@ -59,28 +57,27 @@ public class OI extends DefaultOI {
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
-		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
-		turnAndApproach_R1 = new JoystickButton(super.driveJoyRight, 1);
+		liveTargetTrack_L1 = new JoystickButton(super.driveJoyRight, 1);
+	//	turnAndApproach_R1 = new JoystickButton(super.driveJoyRight, 1);
 		
-		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 2);
+		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 4);
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 
 		intakeArm_1.whenPressed(new SuperstructureIntake());
-		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.25, 0.25));
+		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.4, 0.4));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
-		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.25, -0.25));
-		clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
-		clawOpen_6.whenPressed(new StopIntaking());
+		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.45, -0.45));
+		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
+		clawOpen_5.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
-		zeroSuperstructure_8.whileHeld(new ZeroSuperstructure(
-			ArmConstants.kManualZeroVoltage, ElevatorConstants.kManualZeroVoltage));
+		zeroSuperstructure_8.whileHeld(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(39));
 		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
-	//	liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
-		turnAndApproach_R1.whileHeld(new TurnAndApproach());
+		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
+	//	turnAndApproach_R1.whileHeld(new TurnAndApproach());
 
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));

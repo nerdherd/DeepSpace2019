@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt687_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
 			armClosedLoopError);
-		// CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
@@ -100,6 +100,7 @@ public class Robot extends TimedRobot {
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
+		// if ()
 	}
 
 	@Override

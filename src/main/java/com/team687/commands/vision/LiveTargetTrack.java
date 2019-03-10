@@ -26,7 +26,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void execute() {
-        double getAngularTargetError = Robot.jevois.getAngleToTurn();
+        double getAngularTargetError = -Robot.jevois.getAngleToTurn();
         double power = m_rotP * getAngularTargetError;
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {

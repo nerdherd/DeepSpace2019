@@ -7,6 +7,8 @@
 
 package com.team687.commands.superstructure;
 
+import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.team687.Robot;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Elevator;
 
@@ -44,10 +46,11 @@ public class ZeroSuperstructure extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    // (new ResetSingleMotorEncoder(Robot.arm)).start();
     Arm.getInstance().resetEncoder();
     Arm.getInstance().setVoltage(0);
     Elevator.getInstance().resetEncoder();
-    Arm.getInstance().setVoltage(0);
+    Elevator.getInstance().setVoltage(0);
   }
 
   // Called when another command which requires one or more of the same

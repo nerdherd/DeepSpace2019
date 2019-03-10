@@ -8,10 +8,15 @@
 package com.team687.commands.superstructure;
 
 import com.team687.Robot;
+import com.team687.subsystems.Superstructure;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Stow extends Command {
+
+  private double intakeDelayStartTime = 0;
+
   public Stow() {
     requires(Robot.intake);
     requires(Robot.arm);
@@ -22,13 +27,18 @@ public class Stow extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    intakeDelayStartTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.claw.setReverse();
-    Robot.intake.setPower(0, 0);
+    if (!Superstructure.getInstance().isHatchMode) {
+      Robot.intake.setPower(0, 0);
+    } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
+      Robot.intake.setPower(0,0);
+    }
     Robot.arm.setAngleMotionMagic(70);
     Robot.elevator.setHeightMotionMagic(15);
   }

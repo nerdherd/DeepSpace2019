@@ -6,15 +6,13 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.team687.constants.VisionConstants;
 import com.team687.Robot;
+import com.team687.constants.VisionConstants;
 
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.cscore.MjpegServer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
-import edu.wpi.cscore.VideoSource;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -84,31 +82,28 @@ public class Jevois extends Subsystem implements Runnable {
 		return xPixelToDegree(getTargetX());
 	}
 
-	private double xPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kXFocalLength));
-		double degree = 180 / Math.PI * radian;
-		return degree;
-	}
-
-	private double yPixelToDegree(double pixel) {
-		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kXFocalLength));
-		double degree = 180 / Math.PI * radian;
-		return degree;
-	}
-
-	public double getAngleToTurn(){
-		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) + VisionConstants.kCameraHorizontalMountAngle);
+	// use if jevois is horizontally offset from center
+	public double getAngleToTurn() {
+		double radians = (Math.PI / 180) * (xPixelToDegree(getTargetX()) 
+						+ VisionConstants.kCameraHorizontalMountAngle);
 		double horizontalAngle = Math.PI / 2 - radians;
 		double distance = getDistance();
-		double f = Math.sqrt(distance * distance + Math.pow(VisionConstants.kCameraHorizontalOffset, 2) - 2 * distance * VisionConstants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
-		double c= Math.asin(VisionConstants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
+		double f = Math.sqrt(distance * distance + Math.pow(VisionConstants.kCameraHorizontalOffset, 2)
+				- 2 * distance * VisionConstants.kCameraHorizontalOffset * Math.cos(horizontalAngle));
+		double c = Math.asin(VisionConstants.kCameraHorizontalOffset * Math.sin(horizontalAngle) / f);
 		double b = Math.PI - horizontalAngle - c;
 		double calculatedAngle = (180 / Math.PI) * (Math.PI / 2 - b);
 		if (getTargetX() == 0) {
 			return 0;
 		} else {
-			return -calculatedAngle;
+			return calculatedAngle;
 		}
+	}
+
+	private double xPixelToDegree(double pixel) {
+		double radian = Math.signum(pixel) * Math.atan(Math.abs(pixel / VisionConstants.kXFocalLength));
+		double degree = 180 / Math.PI * radian;
+		return degree;
 	}
 
 	public double getDistance() {
@@ -132,6 +127,7 @@ public class Jevois extends Subsystem implements Runnable {
 		return m_offset;
 	}
 
+	
 	public double getContourNum() {
 		return m_contourNum;
 	}
@@ -185,6 +181,8 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX());
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
+	//	SmartDashboard.putNumber("Exposure", getExp());
+
 	}
 
 	public void startLog() {

@@ -32,8 +32,8 @@ public class SuperstructureIntake extends Command {
   @Override
   protected void execute() {
     Robot.claw.setForwards();
-    Robot.intake.setPower(0.75, -0.75);
-    Robot.arm.setAngleMotionMagic(-15);
+    Robot.intake.setPower(0.25, -0.25);
+    Robot.arm.setAngleMotionMagic(-14);
     Robot.elevator.setHeightMotionMagic(10);
   }
 

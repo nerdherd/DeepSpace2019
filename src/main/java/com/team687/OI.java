@@ -35,7 +35,7 @@ public class OI extends DefaultOI {
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
-			highElevator_7, zeroSuperstructure_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
+			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
 			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
@@ -51,7 +51,7 @@ public class OI extends DefaultOI {
 		clawClose_6 = new JoystickButton(super.operatorJoy, 6);
 		clawOpen_5 = new JoystickButton(super.operatorJoy, 5);
 		highElevator_7 = new JoystickButton(super.operatorJoy, 7);
-		zeroSuperstructure_8 = new JoystickButton(super.operatorJoy, 8);
+		cargoShip_8 = new JoystickButton(super.operatorJoy, 8);
 		midElevator_9 = new JoystickButton(super.operatorJoy, 9);
 		stow_10 = new JoystickButton(super.operatorJoy, 10);
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
@@ -70,7 +70,7 @@ public class OI extends DefaultOI {
 		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_5.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
-		zeroSuperstructure_8.whileHeld(new CargoShipCargo());
+		cargoShip_8.whileHeld(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(39));
 		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));

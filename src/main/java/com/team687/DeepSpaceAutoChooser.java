@@ -8,6 +8,7 @@
 package com.team687;
 
 import com.nerdherd.lib.misc.AutoChooser;
+import com.team687.commands.auto.FrontCargoShip;
 import com.team687.commands.auto.LeftCargoShip;
 import com.team687.commands.auto.LeftRocketNear;
 import com.team687.commands.auto.RightCargoShip;
@@ -49,6 +50,8 @@ public class DeepSpaceAutoChooser extends AutoChooser {
             } else if (getAutoMode() == AutoMode.RocketShip) {
                 auto =  new LeftRocketNear();
             }
+        } else if (getStartingPosition() == StartingPosition.CENTER) {
+            auto = new FrontCargoShip();
         }
         return auto;
     }

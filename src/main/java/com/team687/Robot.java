@@ -62,11 +62,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
-		// jevois.startCameraStream();
+		jevois.startCameraStream();
 		sensor = new Sensor();
 
-		chooser = new DeepSpaceAutoChoo
-		ser();
+		chooser = new DeepSpaceAutoChooser();
 	    drive = new Drive();
 		ds = DriverStation.getInstance();
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
@@ -87,7 +86,7 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sdb1/logs/", "testingAt687_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt687_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
 			armClosedLoopError);
 		// CameraServer.getInstance().startAutomaticCapture();
@@ -106,8 +105,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		drive.stopLog();
-		// jevois.stopLog();
-		// jevois.enableStream();	
+		jevois.stopLog();
+		jevois.enableStream();	
 	}
 
 	@Override
@@ -141,8 +140,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// jevois.startLog();
-		// rightJevois.startLog();
+		jevois.startLog();
 		drive.startLog();
 		drive.setCoastMode();
 	}
@@ -153,12 +151,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.logToCSV();
-		// jevois.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
 		sensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 
 
-		// jevois.logToCSV();
+		jevois.logToCSV();
 		Scheduler.getInstance().run();
 	}
 

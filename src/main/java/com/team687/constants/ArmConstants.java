@@ -19,7 +19,7 @@ public class ArmConstants {
     public static final double kArmTalonDeadband = 0.004;
 
     public static final double kArmGravityFF = 0.765;
-    public static final double kArmStaticFrictionFF = 0.6;
+    public static final double kArmStaticFrictionFF = 0.5;
     public static final int kArmMotionMagicMaxAccel = 640;
     public static final int kArmMotionMagicCruiseVelocity = 640;
 
@@ -28,10 +28,10 @@ public class ArmConstants {
     public static final double kArmD = 0;
     public static final double kArmF = 1.598;
 
-    public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 22.;
-    public static final double kBacklashOffset = 2;
+    public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 30.;
+    public static final double kBacklashOffset = 0;
 
-    public static final double kArmAngleOffset = -11;
+    public static final double kArmAngleOffset = -17;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
 
     public static final double kArmLength = 14;
@@ -42,5 +42,7 @@ public class ArmConstants {
 
     public static final double kArmDegPerS2 = kArmMotionMagicMaxAccel * kArmAngleRatio * 10.;
     public static final double kArmMaxDegPerS = kArmMotionMagicCruiseVelocity * kArmAngleRatio * 10.;
+
+    public static final double kManualZeroVoltage = -1;
 
 }

@@ -15,13 +15,16 @@ import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
-import com.team687.commands.vision.LiveTargetTrack;
+import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.commands.vision.TurnAndApproach;
+import com.team687.constants.ArmConstants;
+import com.team687.constants.ElevatorConstants;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,7 +37,7 @@ public class OI extends DefaultOI {
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_5, clawOpen_6,
-			highElevator_7, cargoMode_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
+			highElevator_7, zeroSuperstructure_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
 			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
@@ -50,6 +53,7 @@ public class OI extends DefaultOI {
 		clawClose_5 = new JoystickButton(super.operatorJoy, 5);
 		clawOpen_6 = new JoystickButton(super.operatorJoy, 6);
 		highElevator_7 = new JoystickButton(super.operatorJoy, 7);
+		zeroSuperstructure_8 = new JoystickButton(super.operatorJoy, 8);
 		midElevator_9 = new JoystickButton(super.operatorJoy, 9);
 		stow_10 = new JoystickButton(super.operatorJoy, 10);
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
@@ -62,12 +66,14 @@ public class OI extends DefaultOI {
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 
 		intakeArm_1.whenPressed(new SuperstructureIntake());
-		outtakeRollers_2.whenPressed(new SetDualMotorPower(Robot.intake, -.75, 0.75));
+		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.25, 0.25));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
-		intakeRollers_4.whenPressed(new SetDualMotorPower(Robot.intake, .75, -0.75));
+		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.25, -0.25));
 		clawClose_5.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_6.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
+		zeroSuperstructure_8.whileHeld(new ZeroSuperstructure(
+			ArmConstants.kManualZeroVoltage, ElevatorConstants.kManualZeroVoltage));
 		midElevator_9.whenPressed(new TeleopSimultaneous(39));
 		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
@@ -94,13 +100,13 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Turn 180 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.0025, 0.00042));
 		// SmartDashboard.putData("Turn 0 deg", new TurnAngle(Robot.drive, 0, 1, 5, 0.009, 0.0004));
 
-		// SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
+		SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
 
 		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
 
-		// SmartDashboard.putData("Elevator MM 52 in", new SetElevatorHeightMotionMagic(Robot.elevator, 42));
+		SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Robot.elevator, 42));
 		// SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Robot.elevator, 60));
 		// SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Robot.elevator, 75));
 		SmartDashboard.putData("Elevator MM 16 in", new SetElevatorHeightMotionMagic(Robot.elevator, 16));

@@ -20,18 +20,18 @@ public class ElevatorConstants {
     public static final double kElevatorTalonDeadband = 0.004;
 
     // public static final double kElevatorGravityFF = -0;
-    public static final double kElevatorGravityFF = 1.05;
+    public static final double kElevatorGravityFF = 1.55;
 
     // public static final double kElevatorStaticFrictionFF = -0;
     public static final double kElevatorStaticFrictionFF = 0.5;
 
-    public static final int kElevatorMotionMagicMaxAccel = 3880;
-    public static final int kElevatorMotionMagicCruiseVelocity = 3880;
+    public static final int kElevatorMotionMagicMaxAccel = 5080;
+    public static final int kElevatorMotionMagicCruiseVelocity = 5080;
 
-    public static final double kElevatorP = 0.4;
+    public static final double kElevatorP = 0.5;
     public static final double kElevatorI = 0;
     public static final double kElevatorD = 0;
-    public static final double kElevatorF = 0.263;
+    public static final double kElevatorF = 0.201;
 
     // public static final double kElevatorDistanceRatio = -1./4096. * 1.432 * Math.PI * 2;
     public static final double kElevatorDistanceRatio = 1./4096. * 1.432 * Math.PI * 2;
@@ -44,5 +44,7 @@ public class ElevatorConstants {
 
     public static final double kElevatorInPerS2 = kElevatorMotionMagicMaxAccel * kElevatorDistanceRatio * 10.;
     public static final double kElevatorInPerS = kElevatorMotionMagicCruiseVelocity * kElevatorDistanceRatio * 10.;
+
+    public static final double kManualZeroVoltage = -0.75;
 
 }

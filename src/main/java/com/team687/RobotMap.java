@@ -25,8 +25,8 @@ public class RobotMap {
     public static final int kRightSlaveTalon2ID = 15;
     public static final int kLeftSlaveTalon2ID = 22;
 
-    public static final int kDrivetrainShifter1ID = 0;
-    public static final int kDrivetrainShifter2ID = 3;
+    public static final int kDrivetrainShifter1ID = 2;
+    public static final int kDrivetrainShifter2ID = 5;
 
     // public static final int kChevalRampTalonID = 0;
 
@@ -37,6 +37,6 @@ public class RobotMap {
     public static final int kRightIntakeVictorID = 2;
 
     public static final int kClawPiston1ID = 1;
-    public static final int kClawPiston2ID = 2;
+    public static final int kClawPiston2ID = 6;
 
 }

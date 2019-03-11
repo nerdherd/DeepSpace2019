@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double m_rotP, m_initTime;
+    private double m_rotP, m_rotD, m_lastError;
 
     public LiveTargetTrack(double kRotP) {
         requires(Robot.drive);
@@ -22,16 +22,13 @@ public class LiveTargetTrack extends Command {
 
     protected void initialize() {
         Robot.jevois.enableStream();
-        m_initTime = Timer.getFPGATimestamp();
-       // SmartDashboard.putString("Current Command", "LiveTargetTrack");
+        m_lastError = 0;
+        SmartDashboard.putString("Current Command", "LiveTargetTrack");
     }
 
     @Override
     protected void execute() {
-        double getAngularTargetError = -Robot.jevois.getAngleToTurn();
-        
-        double power = m_rotP * getAngularTargetError;
-
+        double angularTargetError = -Robot.jevois.getAngleToTurn();
         double power = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
@@ -46,6 +43,7 @@ public class LiveTargetTrack extends Command {
         }      
         
         SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
+        m_lastError = angularTargetError;
     }
 
     @Override

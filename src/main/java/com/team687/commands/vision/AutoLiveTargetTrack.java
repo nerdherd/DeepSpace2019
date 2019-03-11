@@ -51,12 +51,12 @@ public class AutoLiveTargetTrack extends Command{
                     Robot.drive.setPowerFeedforward(rotPower + m_straightPower, -rotPower + m_straightPower);
                 }
             } else{
-                Robot.drive.setPowerFeedforward(m_straightPower + Robot.drive.getAngularVelocity() * m_driveStraightP,
-                                                 m_straightPower - Robot.drive.getAngularVelocity() *m_driveStraightP);
+                Robot.drive.setPowerFeedforward(m_straightPower - Robot.drive.getAngularVelocity() * m_driveStraightP,
+                                                 m_straightPower + Robot.drive.getAngularVelocity() *m_driveStraightP);
             }       
         } else {
-            Robot.drive.setPowerFeedforward(m_straightPower + Robot.drive.getAngularVelocity() * m_driveStraightP,
-                                                 m_straightPower - Robot.drive.getAngularVelocity() *m_driveStraightP);
+            Robot.drive.setPowerFeedforward(m_straightPower - Robot.drive.getAngularVelocity() * m_driveStraightP,
+                                                 m_straightPower -+ Robot.drive.getAngularVelocity() *m_driveStraightP);
            
         } 
     } 

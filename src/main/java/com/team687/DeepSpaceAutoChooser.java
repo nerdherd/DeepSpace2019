@@ -23,39 +23,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DeepSpaceAutoChooser extends AutoChooser {
 
-    // public SendableChooser<AutoMode> modeChooser;
+    public SendableChooser<AutoMode> modeChooser;
 
     public DeepSpaceAutoChooser() {
         super();
-        // modeChooser = new SendableChooser<>();
-        // modeChooser.setDefaultOption("Rocket Auto", AutoMode.RocketShip);
-        // modeChooser.addOption("Cargo Ship Auto", AutoMode.CargoShip);
-        // SmartDashboard.putData(modeChooser);
+        modeChooser = new SendableChooser<>();
+        modeChooser.setDefaultOption("Rocket Auto", AutoMode.RocketShip);
+        modeChooser.addOption("Cargo Ship Auto", AutoMode.CargoShip);
+        SmartDashboard.putData("Mode Chooser", modeChooser);
+        SmartDashboard.putData("Starting Position Chooser", super.startingPositionChooser);
     }
 
-    // public AutoMode getAutoMode() {
-    //     return modeChooser.getSelected();
-    // }
+    public AutoMode getAutoMode() {
+        return modeChooser.getSelected();
+    }
 
     public CommandGroup getSelectedAuto() {
 
-        // CommandGroup auto = null;
-        // if (getStartingPosition() == StartingPosition.RIGHT) {
-        //     if (getAutoMode() == AutoMode.CargoShip) {
-        //         auto = new RightCargoShip();
-        //     } else if (getAutoMode() == AutoMode.RocketShip) {
-        //         auto =  new RightRocketNear();
-        //     }
-        // } else if (getStartingPosition() == StartingPosition.LEFT) {
-        //     if (getAutoMode() == AutoMode.CargoShip) {
-        //         auto = new LeftCargoShip();
-        //     } else if (getAutoMode() == AutoMode.RocketShip) {
-        //         auto =  new LeftRocketNear();
-        //     }
-        // } else if (getStartingPosition() == StartingPosition.CENTER) {
-        //     auto = new FrontCargoShip();
-        // }
-        return new FrontCargoShip();
+        CommandGroup auto = null;
+        if (getStartingPosition() == StartingPosition.RIGHT) {
+            // if (getAutoMode() == AutoMode.CargoShip) {
+            //     auto = new RightCargoShip();
+            // } else if (getAutoMode() == AutoMode.RocketShip) {
+            auto =  new RightRocketNear();
+            // }
+        } else if (getStartingPosition() == StartingPosition.LEFT) {
+            // if (getAutoMode() == AutoMode.CargoShip) {
+            //     auto = new LeftCargoShip();
+            // } else if (getAutoMode() == AutoMode.RocketShip) {
+                auto =  new LeftRocketNear();
+            // }
+        } else if (getStartingPosition() == StartingPosition.CENTER) {
+            auto = new FrontCargoShip();
+        }
+        return auto;
     }
 
     enum AutoMode{

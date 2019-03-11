@@ -32,11 +32,13 @@ public class LiveTargetTrack extends Command {
         
         double power = m_rotP * getAngularTargetError;
 
+        double power = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
+
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
             Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
         }
         
-        if(!(Math.abs(getAngularTargetError) < VisionConstants.kDriveRotationDeadband)){
+        if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + Robot.oi.getDriveJoyRightY(), -power + Robot.oi.getDriveJoyRightY());
         }
         else{

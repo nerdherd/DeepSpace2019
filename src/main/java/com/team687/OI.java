@@ -1,20 +1,11 @@
 package com.team687;
 
-import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
-import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
-import com.nerdherd.lib.drivetrain.auto.ResetGyro;
-import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
-import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
-import com.nerdherd.lib.motor.commands.mechanisms.MechanismVoltageRampingWithFF;
-import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
-import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightMotionMagic;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
-import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
@@ -22,6 +13,7 @@ import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
+import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.commands.vision.LiveTargetTrack;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -36,7 +28,7 @@ public class OI extends DefaultOI {
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			liveTargetTrack_R1, shiftHighSpeed_R2, shiftLowSpeed_R3;
+			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
@@ -57,8 +49,9 @@ public class OI extends DefaultOI {
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
-		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
-		liveTargetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
+		liveTargetTrack_L1 = new JoystickButton(super.driveJoyRight, 1);
+	//	turnAndApproach_R1 = new JoystickButton(super.driveJoyRight, 1);
+		zeroSuperstructure_L11 = new JoystickButton(super.driveJoyLeft, 11);
 		
 		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 4);
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
@@ -77,7 +70,8 @@ public class OI extends DefaultOI {
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
-		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.0139));
+	//	turnAndApproach_R1.whileHeld(new TurnAndApproach());
+		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(-3, 0));
 
 
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));

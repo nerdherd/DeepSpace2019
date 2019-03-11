@@ -31,7 +31,8 @@ public class ArmConstants {
     public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 30.;
     public static final double kBacklashOffset = 2;
 
-    public static final double kArmAngleOffset = -17;
+    public static final double kArmAngleOffset = 67;
+    public static final double kSecondaryAngleOffset = -17;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
 
     public static final double kArmLength = 14;

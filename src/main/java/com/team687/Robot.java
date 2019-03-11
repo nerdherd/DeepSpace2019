@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt687_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sdb1/logs/", "testingAt687_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
 			armClosedLoopError);
 		//CameraServer.getInstance().startAutomaticCapture();
@@ -121,6 +121,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		elevator.resetEncoder();
+		arm.resetEncoder();
 		drive.setBrakeMode();
 		autoCommand = chooser.getSelectedAuto();
 		if (autoCommand != null) {
@@ -141,9 +143,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		
 		jevois.startLog();
 		drive.startLog();
-		drive.setCoastMode();
+		// drive.setCoastMode();
+		drive.setBrakeMode();
 	}
 
 	/**

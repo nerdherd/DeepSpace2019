@@ -18,14 +18,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoLiveTargetTrack extends Command{
 
-    private double m_rotP, m_time, m_straightPower, m_startTime;
+    private double m_rotP, m_time, m_straightPower, m_startTime, m_driveStraightP;
 
-    public AutoLiveTargetTrack(double kRotP, double time, double power) {
+    public AutoLiveTargetTrack(double kRotP, double time, double power, double driveStraightP) {
         requires(Robot.drive);
         requires(Robot.jevois);
         m_time = time;
         m_straightPower = power;
         m_rotP = kRotP;
+        m_driveStraightP = driveStraightP;
     }
 
     @Override
@@ -39,23 +40,26 @@ public class AutoLiveTargetTrack extends Command{
     protected void execute() {
         if (Robot.jevois.getContourNum() >= 2) {
             double getAngularTargetError = -Robot.jevois.getAngleToTurn();
-            double rotPower = m_rotP * getAngularTargetError;
+            if (Math.abs(getAngularTargetError) <= 10) {
+                double rotPower = m_rotP * getAngularTargetError;
 
-            if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
-                Robot.drive.setPowerFeedforward(m_straightPower, m_straightPower);
-            }
-            
-            if(!(Math.abs(getAngularTargetError) < VisionConstants.kDriveRotationDeadband)){
-                Robot.drive.setPowerFeedforward(rotPower + m_straightPower, -rotPower + m_straightPower);
-            }
-            else{
-                Robot.drive.setPowerFeedforward(m_straightPower, m_straightPower);
+                if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
+                    Robot.drive.setPowerFeedforward(m_straightPower, m_straightPower);
+                }
+                
+                if(!(Math.abs(getAngularTargetError) < VisionConstants.kDriveRotationDeadband)){
+                    Robot.drive.setPowerFeedforward(rotPower + m_straightPower, -rotPower + m_straightPower);
+                }
+            } else{
+                Robot.drive.setPowerFeedforward(m_straightPower + Robot.drive.getAngularVelocity() * m_driveStraightP,
+                                                 m_straightPower - Robot.drive.getAngularVelocity() *m_driveStraightP);
             }       
         } else {
-            Robot.drive.setPowerFeedforward(m_straightPower, m_straightPower);
-        }
-
-    }
+            Robot.drive.setPowerFeedforward(m_straightPower + Robot.drive.getAngularVelocity() * m_driveStraightP,
+                                                 m_straightPower - Robot.drive.getAngularVelocity() *m_driveStraightP);
+           
+        } 
+    } 
 
     @Override
     protected boolean isFinished() {

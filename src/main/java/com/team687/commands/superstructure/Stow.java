@@ -8,6 +8,7 @@
 package com.team687.commands.superstructure;
 
 import com.team687.Robot;
+import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -37,10 +38,10 @@ public class Stow extends Command {
     if (!Superstructure.getInstance().isHatchMode) {
       Robot.intake.setPower(0, 0);
     } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
-      Robot.intake.setPower(0,0);
+      Robot.intake.setPower(0, 0);
     }
-    Robot.arm.setAngleMotionMagic(70);
-    Robot.elevator.setHeightMotionMagic(15);
+    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
+    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -8,6 +8,7 @@
 package com.team687.commands.superstructure;
 
 import com.team687.Robot;
+import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -32,9 +33,10 @@ public class SuperstructureIntake extends Command {
   @Override
   protected void execute() {
     Robot.claw.setForwards();
-    Robot.intake.setPower(0.25, -0.25);
-    Robot.arm.setAngleMotionMagic(-14);
-    Robot.elevator.setHeightMotionMagic(10);
+    Robot.intake.setPower(SuperstructureConstants.kCargoIntakeVoltage, 
+      -SuperstructureConstants.kCargoIntakeVoltage);
+    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kCargoIntakeArmAngle);
+    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kCargoIntakeElHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()

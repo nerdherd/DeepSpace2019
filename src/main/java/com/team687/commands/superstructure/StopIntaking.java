@@ -25,7 +25,7 @@ public class StopIntaking extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setForwards();
+    Robot.claw.setReverse();
     Robot.intake.setPower(0, 0);
   }
 

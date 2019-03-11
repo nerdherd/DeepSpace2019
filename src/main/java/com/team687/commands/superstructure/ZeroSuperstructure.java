@@ -8,11 +8,12 @@
 package com.team687.commands.superstructure;
 
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
-import com.team687.Robot;
+import com.team687.constants.ArmConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ZeroSuperstructure extends Command {
 
@@ -46,10 +47,10 @@ public class ZeroSuperstructure extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    // (new ResetSingleMotorEncoder(Robot.arm)).start();
-    Arm.getInstance().resetEncoder();
+    Arm.getInstance().configAngleOffset(ArmConstants.kSecondaryAngleOffset);
+    Scheduler.getInstance().add(new ResetSingleMotorEncoder(Arm.getInstance()));
     Arm.getInstance().setVoltage(0);
-    Elevator.getInstance().resetEncoder();
+    Scheduler.getInstance().add(new ResetSingleMotorEncoder(Elevator.getInstance()));
     Elevator.getInstance().setVoltage(0);
   }
 

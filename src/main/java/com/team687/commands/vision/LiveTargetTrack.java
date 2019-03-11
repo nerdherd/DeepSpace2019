@@ -3,12 +3,13 @@ package com.team687.commands.vision;
 import com.team687.Robot;
 import com.team687.constants.VisionConstants;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double m_rotP;
+    private double m_rotP, m_initTime;
 
     public LiveTargetTrack(double kRotP) {
         requires(Robot.drive);
@@ -21,12 +22,14 @@ public class LiveTargetTrack extends Command {
 
     protected void initialize() {
         Robot.jevois.enableStream();
+        m_initTime = Timer.getFPGATimestamp();
        // SmartDashboard.putString("Current Command", "LiveTargetTrack");
     }
 
     @Override
     protected void execute() {
         double getAngularTargetError = -Robot.jevois.getAngleToTurn();
+        
         double power = m_rotP * getAngularTargetError;
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
@@ -38,7 +41,9 @@ public class LiveTargetTrack extends Command {
         }
         else{
             Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
-        }       
+        }      
+        
+        SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
     }
 
     @Override

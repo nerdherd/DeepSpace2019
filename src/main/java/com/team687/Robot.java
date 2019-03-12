@@ -9,12 +9,14 @@ package com.team687;
 
 import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
+import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.HallSensor;
+import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
@@ -50,6 +52,8 @@ public class Robot extends TimedRobot {
 	public static Sensor sensor;
 	// public static LED led;
 	public static Jevois jevois;
+	public static ResetSingleMotorEncoder armZero;
+	public static ResetSingleMotorEncoder elevatorZero;
 
 	public static OI oi;
 	// big yummy
@@ -78,6 +82,12 @@ public class Robot extends TimedRobot {
 
 		superstructureData = Superstructure.getInstance();
 
+		
+		armZero = new ResetSingleMotorEncoder(arm);
+		armZero.setRunWhenDisabled(true);
+		elevatorZero = new ResetSingleMotorEncoder(elevator);
+		elevatorZero.setRunWhenDisabled(true);
+
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
@@ -100,7 +110,6 @@ public class Robot extends TimedRobot {
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
-		// if ()
 	}
 
 	@Override
@@ -115,6 +124,10 @@ public class Robot extends TimedRobot {
 		jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
+		if (oi.driveJoyLeft.getRawButton(5) && oi.driveJoyRight.getRawButton(5)) {
+			Scheduler.getInstance().add(armZero);
+			Scheduler.getInstance().add(elevatorZero);
+		}
 
 		Scheduler.getInstance().run();
 	}

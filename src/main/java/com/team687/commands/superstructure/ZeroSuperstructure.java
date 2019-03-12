@@ -9,6 +9,7 @@ package com.team687.commands.superstructure;
 
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.team687.constants.ArmConstants;
+import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Elevator;
 
@@ -50,6 +51,7 @@ public class ZeroSuperstructure extends Command {
     Arm.getInstance().configAngleOffset(ArmConstants.kSecondaryAngleOffset);
     Scheduler.getInstance().add(new ResetSingleMotorEncoder(Arm.getInstance()));
     Arm.getInstance().setVoltage(0);
+    Elevator.getInstance().configDistanceOffset(ElevatorConstants.kSecondaryElevatorOffset);
     Scheduler.getInstance().add(new ResetSingleMotorEncoder(Elevator.getInstance()));
     Elevator.getInstance().setVoltage(0);
   }

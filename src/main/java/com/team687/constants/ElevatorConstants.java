@@ -36,8 +36,9 @@ public class ElevatorConstants {
     // public static final double kElevatorDistanceRatio = -1./4096. * 1.432 * Math.PI * 2;
     public static final double kElevatorDistanceRatio = 1./4096. * 1.432 * Math.PI * 2;
 
-    public static final double kDroopCompensation = 0;
+    public static final double kDroopCompensation = 1;
     public static final double kElevatorHeightOffset = 9 - kDroopCompensation;
+    public static final double kSecondaryElevatorOffset = kElevatorHeightOffset - 1;
 
     public static final double kMaxElevatorHeight = 76;
     public static final double kMinElevatorHeight = 12;
@@ -45,6 +46,6 @@ public class ElevatorConstants {
     public static final double kElevatorInPerS2 = kElevatorMotionMagicMaxAccel * kElevatorDistanceRatio * 10.;
     public static final double kElevatorInPerS = kElevatorMotionMagicCruiseVelocity * kElevatorDistanceRatio * 10.;
 
-    public static final double kManualZeroVoltage = -0.75;
+    public static final double kManualZeroVoltage = -1.5;
 
 }

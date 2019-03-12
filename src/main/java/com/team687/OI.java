@@ -63,7 +63,7 @@ public class OI extends DefaultOI {
 		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_5.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
-		cargoShip_8.whileHeld(new CargoShipCargo());
+		cargoShip_8.whenPressed(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(39));
 		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
@@ -71,7 +71,7 @@ public class OI extends DefaultOI {
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
 	//	turnAndApproach_R1.whileHeld(new TurnAndApproach());
-		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(-3, 0));
+		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(-3, -2));
 
 
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));

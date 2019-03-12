@@ -23,30 +23,20 @@ public class TeleopSimultaneous extends SimultaneousMovement {
         m_initialElevatorHeight = elevatorHeight;
     }
 
-    public void adjustDesiredHeight(boolean isInitialize) {
-        if (isInitialize) {
-          if (!Robot.superstructureData.isHatchMode) {
-            super.m_armAngle = SuperstructureConstants.kCargoModeArmAngle;
-            super.m_elevatorHeight = m_initialElevatorHeight + 
-              SuperstructureConstants.kTeleopModeHeightDelta;
-          } else {
-            super.m_armAngle = SuperstructureConstants.kHatchModeArmAngle;
-            super.m_elevatorHeight = m_initialElevatorHeight;
-          }
+    public void adjustDesiredHeight() {
+        if (!Robot.superstructureData.isHatchMode) {
+          super.m_armAngle = SuperstructureConstants.kCargoModeArmAngle;
+          super.m_elevatorHeight = m_initialElevatorHeight + 
+            SuperstructureConstants.kTeleopModeHeightDelta;
         } else {
-          if (!Robot.superstructureData.isHatchMode) {
-            super.m_armAngle = SuperstructureConstants.kCargoIntakeArmAngle;
-            super.m_elevatorHeight += SuperstructureConstants.kTeleopModeHeightDelta;
-          } else {
-            super.m_armAngle = SuperstructureConstants.kHatchModeArmAngle;
-            super.m_elevatorHeight -= SuperstructureConstants.kTeleopModeHeightDelta;
-          }
+          super.m_armAngle = SuperstructureConstants.kHatchModeArmAngle;
+          super.m_elevatorHeight = m_initialElevatorHeight;
         }
       }
 
     @Override
     protected void initialize() {
-        adjustDesiredHeight(true);
+        adjustDesiredHeight();
         m_wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;
         super.initialize();
     }
@@ -54,7 +44,7 @@ public class TeleopSimultaneous extends SimultaneousMovement {
     @Override
     protected void execute() {
         if (m_wasHatchModeLastUpdate != Robot.superstructureData.isHatchMode) {
-            adjustDesiredHeight(false);
+            adjustDesiredHeight();
         }
         super.execute();
         m_wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;

@@ -28,7 +28,7 @@ public class OI extends DefaultOI {
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			turnAndApproach_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11;
+			liveTargetTrack_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
@@ -49,8 +49,8 @@ public class OI extends DefaultOI {
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
-		liveTargetTrack_L1 = new JoystickButton(super.driveJoyRight, 1);
-	//	turnAndApproach_R1 = new JoystickButton(super.driveJoyRight, 1);
+		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
+		liveTargetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
 		zeroSuperstructure_L11 = new JoystickButton(super.driveJoyLeft, 11);
 		
 		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 4);
@@ -70,10 +70,9 @@ public class OI extends DefaultOI {
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
-	//	turnAndApproach_R1.whileHeld(new TurnAndApproach());
 		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(-3, -2));
 
-
+		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.0139));
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 

@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.2.1"
+    id "edu.wpi.first.GradleRIO" version "2019.4.1"
 }
 
 def ROBOT_MAIN_CLASS = "com.team687.Main"
@@ -53,7 +53,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    compile 'com.github.nerdherd:NerdyLib:fb8f92ed3452515624dd54c63e20b1ffd62be3a4'
+    compile 'com.github.nerdherd:NerdyLib:601509ed42045547d6a0a1c020195c1f2402887c'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

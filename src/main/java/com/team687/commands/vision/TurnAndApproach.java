@@ -5,20 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.climber;
-
-import com.nerdherd.lib.motor.commands.SetMotorPositionPID;
-import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
+package com.team687.commands.vision;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import com.team687.commands.vision.TurnToAngle;
+import com.team687.commands.vision.DriveAtHeading;
 
-public class RetractKickerWheels extends CommandGroup {
+public class TurnAndApproach extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public RetractKickerWheels() {
-    // addParallel(new SetMotorPositionPID(Robot.leftKickerWheel, SuperstructureConstants.kLeftKickerWheelDeployPosition, 100, false));
-    // addParallel(new SetMotorPositionPID(Robot.rightKickerWheel, SuperstructureConstants.kRightKickerWheelDeployPosition, 100, false));
+
+  public TurnAndApproach() {
+    addSequential(new TurnToAngle(0.0139));
+    addSequential(new DriveAtHeading(.0139, .0000354));
   }
 }

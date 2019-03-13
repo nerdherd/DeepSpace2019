@@ -8,40 +8,33 @@
 package com.team687.commands.superstructure;
 
 import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Superstructure;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Stow extends Command {
+public class IntakeOrOuttakeRollers extends Command {
 
-  private double intakeDelayStartTime = 0;
+  private double m_leftPow, m_rightPow;
 
-  public Stow() {
+  public IntakeOrOuttakeRollers(double leftPow, double rightPow) {
     requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    requires(Robot.claw);
+    m_leftPow = leftPow;
+    m_rightPow = rightPow;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intakeDelayStartTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setReverse();
-    if (!Superstructure.getInstance().isHatchMode) {
-      Robot.intake.setPower(0, 0);
-    } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
-      Robot.intake.setPower(0, 0);
+    if (Superstructure.getInstance().isHatchMode) {
+      Robot.intake.setPower(-m_leftPow, -m_rightPow);
+    } else {
+      Robot.intake.setPower(m_leftPow, m_rightPow);
     }
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()

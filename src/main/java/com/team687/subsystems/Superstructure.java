@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * This technically isn't a subsystem oops
  */
-public class Superstructure implements Loggable { 
+public class Superstructure implements Loggable {
   
   public boolean isHatchMode;
   private static Superstructure m_superstructureInstance = new Superstructure();

@@ -7,41 +7,36 @@
 
 package com.team687.commands.superstructure;
 
-import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
-import com.team687.subsystems.Superstructure;
+import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
+import com.team687.constants.ArmConstants;
+import com.team687.constants.ElevatorConstants;
+import com.team687.subsystems.Arm;
+import com.team687.subsystems.Elevator;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-public class Stow extends Command {
+public class ZeroSuperstructure extends Command {
 
-  private double intakeDelayStartTime = 0;
+  private double m_armVoltage, m_elevatorVoltage;
 
-  public Stow() {
-    requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    requires(Robot.claw);
+  public ZeroSuperstructure(double armVoltage, double elevatorVoltage) {
+    requires(Arm.getInstance());
+    requires(Elevator.getInstance());
+    m_armVoltage = armVoltage;
+    m_elevatorVoltage = elevatorVoltage;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intakeDelayStartTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setReverse();
-    if (!Superstructure.getInstance().isHatchMode) {
-      Robot.intake.setPower(0, 0);
-    } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
-      Robot.intake.setPower(0, 0);
-    }
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
+    Arm.getInstance().setVoltage(m_armVoltage);
+    Elevator.getInstance().setVoltage(m_elevatorVoltage);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -53,11 +48,18 @@ public class Stow extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Arm.getInstance().configAngleOffset(ArmConstants.kSecondaryAngleOffset);
+    Scheduler.getInstance().add(new ResetSingleMotorEncoder(Arm.getInstance()));
+    Arm.getInstance().setVoltage(0);
+    Elevator.getInstance().configDistanceOffset(ElevatorConstants.kSecondaryElevatorOffset);
+    Scheduler.getInstance().add(new ResetSingleMotorEncoder(Elevator.getInstance()));
+    Elevator.getInstance().setVoltage(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

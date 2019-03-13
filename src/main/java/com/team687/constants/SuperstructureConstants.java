@@ -11,19 +11,21 @@ package com.team687.constants;
  * Add your docs here.
  */
 public class SuperstructureConstants {
-
-    public static final double kLeftKickerWheelP = 0;
-    public static final double kRightKickerWheelP = 0;
-    public static final double kChevalRampP = 0;
-
-    public static final int kRightKickerWheelDeployPosition = -1024;
-    public static final int kLeftKickerWheelDeployPosition = -1024;
-
-    public static final int kRightKickerWheelRetractPosition = -1024;
-    public static final int kLeftKickerWheelRetractPosition = -1024;
-
-    public static final int kChevalRampDeployPosition = 0;
-    public static final int kChevalRampRetractPosition = 0;
     
     public static final int kSimultaneousOptimizedSearchIterations = 3;
+
+    public static final double kElevatorStowHeight = 15;
+    public static final double kArmStowAngle = 70;
+
+    public static final double kCargoIntakeVoltage = 0.25;
+    public static final double kCargoIntakeElHeight = 10;
+    public static final double kCargoIntakeArmAngle = -14;
+
+    public static final double kHatchModeArmAngle = 35;
+    public static final double kCargoModeArmAngle = 70;
+    public static final double kTeleopModeHeightDelta = 4;
+
+    public static final double kCargoShipArmAngle = 75;
+    public static final double kCargoShipElHeight = 27;
+
 }

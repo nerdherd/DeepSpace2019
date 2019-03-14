@@ -8,18 +8,18 @@
 package com.team687;
 
 import com.nerdherd.lib.misc.AutoChooser;
-import com.team687.constants.DriveConstants;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.LED;
 import com.team687.subsystems.Sensor;
 
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -44,10 +44,15 @@ public class Robot extends TimedRobot {
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
 		jevois.startCameraStream();
+		
 		sensor = new Sensor();
 		drive = new Drive();
 		ds = DriverStation.getInstance();	
-	  oi = new OI();
+		oi = new OI();
+
+		UsbCamera lifeCam = new UsbCamera("USB Camera 0", 0);
+		MjpegServer mjpegserver = new MjpegServer("serve_USB Camera 0", 1181); //if it doesnt work, try increasing 1181
+		mjpegserver.setSource(lifeCam);
 	}
 
 	@Override

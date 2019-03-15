@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	public static final String kDate = "2019_03_02_";
+	public static final String kDate = "2019_03_15_";
 
 	public static Drive drive;
 	public static DriverStation ds;
@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "testingAt687_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "AZN_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
 			armClosedLoopError);
 		//CameraServer.getInstance().startAutomaticCapture();
@@ -138,11 +138,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		drive.setBrakeMode();
-		autoCommand = chooser.getSelectedAuto();
-		if (autoCommand != null) {
-			autoCommand.start();
-		}
+		// drive.setBrakeMode();
+		// autoCommand = chooser.getSelectedAuto();
+		// if (autoCommand != null) {
+		// 	autoCommand.start();
+		// }
 	}
 
 	/**
@@ -151,9 +151,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if (oi.driveJoyLeft.getRawButton(0) && oi.driveJoyRight.getRawButton(0)) {
-			autoCommand.cancel();
-		}
+		// if (oi.driveJoyLeft.getRawButton(0) && oi.driveJoyRight.getRawButton(0)) {
+		// 	autoCommand.cancel();
+		// }
 	}
 
 	@Override

@@ -25,15 +25,18 @@ public class Limelight extends Subsystem {
   NetworkTableEntry ta;
   NetworkTableEntry pipeline;
   NetworkTableEntry ledMode;
+  NetworkTableEntry camMode;
   
   public Limelight() {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     pipeline = table.getEntry("pipeline");
+    camMode = table.getEntry("camMode");
     ledMode = table.getEntry("ledMode");
 
     pipeline.setValue(7);
+    camMode.setValue(1);
   }
 
   public double getXOffsetFromTarget() {
@@ -56,7 +59,7 @@ public class Limelight extends Subsystem {
   }
 
   public void setOff(){
-    ledMode.setNumber(7);
+    ledMode.setNumber(1);
   }
 
   public void reportToSmartDashboard() {

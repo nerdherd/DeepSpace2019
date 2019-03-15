@@ -24,10 +24,10 @@ public class FrontCargoShip extends CommandGroup {
   public FrontCargoShip() {
     addParallel(new SetHatchMode(true));
     addParallel(new TeleopSimultaneous(11));
-    addSequential(new AutoLiveTargetTrack(0.0139, 6, 0.2, 0.01));
+    addSequential(new AutoLiveTargetTrack(0.0139, 0.1, 4));
     // outtake hatch
-    addSequential(new IntakeOrOuttakeRollers(-0.45, 0.45));
-    addSequential(new WaitTime(1));
+
+    addParallel(new IntakeOrOuttakeRollers(-0.45, 0.45));
     addSequential(new DriveTime(Robot.drive, -0.2, 3));
     // addSequential(new DriveTime(Robot.drive, 0.2, 3));
 

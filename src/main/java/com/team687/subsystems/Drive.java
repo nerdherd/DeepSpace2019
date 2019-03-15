@@ -41,7 +41,7 @@ public class Drive extends ShiftingDrivetrain {
      super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
-     super.configDate("2019_3_10_");
+     super.configDate("2019_3_15_AZN_");
      // floor
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);

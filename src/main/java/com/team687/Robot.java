@@ -15,6 +15,7 @@ import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.nerdherd.lib.sensor.PressureSensor;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
@@ -22,7 +23,6 @@ import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Limelight;
-import com.team687.subsystems.PressureSensor;
 import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
 	public static Piston claw;
-	// public static PressureSensor sensor;
+	public static PressureSensor sensor;
 	// public static LED led;
 	public static Jevois jevois;
 	public static ResetSingleMotorEncoder armZero;
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		jevois.startCameraStream();
 		limelight = new Limelight();
-		// sensor = new PressureSensor();
+		sensor = new PressureSensor("PressureSensor", 0);
 
 		chooser = new DeepSpaceAutoChooser();
 	    drive = new Drive();

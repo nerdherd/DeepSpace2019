@@ -181,6 +181,7 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX());
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
+		SmartDashboard.putBoolean("Contour detected", getContourNum() > 0);
 	//	SmartDashboard.putNumber("Exposure", getExp());
 
 	}

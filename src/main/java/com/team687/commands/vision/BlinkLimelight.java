@@ -5,45 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
-import com.team687.subsystems.Superstructure;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Stow extends Command {
-
-  private double intakeDelayStartTime = 0;
-
-  public Stow() {
-    requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    requires(Robot.claw);
+public class BlinkLimelight extends Command {
+  public BlinkLimelight() {
+    requires(Robot.limelight);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intakeDelayStartTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setReverse();
-    if (!Superstructure.getInstance().isHatchMode) {
-      Robot.intake.setPower(SuperstructureConstants.kStowCargoIntakeVoltage, 
-        -SuperstructureConstants.kStowCargoIntakeVoltage);
-    } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
-      Robot.intake.setPower(-SuperstructureConstants.kStowHatchIntakeVoltage, 
-        SuperstructureConstants.kStowHatchIntakeVoltage);
+    if(Robot.jevois.getContourNum() > 0){
+      Robot.limelight.blink();
     }
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
+    else{
+      Robot.limelight.setOff();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

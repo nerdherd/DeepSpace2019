@@ -1,5 +1,6 @@
 package com.team687;
 
+import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
@@ -14,8 +15,8 @@ import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
-import com.team687.commands.vision.DriveAtHeading;
 import com.team687.commands.vision.LiveTargetTrack;
+import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,7 +30,7 @@ public class OI extends DefaultOI {
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			driveAtHeading_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11;
+			liveTargetTrack_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
 	// retractChevalRamps_, retractKickerWheels_;
@@ -51,7 +52,7 @@ public class OI extends DefaultOI {
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
 		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
-		driveAtHeading_R1 = new JoystickButton(super.driveJoyRight, 1);
+		liveTargetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
 		zeroSuperstructure_L11 = new JoystickButton(super.driveJoyLeft, 11);
 		
 		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 4);
@@ -60,7 +61,7 @@ public class OI extends DefaultOI {
 		intakeArm_1.whenPressed(new SuperstructureIntake());
 		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.4, 0.4));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
-		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.45, -0.45));
+		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.75, -0.75));
 		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_5.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(67));
@@ -71,16 +72,17 @@ public class OI extends DefaultOI {
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
-		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(-3, -2));
+		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(
+			SuperstructureConstants.kArmZeroVoltage, SuperstructureConstants.kElZeroVoltage));
 
-		driveAtHeading_R1.whileHeld(new DriveAtHeading(0.0139, 0.0000354));
+		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.0139));
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
-		// SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
@@ -117,14 +119,14 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
 		// SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
-		// // SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
+		// // // SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
 		// SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
 		// SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
 		// SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
 		// SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
 		// SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Robot.arm, 45));
 		// SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Robot.arm, 22));
-		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
+		// SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
 		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Robot.arm, 
 		// 						Robot.armHallEffect, 2./12.));
 

@@ -7,6 +7,7 @@
 
 package com.team687.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.drivetrain.shifting.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.motor.NerdyTalon;
@@ -24,20 +25,20 @@ public class Drive extends ShiftingDrivetrain {
 
   public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
-       new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
+     new VictorSPX[] {
+       new VictorSPX(RobotMap.kLeftSlaveVictor1ID),
+       new VictorSPX(RobotMap.kLeftSlaveVictor2ID)
      },
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
-       new NerdyTalon(RobotMap.kRightSlaveTalon2ID)
+     new VictorSPX[] {
+       new VictorSPX(RobotMap.kRightSlaveVictor1ID),
+       new VictorSPX(RobotMap.kRightSlaveVictor2ID)
      },
      true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     
      super.configAutoChooser(Robot.chooser);
      super.configMaxVelocity(DriveConstants.kMaxVelocity);
-     super.configSensorPhase(false, true);
+     super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
      super.configDate("2019_3_10_");

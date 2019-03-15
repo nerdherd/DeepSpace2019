@@ -23,12 +23,12 @@ public class RightCargoShip extends CommandGroup {
    * Add your docs here.
    */
   public RightCargoShip() {
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightCargoShipPathOne, 3, true, 0.01, 0));
-    addParallel(new DriveAtHeading(0, 0));
-    addParallel(new SetHatchMode(true));
-    addParallel(new TeleopSimultaneous(11));
-    addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
-    addParallel(new Stow());
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightCargoShipPathTwo, 3, false, 0.01, 0));
+    // addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightCargoShipPathOne, 3, true, 0.01, 0));
+    // addParallel(new DriveAtHeading(0, 0));
+    // addParallel(new SetHatchMode(true));
+    // addParallel(new TeleopSimultaneous(11));
+    // addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
+    // addParallel(new Stow());
+    // addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightCargoShipPathTwo, 3, false, 0.01, 0));
   }
 }

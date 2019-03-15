@@ -34,15 +34,15 @@ public class LiveTargetTrack extends Command {
         // double power = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
-            Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
+            Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), 0.7 * Robot.oi.getDriveJoyRightY());
         }
         
-        if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
+        else if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + Robot.oi.getDriveJoyRightY(), -power + Robot.oi.getDriveJoyRightY());
         }
-        else{
-            Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
-        }      
+        // else{
+        //     Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), 0.8 * Robot.oi.getDriveJoyRightY());
+        // }      
         
         SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
         // m_lastError = angularTargetError;

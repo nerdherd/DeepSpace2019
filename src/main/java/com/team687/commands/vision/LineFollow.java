@@ -36,32 +36,32 @@ public class LineFollow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    SmartDashboard.putBoolean("Detected!, Left", Robot.sensor.getValue0() < m_threshold);
-    SmartDashboard.putBoolean("Detected!, Right", Robot.sensor.getValue2() < m_threshold);
+    // SmartDashboard.putBoolean("Detected!, Left", Robot.sensor.getValue0() < m_threshold);
+    // SmartDashboard.putBoolean("Detected!, Right", Robot.sensor.getValue2() < m_threshold);
 
 
-    if (Robot.sensor.getValue1() < (m_threshold + 150)) {
-      if (Robot.sensor.getValue0() < m_threshold + m_lineFollowOffset) {
-        Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + (m_powerOffset + 0.02), -Robot.oi.getDriveJoyRightY() - (m_powerOffset + 0.02));
-        SmartDashboard.putString("Turn", "Right");
-      } 
+    // if (Robot.sensor.getValue1() < (m_threshold + 150)) {
+    //   if (Robot.sensor.getValue0() < m_threshold + m_lineFollowOffset) {
+    //     Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + (m_powerOffset + 0.02), -Robot.oi.getDriveJoyRightY() - (m_powerOffset + 0.02));
+    //     SmartDashboard.putString("Turn", "Right");
+    //   } 
   
-      else if (Robot.sensor.getValue2() < m_threshold + (m_lineFollowOffset)) {
-        Robot.drive.setPower(-Robot.oi.getDriveJoyRightY() - (m_powerOffset), -Robot.oi.getDriveJoyRightY() + (m_powerOffset));
-        SmartDashboard.putString("Turn", "Left");
-      }
+    //   else if (Robot.sensor.getValue2() < m_threshold + (m_lineFollowOffset)) {
+    //     Robot.drive.setPower(-Robot.oi.getDriveJoyRightY() - (m_powerOffset), -Robot.oi.getDriveJoyRightY() + (m_powerOffset));
+    //     SmartDashboard.putString("Turn", "Left");
+    //   }
 
-      else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
-                && Robot.sensor.getValue1() < m_threshold) {
-        SmartDashboard.putString("Turn", "Neither");
-        Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY(), -Robot.oi.getDriveJoyRightY());
-      } 
+    //   else if (Robot.sensor.getValue0() > m_threshold && Robot.sensor.getValue2() > m_threshold 
+    //             && Robot.sensor.getValue1() < m_threshold) {
+    //     SmartDashboard.putString("Turn", "Neither");
+    //     Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY(), -Robot.oi.getDriveJoyRightY());
+    //   } 
       
-    }
-    else{
-      SmartDashboard.putString("Turn", "ono");
-      Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + Robot.oi.getDriveJoyLeftX(),-Robot.oi.getDriveJoyLeftX() - Robot.oi.getDriveJoyRightY());
-    }
+    // }
+    // else{
+    //   SmartDashboard.putString("Turn", "ono");
+    //   Robot.drive.setPowerFeedforward(-Robot.oi.getDriveJoyRightY() + Robot.oi.getDriveJoyLeftX(),-Robot.oi.getDriveJoyLeftX() - Robot.oi.getDriveJoyRightY());
+    // }
   }
 
   @Override

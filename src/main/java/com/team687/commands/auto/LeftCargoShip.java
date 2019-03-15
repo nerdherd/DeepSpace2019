@@ -24,13 +24,13 @@ public class LeftCargoShip extends CommandGroup {
    */
   public LeftCargoShip() {
    
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftCargoShipPathOne, 3, true, 0.01, 0));
-    addParallel(new DriveAtHeading(0, 0));
-    addParallel(new SetHatchMode(true));
-    addParallel(new TeleopSimultaneous(11));
-    addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
-    addParallel(new Stow());
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftCargoShipPathTwo, 3, false, 0.01, 0));
+    // addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftCargoShipPathOne, 3, true, 0.01, 0));
+    // addParallel(new DriveAtHeading(0, 0));
+    // addParallel(new SetHatchMode(true));
+    // addParallel(new TeleopSimultaneous(11));
+    // addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
+    // addParallel(new Stow());
+    // addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftCargoShipPathTwo, 3, false, 0.01, 0));
  
   }
 }

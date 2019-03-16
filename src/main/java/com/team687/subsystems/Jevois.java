@@ -182,6 +182,8 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
 		SmartDashboard.putBoolean("Contour detected", getContourNum() > 0);
+		SmartDashboard.putBoolean("Within 2 degrees", Math.abs(Robot.jevois.getAngleToTurn()) <= 2);
+
 	//	SmartDashboard.putNumber("Exposure", getExp());
 
 	}

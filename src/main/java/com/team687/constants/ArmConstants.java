@@ -36,8 +36,8 @@ public class ArmConstants {
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
 
     public static final double kArmLength = 14;
-    public static final double kArmMaxAngle = 80;
-    public static final double kArmMinAngle = -35;
+    public static final double kArmMaxAngle = 90;
+    public static final double kArmMinAngle = -17;
     public static final double kArmMaxAngleRads = NerdyMath.degreesToRadians(kArmMaxAngle);
     public static final double kArmMinAngleRads = NerdyMath.degreesToRadians(kArmMinAngle);
 

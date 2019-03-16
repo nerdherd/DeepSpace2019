@@ -12,12 +12,15 @@ import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.team687.RobotMap;
 import com.team687.constants.ArmConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
 public class Arm extends SingleMotorArm {
 
     private static Arm m_armInstance = new Arm();
+    public static double armMinAngle, armMaxAngle;
 
     private Arm() {
         super(RobotMap.kArmTalonID, "Arm", 
@@ -30,6 +33,16 @@ public class Arm extends SingleMotorArm {
             ArmConstants.kArmD, ArmConstants.kArmF);
         super.configAngleConversion(ArmConstants.kArmAngleRatio, 
             ArmConstants.kEffectiveArmAngleOffset);
+        armMinAngle = ArmConstants.kArmMinAngle;
+        armMaxAngle = ArmConstants.kArmMaxAngle;
+    }
+
+    public void updateMinAngle() {
+        if (Elevator.getInstance().getHeight() > 25) {
+            armMinAngle = -80;
+        } else {
+            armMinAngle = ArmConstants.kArmMinAngle;
+        }
     }
 
     public static Arm getInstance() {
@@ -38,6 +51,13 @@ public class Arm extends SingleMotorArm {
 
     public static double getArmHeight() {
         return ArmConstants.kArmLength * Math.sin(NerdyMath.degreesToRadians(getInstance().getAngle()));
+    }
+
+    @Override
+    public void reportToSmartDashboard() {
+        // super.reportToSmartDashboard();
+        SmartDashboard.putNumber(name + " Angle", getAngle());
+        // SmartDashboard.putNumber(m_name + " Position", getPosition());
     }
 
 }

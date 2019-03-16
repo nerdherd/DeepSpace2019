@@ -10,12 +10,12 @@ package com.team687.subsystems;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.drivetrain.shifting.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
-import com.nerdherd.lib.motor.NerdyTalon;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.constants.DriveConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -56,7 +56,7 @@ public class Drive extends ShiftingDrivetrain {
 
   @Override
   public void periodic() {
-    super.reportToSmartDashboard();
+    reportToSmartDashboard();
     super.calcXY();
   }
 
@@ -74,5 +74,15 @@ public class Drive extends ShiftingDrivetrain {
   public void logToCSV() {
     super.logToCSV();
   }
+
+  @Override
+  public void reportToSmartDashboard() {
+    SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
+		SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
+		SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
+		SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
+		SmartDashboard.putNumber("Yaw", getRawYaw());
+  }
+  
 }
 

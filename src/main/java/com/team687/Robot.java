@@ -54,7 +54,8 @@ public class Robot extends TimedRobot {
 	public static ResetSingleMotorEncoder armZero;
 	public static ResetSingleMotorEncoder elevatorZero;
 	public static Limelight limelight;
-
+	private static boolean hasBeenTeleop = false;
+	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
 	// big yummy
 	// public static HallSensor armHallEffect;
@@ -99,8 +100,10 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "AZN_day1_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
-			armClosedLoopError, superstructureData);
+			armClosedLoopError, superstructureData, intake);
 		//CameraServer.getInstance().startAutomaticCapture();
+		drive.startLog();
+		jevois.startLog();
 	}
 
 	@Override
@@ -112,13 +115,23 @@ public class Robot extends TimedRobot {
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
+		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
+		drive.logToCSV();
+		jevois.logToCSV();
+		// }
 	}
 
 	@Override
 	public void disabledInit() {
-		drive.stopLog();
-		jevois.stopLog();
-		jevois.enableStream();	
+		
+		// jevois.enableStream();	
+		if(hasBeenSandstorm && hasBeenTeleop) {
+			drive.stopLog();
+			jevois.stopLog();
+			hasBeenSandstorm = false;
+			hasBeenTeleop = false;
+		}
+		superstructureData.isHatchMode = true;
 	}
 
 	@Override
@@ -145,7 +158,11 @@ public class Robot extends TimedRobot {
 		// if (autoCommand != null) {
 		// 	autoCommand.start();
 		// }
-		
+		if (hasBeenTeleop) {
+			hasBeenTeleop = false;
+		}
+		hasBeenSandstorm = true;	
+		superstructureData.isHatchMode = true;	
 	}
 
 	/**
@@ -162,11 +179,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		
-		jevois.startLog();
-		drive.startLog();
+		// jevois.startLog();
+		// drive.startLog();
 		// drive.setCoastMode();
 		drive.setBrakeMode();
-
+		hasBeenTeleop = true;
 	}
 
 	/**
@@ -174,13 +191,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		drive.logToCSV();
 		jevois.reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 
 
-		jevois.logToCSV();
 		Scheduler.getInstance().run();
 	}
 

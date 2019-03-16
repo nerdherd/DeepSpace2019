@@ -11,6 +11,8 @@ import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.team687.RobotMap;
 import com.team687.constants.ElevatorConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
@@ -34,6 +36,12 @@ public class Elevator extends SingleMotorElevator {
 
   public static Elevator getInstance() {
     return m_elevatorInstance;
+  }
+
+  @Override
+  public void reportToSmartDashboard() {
+    // super.reportToSmartDashboard();
+    SmartDashboard.putNumber(name + " Height", getHeight());
   }
 
 }

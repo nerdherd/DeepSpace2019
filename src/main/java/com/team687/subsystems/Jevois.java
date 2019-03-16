@@ -242,8 +242,8 @@ public class Jevois extends Subsystem implements Runnable {
 				m_writer.append(String.valueOf(timestamp) + ","
 						+ String.valueOf(getContourNum()) + "," + String.valueOf(getTargetArea()) + ","
 						+ String.valueOf(getTargetX()) + "," + String.valueOf(getTargetY()) +"," 
-						+ String.valueOf(getDistance()) + "," + String.valueOf(getAngleToTurn()));
-				// m_writer.flush();
+						+ String.valueOf(getDistance()) + "," + String.valueOf(getAngleToTurn()) + "\n");
+				m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 				writeException = true;

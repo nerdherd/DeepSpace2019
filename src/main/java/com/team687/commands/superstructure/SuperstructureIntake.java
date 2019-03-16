@@ -32,6 +32,7 @@ public class SuperstructureIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.superstructureData.isHatchMode = false;
     Robot.claw.setForwards();
     Robot.intake.setPower(SuperstructureConstants.kCargoIntakeVoltage, 
       -SuperstructureConstants.kCargoIntakeVoltage);

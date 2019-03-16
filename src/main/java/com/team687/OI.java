@@ -64,11 +64,11 @@ public class OI extends DefaultOI {
 		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.75, -0.75));
 		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_5.whenPressed(new StopIntaking());
-		highElevator_7.whenPressed(new TeleopSimultaneous(67));
+		highElevator_7.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kHighElHeight));
 		cargoShip_8.whenPressed(new CargoShipCargo());
-		midElevator_9.whenPressed(new TeleopSimultaneous(39));
+		midElevator_9.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kMidElHeight));
 		stow_10.whenPressed(new Stow());
-		lowElevator_11.whenPressed(new TeleopSimultaneous(11));
+		lowElevator_11.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kLowElHeight));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
@@ -83,6 +83,8 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
 		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+
+		
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
@@ -155,5 +157,9 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Optimized cargo 2", new OptimizedSimultaneousMovement(57.5));
 		// SmartDashboard.putData("Optimized cargo 3", new OptimizedSimultaneousMovement(83.5));
 
+	}
+
+	public boolean isButtonPressed(int button){
+		return(super.operatorJoy.getRawButton(button));
 	}
 }

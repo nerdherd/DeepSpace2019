@@ -16,6 +16,7 @@ import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
+import com.team687.commands.auto.FrontCargoShip;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
 	public static Piston claw;
-	public static PressureSensor sensor;
+	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
 	public static ResetSingleMotorEncoder armZero;
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
 		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		jevois.startCameraStream();
 		limelight = new Limelight();
-		sensor = new PressureSensor("PressureSensor", 0);
+		pressureSensor = new PressureSensor("PressureSensor", 3);
 
 		chooser = new DeepSpaceAutoChooser();
 	    drive = new Drive();
@@ -96,9 +97,9 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "AZN_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "AZN_day1_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
-			armClosedLoopError);
+			armClosedLoopError, superstructureData);
 		//CameraServer.getInstance().startAutomaticCapture();
 	}
 
@@ -106,6 +107,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
+		pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
@@ -123,7 +125,6 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
-		// sensor.reportToSmartDashboard();
 		if (oi.driveJoyLeft.getRawButton(5) && oi.driveJoyRight.getRawButton(5)) {
 			arm.configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
 			elevator.configDistanceOffset(ElevatorConstants.kElevatorHeightOffset);
@@ -140,9 +141,11 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		// drive.setBrakeMode();
 		// autoCommand = chooser.getSelectedAuto();
+		// autoCommand = new FrontCargoShip();
 		// if (autoCommand != null) {
 		// 	autoCommand.start();
 		// }
+		
 	}
 
 	/**
@@ -173,7 +176,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		drive.logToCSV();
 		jevois.reportToSmartDashboard();
-		// sensor.reportToSmartDashboard();
+		// pressureSensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 
 

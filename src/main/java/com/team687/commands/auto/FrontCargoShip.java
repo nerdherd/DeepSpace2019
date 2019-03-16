@@ -7,13 +7,13 @@
 
 package com.team687.commands.auto;
 
+import com.nerdherd.lib.drivetrain.auto.DriveTime;
 import com.team687.Robot;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.SetHatchMode;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.vision.AutoLiveTargetTrack;
-import com.nerdherd.lib.drivetrain.auto.DriveTime;
-import com.nerdherd.lib.misc.WaitTime;
+import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -23,8 +23,8 @@ public class FrontCargoShip extends CommandGroup {
    */
   public FrontCargoShip() {
     addParallel(new SetHatchMode(true));
-    addParallel(new TeleopSimultaneous(11));
-    addSequential(new AutoLiveTargetTrack(0.0139, 0.1, 4));
+    addParallel(new TeleopSimultaneous(SuperstructureConstants.kLowElHeight));
+    addSequential(new AutoLiveTargetTrack(0.0139, 0.2, 5));
     // outtake hatch
 
     addParallel(new IntakeOrOuttakeRollers(-0.45, 0.45));

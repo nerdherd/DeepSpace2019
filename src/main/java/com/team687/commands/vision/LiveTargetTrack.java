@@ -59,7 +59,7 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.oi.isButtonPressed(10);
     }
 
     @Override

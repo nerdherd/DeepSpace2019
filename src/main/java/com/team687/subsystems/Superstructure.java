@@ -23,7 +23,7 @@ public class Superstructure implements Loggable {
   private static Superstructure m_superstructureInstance = new Superstructure();
 
   private Superstructure() {
-    isHatchMode = false;
+    isHatchMode = true;
   }
   
   public static Superstructure getInstance() {

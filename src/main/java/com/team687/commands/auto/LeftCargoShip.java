@@ -7,15 +7,6 @@
 
 package com.team687.commands.auto;
 
-import com.nerdherd.lib.drivetrain.auto.DriveFalconTrajectory;
-import com.nerdherd.lib.motor.commands.SetDualMotorPower;
-import com.team687.Robot;
-import com.team687.commands.superstructure.SetHatchMode;
-import com.team687.commands.superstructure.Stow;
-import com.team687.commands.superstructure.TeleopSimultaneous;
-import com.team687.commands.vision.DriveAtHeading;
-import com.team687.constants.AutoConstants;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class LeftCargoShip extends CommandGroup {

@@ -16,10 +16,10 @@ import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
-import com.team687.commands.auto.FrontCargoShip;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
+import com.team687.subsystems.ClimbStinger;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 	public static SingleMotorArm arm;
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
-	public static Piston claw;
+	public static Piston claw, climberFoot;
 	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
@@ -57,6 +57,7 @@ public class Robot extends TimedRobot {
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
+	public static ClimbStinger climbStinger1;
 	// big yummy
 	// public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
@@ -78,6 +79,8 @@ public class Robot extends TimedRobot {
 		elevator = Elevator.getInstance();
 		arm = Arm.getInstance();
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
+		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
+		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false);
 
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));

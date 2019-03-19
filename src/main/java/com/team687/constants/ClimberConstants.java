@@ -21,6 +21,12 @@ public class ClimberConstants {
     public static final double kD2 = 0;
     public static final double kF2 = 0;
 
+    public static final double kStinger1AngleOffset = 0;
+    public static final double kStinger2AngleOffset = 0;
+
+
+
+
     public static final double kClimbAngle = 0;
 
 }

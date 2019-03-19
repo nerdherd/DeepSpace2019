@@ -11,12 +11,14 @@ import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
 import com.team687.constants.ArmConstants;
+import com.team687.constants.ClimberConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.ClimbStinger;
@@ -57,7 +59,9 @@ public class Robot extends TimedRobot {
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
-	public static ClimbStinger climbStinger1;
+	public static ClimbStinger climbStinger1, climbStinger2;
+
+	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight, climberWheelBack;
 	// big yummy
 	// public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
@@ -80,8 +84,15 @@ public class Robot extends TimedRobot {
 		arm = Arm.getInstance();
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
-		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false);
+		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false, ClimberConstants.kStinger1AngleOffset);
+		climbStinger2 = new ClimbStinger(RobotMap.kClimbStinger2ID, "Climb Stinger 2", false, false, ClimberConstants.kStinger2AngleOffset);
 
+
+		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
+		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
+		climberWheelBack = new SingleMotorVictorSPX(RobotMap.kClimberWheelBackID, "ClimbStinger", false);
+		
+		
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));
 

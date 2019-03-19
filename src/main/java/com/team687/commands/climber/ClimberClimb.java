@@ -28,6 +28,13 @@ public class ClimberClimb extends Command {
   @Override
   protected void execute() {
     Robot.climbStinger1.setAngle(ClimberConstants.kClimbAngle);
+    Robot.climbStinger2.setAngle(ClimberConstants.kClimbAngle);
+    
+    Robot.climberWheelBack.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
+
+    Robot.drive.setPower(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,6 +46,7 @@ public class ClimberClimb extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.climberFoot.setReverse();
   }
 
   // Called when another command which requires one or more of the same

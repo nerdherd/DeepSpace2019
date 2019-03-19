@@ -7,6 +7,7 @@ import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
+import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
@@ -84,6 +85,8 @@ public class OI extends DefaultOI {
 
 		SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
 
+		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
+		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));

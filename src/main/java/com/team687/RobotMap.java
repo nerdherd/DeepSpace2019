@@ -39,9 +39,6 @@ public class RobotMap {
     public static final int kClimberWheelRightID = 0;
     public static final int kClimberWheelLeftID = 0;
     public static final int kClimberWheelBackID = 0;
-    
-    
-    
 
     public static final int kLeftIntakeVictorID = 7;
     public static final int kRightIntakeVictorID = 8;

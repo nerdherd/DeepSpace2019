@@ -13,8 +13,8 @@ import com.team687.subsystems.Jevois;
 import com.team687.subsystems.LED;
 import com.team687.subsystems.Sensor;
 
-import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -50,20 +50,24 @@ public class Robot extends TimedRobot {
 		ds = DriverStation.getInstance();	
 		oi = new OI();
 
-		UsbCamera lifeCam = new UsbCamera("USB Camera 0", 0);
-		MjpegServer mjpegserver = new MjpegServer("serve_USB Camera 0", 1181); //if it doesnt work, try increasing 1181
-		mjpegserver.setSource(lifeCam);
+		CameraServer.getInstance().startAutomaticCapture(0);
+	
+
+
+		// UsbCamera lifeCam = new UsbCamera("USB Camera 0", 0);
+		// MjpegServer mjpegserver = new MjpegServer("serve_USB Camera 0", 1181); //if it doesnt work, try increasing 1181
+		// mjpegserver.setSource(lifeCam);
 	}
 
 	@Override
 	public void disabledInit() {
-		jevois.stopLog();
-		jevois.enableStream();	
+		// jevois.stopLog();
+		// jevois.enableStream();	
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
 
@@ -85,7 +89,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		jevois.startLog();
+		// jevois.startLog();
 	}
 
 	/**
@@ -93,7 +97,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		jevois.logToCSV();

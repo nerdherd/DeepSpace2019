@@ -51,7 +51,7 @@ public class Jevois extends Subsystem implements Runnable {
 
 	public void startCameraStream() {
 		try {
-			m_visionCam = CameraServer.getInstance().startAutomaticCapture();
+			m_visionCam = CameraServer.getInstance().startAutomaticCapture(1);
 			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
 		} catch (Exception e) {
 		}
@@ -130,30 +130,30 @@ public class Jevois extends Subsystem implements Runnable {
 		return m_offset;
 	}
 
-	public double getExp() {
-		sendCommand("getcam absexp");
-		String read = m_cam.readString();
-		double exp = Double.valueOf(read);
-		return exp;
-	}
+	// public double getExp() {
+	// 	sendCommand("getcam absexp");
+	// 	String read = m_cam.readString();
+	// 	double exp = Double.valueOf(read);
+	// 	return exp;
+	// }
 
-	public void increaseExp5(){
-		sendCommand("setcam absexp " + String.valueOf(getExp() + 5));
-	}
+	// public void increaseExp5(){
+	// 	sendCommand("setcam absexp " + String.valueOf(getExp() + 5));
+	// }
 
-	public void decreaseExp5(){
-		sendCommand("setcam absexp " + String.valueOf(getExp() - 5));
+	// public void decreaseExp5(){
+	// 	sendCommand("setcam absexp " + String.valueOf(getExp() - 5));
 
-	}
+	// }
 
-	public void increaseExp1(){
-		sendCommand("setcam absexp " + String.valueOf(getExp() + 1));
+	// public void increaseExp1(){
+	// 	sendCommand("setcam absexp " + String.valueOf(getExp() + 1));
 	
-	}
+	// }
 
-	public void decreaseExp1(){
-		sendCommand("setcam absexp " + String.valueOf(getExp() - 1));
-	}
+	// public void decreaseExp1(){
+	// 	sendCommand("setcam absexp " + String.valueOf(getExp() - 1));
+	// }
 
 	public double getContourNum() {
 		return m_contourNum;
@@ -208,7 +208,7 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX());
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
-		SmartDashboard.putNumber("Exposure", getExp());
+		// SmartDashboard.putNumber("Exposure", getExp());
 
 	}
 

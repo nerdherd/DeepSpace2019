@@ -28,9 +28,9 @@ public class DeepSpaceAutoChooser extends AutoChooser {
     public DeepSpaceAutoChooser() {
         super();
         modeChooser = new SendableChooser<>();
-        modeChooser.setDefaultOption("Rocket Auto", AutoMode.RocketShip);
-        modeChooser.addOption("Cargo Ship Auto", AutoMode.CargoShip);
-        SmartDashboard.putData("Mode Chooser", modeChooser);
+        // modeChooser.setDefaultOption("Rocket Auto", AutoMode.RocketShip);
+        // modeChooser.addOption("Cargo Ship Auto", AutoMode.CargoShip);
+        // SmartDashboard.putData("Mode Chooser", modeChooser);
         SmartDashboard.putData("Starting Position Chooser", super.startingPositionChooser);
     }
 
@@ -45,13 +45,13 @@ public class DeepSpaceAutoChooser extends AutoChooser {
             // if (getAutoMode() == AutoMode.CargoShip) {
             //     auto = new RightCargoShip();
             // } else if (getAutoMode() == AutoMode.RocketShip) {
-            auto =  new RightRocketNear();
+            auto =  new FrontCargoShip();
             // }
         } else if (getStartingPosition() == StartingPosition.LEFT) {
             // if (getAutoMode() == AutoMode.CargoShip) {
             //     auto = new LeftCargoShip();
             // } else if (getAutoMode() == AutoMode.RocketShip) {
-                auto =  new LeftRocketNear();
+                auto =  new FrontCargoShip();
             // }
         } else if (getStartingPosition() == StartingPosition.CENTER) {
             auto = new FrontCargoShip();

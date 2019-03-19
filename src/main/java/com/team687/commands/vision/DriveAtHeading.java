@@ -48,7 +48,7 @@ public class DriveAtHeading extends Command {
   @Override
   protected void execute() {
     double straightError = m_initDistanceTicks + Robot.drive.getAverageEncoderPosition();
-    double straightPower = straightError * m_strP;
+    double straightPower = straightError * -m_strP;
     double angularTargetError = Robot.jevois.getAngleToTurn();
     double rotPower = -m_rotP * angularTargetError;
 

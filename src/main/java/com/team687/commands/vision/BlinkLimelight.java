@@ -5,23 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SuperstructureIntake extends Command {
-
-  // There's no real reason to make this do the optimized thing here
-  // I think
-  // I might actually change this later when my brain is working enough to solve the equations
-  public SuperstructureIntake() {
-    requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    requires(Robot.claw);
+public class BlinkLimelight extends Command {
+  public BlinkLimelight() {
+    requires(Robot.limelight);
   }
 
   // Called just before this Command runs the first time
@@ -32,15 +24,15 @@ public class SuperstructureIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.superstructureData.isHatchMode = false;
-    Robot.claw.setForwards();
-    Robot.intake.setPower(SuperstructureConstants.kCargoIntakeVoltage, 
-      -SuperstructureConstants.kCargoIntakeVoltage);
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kCargoIntakeArmAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kCargoIntakeElHeight);
+    if(Robot.jevois.getContourNum() > 0){
+      Robot.limelight.blink();
+    }
+    else{
+      Robot.limelight.setOff();
+    }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  // Make this return true when this Command no longer needs to run execute() 
   @Override
   protected boolean isFinished() {
     return false;

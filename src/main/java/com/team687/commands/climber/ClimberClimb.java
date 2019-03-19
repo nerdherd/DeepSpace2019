@@ -5,45 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.climber;
 
 import com.team687.Robot;
-import com.team687.constants.SuperstructureConstants;
-import com.team687.subsystems.Superstructure;
+import com.team687.constants.ClimberConstants;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Stow extends Command {
-
-  private double intakeDelayStartTime = 0;
-
-  public Stow() {
-    requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
-    requires(Robot.claw);
+public class ClimberClimb extends Command {
+  public ClimberClimb() {
+    requires(Robot.climberFoot);
+    requires(Robot.climbStinger1);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intakeDelayStartTime = Timer.getFPGATimestamp();
+    Robot.climberFoot.setForwards();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.claw.setReverse();
-    if (!Superstructure.getInstance().isHatchMode) {
-      Robot.intake.setPower(SuperstructureConstants.kStowCargoIntakeVoltage, 
-        -SuperstructureConstants.kStowCargoIntakeVoltage);
-    } else if (Timer.getFPGATimestamp() - intakeDelayStartTime > 1) {
-      Robot.intake.setPower(-SuperstructureConstants.kStowHatchIntakeVoltage, 
-        SuperstructureConstants.kStowHatchIntakeVoltage);
-    }
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
+    Robot.climbStinger1.setAngle(ClimberConstants.kClimbAngle);
+    Robot.climbStinger2.setAngle(ClimberConstants.kClimbAngle);
+    
+    Robot.climberWheelBack.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
+
+    Robot.drive.setPower(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -55,6 +46,7 @@ public class Stow extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.climberFoot.setReverse();
   }
 
   // Called when another command which requires one or more of the same

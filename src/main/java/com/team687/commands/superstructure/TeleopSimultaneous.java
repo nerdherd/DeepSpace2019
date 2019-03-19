@@ -20,6 +20,7 @@ public class TeleopSimultaneous extends SimultaneousMovement {
 
     public TeleopSimultaneous(double elevatorHeight) {
         super(elevatorHeight, SuperstructureConstants.kHatchModeArmAngle);
+        requires(Robot.intake);
         m_initialElevatorHeight = elevatorHeight;
     }
 
@@ -28,9 +29,13 @@ public class TeleopSimultaneous extends SimultaneousMovement {
           super.m_armAngle = SuperstructureConstants.kCargoModeArmAngle;
           super.m_elevatorHeight = m_initialElevatorHeight + 
             SuperstructureConstants.kTeleopModeHeightDelta;
+            Robot.intake.setPower(SuperstructureConstants.kStowCargoIntakeVoltage, 
+                -SuperstructureConstants.kStowCargoIntakeVoltage);
         } else {
           super.m_armAngle = SuperstructureConstants.kHatchModeArmAngle;
           super.m_elevatorHeight = m_initialElevatorHeight;
+          Robot.intake.setPower(-SuperstructureConstants.kStowHatchIntakeVoltage, 
+              SuperstructureConstants.kStowHatchIntakeVoltage);
         }
       }
 

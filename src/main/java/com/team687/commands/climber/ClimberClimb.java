@@ -12,7 +12,11 @@ import com.team687.constants.ClimberConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+
+
 public class ClimberClimb extends Command {
+  private double m_kP;
+
   public ClimberClimb() {
     requires(Robot.climberFoot);
     requires(Robot.climbStingerLeft);
@@ -20,6 +24,7 @@ public class ClimberClimb extends Command {
     requires(Robot.drive);
     requires(Robot.climberWheelLeft);
     requires(Robot.climberWheelRight);
+    m_kP = 0.04;
   }
 
   // Called just before this Command runs the first time
@@ -31,8 +36,10 @@ public class ClimberClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climbStingerLeft.setAngle(ClimberConstants.kClimbAngle);
-    Robot.climbStingerRight.setAngle(ClimberConstants.kClimbAngle);
+    // Robot.climbStingerLeft.setAngle(ClimberConstants.kClimbAngle);
+    // Robot.climbStingerRight.setAngle(ClimberConstants.kClimbAngle);
+    Robot.climbStingerLeft.setPower(ClimberConstants.kArmLiftFF + Robot.drive.getPitch() * m_kP);
+    Robot.climbStingerRight.setPower(ClimberConstants.kArmLiftFF + Robot.drive.getPitch() * m_kP);
     
     if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
       Robot.climberFoot.setForwards();

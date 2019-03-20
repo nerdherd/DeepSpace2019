@@ -1,5 +1,6 @@
 package com.team687;
 
+import com.nerdherd.lib.drivetrain.auto.ResetGyro;
 import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
@@ -9,6 +10,8 @@ import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.climber.ClimberClimb;
+import com.team687.commands.climber.DualClimberVoltageRamp;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
@@ -89,7 +92,12 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
 		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
-		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12));
+		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12.0));
+		SmartDashboard.putData("Reset Left Stinger", new ResetSingleMotorEncoder(Robot.climbStingerLeft));
+		SmartDashboard.putData("Reset Right Stinger", new ResetSingleMotorEncoder(Robot.climbStingerRight));
+		SmartDashboard.putData("Climber voltage ramping", new DualClimberVoltageRamp());
+		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		SmartDashboard.putData("Climb!!!", new ClimberClimb());
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));

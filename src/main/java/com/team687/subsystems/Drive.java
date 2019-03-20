@@ -82,7 +82,9 @@ public class Drive extends ShiftingDrivetrain {
 		SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
 		SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
 		SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
-		SmartDashboard.putNumber("Yaw", getRawYaw());
+    SmartDashboard.putNumber("Yaw", getRawYaw());
+    SmartDashboard.putNumber("Pitch", getPitch());
+    SmartDashboard.putNumber("Roll", getRoll());
   }
   
 }

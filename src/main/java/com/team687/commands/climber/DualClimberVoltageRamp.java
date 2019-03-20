@@ -17,7 +17,7 @@ public class DualClimberVoltageRamp extends CommandGroup {
    * Add your docs here.
    */
   public DualClimberVoltageRamp() {
-    addParallel(new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12));
-    addParallel(new MotorVoltageRamping(Robot.climbStingerRight, 0.25/12));
+    addParallel(new MotorVoltageRamping(Robot.climbStingerLeft, -0.25/12));
+    addParallel(new MotorVoltageRamping(Robot.climbStingerRight, -0.25/12));
   }
 }

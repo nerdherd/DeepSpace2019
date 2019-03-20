@@ -85,9 +85,18 @@ public class Robot extends TimedRobot {
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
 		
-		climbStingerLeft = new ClimbStinger(RobotMap.kClimbStingerLeftID, "Climb Stinger Left", false, false);
-		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", true, false);
-
+		climbStingerLeft = new ClimbStinger(RobotMap.kClimbStingerLeftID, "Climb Stinger Left", true, true);
+		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", false, true);
+		climbStingerLeft.configAngleConversion(ClimberConstants.kStinger1AngleRatio, ClimberConstants.kStinger1AngleOffset);
+		climbStingerRight.configAngleConversion(ClimberConstants.kStinger2AngleRatio, ClimberConstants.kStinger2AngleOffset);
+		climbStingerLeft.configStaticFF(0);
+		climbStingerRight.configStaticFF(0);
+		climbStingerRight.configGravityFF(2.766);
+		climbStingerLeft.configGravityFF(2.798);
+		climbStingerLeft.configPIDF(ClimberConstants.kP1, ClimberConstants.kI1, ClimberConstants.kD1, ClimberConstants.kF1);
+		climbStingerRight.configPIDF(ClimberConstants.kP2, ClimberConstants.kI2, ClimberConstants.kD2, ClimberConstants.kF2);
+		climbStingerLeft.configMotionMagic(5, 10);
+		climbStingerRight.configMotionMagic(5, 10);
 
 		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
 		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
@@ -112,9 +121,10 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "AZN_day1_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber_testing_", 0.02, 
 			elevator, elevatorClosedLoopError, arm, 
-			armClosedLoopError, superstructureData, intake);
+			armClosedLoopError, superstructureData, intake,
+			climbStingerLeft, climbStingerRight, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();
@@ -125,6 +135,8 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		pressureSensor.reportToSmartDashboard();
+		climbStingerLeft.reportToSmartDashboard();
+		climbStingerRight.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());

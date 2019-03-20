@@ -15,22 +15,28 @@ public class ClimberConstants {
     public static final double kP1 = 0;
     public static final double kI1 = 0;
     public static final double kD1 = 0;
-    public static final double kF1 = 0;
+    public static final double kF1 = 1.1935;
     
     public static final double kP2 = 0;
     public static final double kI2 = 0;
     public static final double kD2 = 0;
-    public static final double kF2 = 0;
+    public static final double kF2 = 1.074;
 
-    public static final double kStinger1AngleOffset = 0;
-    public static final double kStinger2AngleOffset = 0;
+    public static final double kStinger1AngleOffset = 109;
+    public static final double kStinger2AngleOffset = 109;
+
+    public static final double kStinger1AngleRatio = 1./4096. * 360;
+    public static final double kStinger2AngleRatio = 1./4096. * 360;
 
     public static final double kStinger1StowAngle = 0;
     public static final double kStinger2StowAngle = 0;
 
-    public static final double kStartClimbingAngle = 0;
+    public static final double kStartClimbingAngle = 25;
 
 
-    public static final double kClimbAngle = 0;
+    public static final double kClimbAngle = 18;
+    
+    // Percent output needed to lift robot from arms
+    public static final double kArmLiftFF = -0.3;
 
 }

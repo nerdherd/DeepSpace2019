@@ -85,8 +85,8 @@ public class Robot extends TimedRobot {
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
 		
-		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false, ClimberConstants.kStinger1AngleOffset);
-		climbStinger2 = new ClimbStinger(RobotMap.kClimbStinger2ID, "Climb Stinger 2", false, false, ClimberConstants.kStinger2AngleOffset);
+		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false);
+		climbStinger2 = new ClimbStinger(RobotMap.kClimbStinger2ID, "Climb Stinger 2", false, false);
 
 
 		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);

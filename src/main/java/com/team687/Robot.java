@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static ClimbStinger climbStinger1, climbStinger2;
 
-	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight, climberWheelBack;
+	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
 	// big yummy
 	// public static HallSensor armHallEffect;
 	public static Superstructure superstructureData;
@@ -84,13 +84,13 @@ public class Robot extends TimedRobot {
 		arm = Arm.getInstance();
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
+		
 		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false, ClimberConstants.kStinger1AngleOffset);
 		climbStinger2 = new ClimbStinger(RobotMap.kClimbStinger2ID, "Climb Stinger 2", false, false, ClimberConstants.kStinger2AngleOffset);
 
 
 		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
 		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
-		climberWheelBack = new SingleMotorVictorSPX(RobotMap.kClimberWheelBackID, "ClimbStinger", false);
 		
 		
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 

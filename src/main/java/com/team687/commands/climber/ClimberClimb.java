@@ -30,7 +30,6 @@ public class ClimberClimb extends Command {
     Robot.climbStinger1.setAngle(ClimberConstants.kClimbAngle);
     Robot.climbStinger2.setAngle(ClimberConstants.kClimbAngle);
     
-    Robot.climberWheelBack.setPower(Robot.oi.getDriveJoyRightY());
     Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
     Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
 
@@ -47,6 +46,9 @@ public class ClimberClimb extends Command {
   @Override
   protected void end() {
     Robot.climberFoot.setReverse();
+    Robot.climbStinger1.setAngle(ClimberConstants.kStinger1StowAngle);
+    Robot.climbStinger2.setAngle(ClimberConstants.kStinger2AngleOffset);
+    
   }
 
   // Called when another command which requires one or more of the same

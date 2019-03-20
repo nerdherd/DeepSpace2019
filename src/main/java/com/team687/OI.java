@@ -3,6 +3,7 @@ package com.team687;
 import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
+import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
@@ -88,6 +89,7 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
 		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
+		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStinger1, 0.25/12));
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));

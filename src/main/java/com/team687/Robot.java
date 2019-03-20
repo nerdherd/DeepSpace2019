@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
-	public static ClimbStinger climbStinger1, climbStinger2;
+	public static ClimbStinger climbStingerLeft, climbStingerRight;
 
 	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
 	// big yummy
@@ -71,9 +71,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		// led = new LED();
-		jevois = new Jevois(115200, SerialPort.Port.kUSB);
-		jevois.startCameraStream();
-		limelight = new Limelight();
+		// jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		// jevois.startCameraStream();
+		// limelight = new Limelight();
 		pressureSensor = new PressureSensor("PressureSensor", 3);
 
 		chooser = new DeepSpaceAutoChooser();
@@ -85,8 +85,8 @@ public class Robot extends TimedRobot {
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
 		
-		climbStinger1 = new ClimbStinger(RobotMap.kClimbStinger1ID, "Climb Stinger 1", false, false);
-		climbStinger2 = new ClimbStinger(RobotMap.kClimbStinger2ID, "Climb Stinger 2", false, false);
+		climbStingerLeft = new ClimbStinger(RobotMap.kClimbStingerLeftID, "Climb Stinger Left", false, false);
+		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", true, false);
 
 
 		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
 			armClosedLoopError, superstructureData, intake);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
-		jevois.startLog();
+		// jevois.startLog();
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
-		jevois.logToCSV();
+		// jevois.logToCSV();
 		// }
 	}
 
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
 		// jevois.enableStream();	
 		if(hasBeenSandstorm && hasBeenTeleop) {
 			drive.stopLog();
-			jevois.stopLog();
+			// jevois.stopLog();
 			hasBeenSandstorm = false;
 			hasBeenTeleop = false;
 		}
@@ -150,7 +150,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		if (oi.driveJoyLeft.getRawButton(5) && oi.driveJoyRight.getRawButton(5)) {
 			arm.configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
@@ -205,7 +205,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		jevois.reportToSmartDashboard();
+		// jevois.reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 

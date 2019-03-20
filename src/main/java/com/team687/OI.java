@@ -89,7 +89,7 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
 		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
-		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStinger1, 0.25/12));
+		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12));
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));

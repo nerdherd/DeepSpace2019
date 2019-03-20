@@ -16,6 +16,7 @@ public class ClimberConstants {
     public static final double kI1 = 0;
     public static final double kD1 = 0;
     public static final double kF1 = 0;
+    
     public static final double kP2 = 0;
     public static final double kI2 = 0;
     public static final double kD2 = 0;
@@ -27,7 +28,7 @@ public class ClimberConstants {
     public static final double kStinger1StowAngle = 0;
     public static final double kStinger2StowAngle = 0;
 
-
+    public static final double kStartClimbingAngle = 0;
 
 
     public static final double kClimbAngle = 0;

@@ -15,21 +15,28 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ClimberClimb extends Command {
   public ClimberClimb() {
     requires(Robot.climberFoot);
-    requires(Robot.climbStinger1);
+    requires(Robot.climbStingerLeft);
+    requires(Robot.climbStingerRight);
+    requires(Robot.drive);
+    requires(Robot.climberWheelLeft);
+    requires(Robot.climberWheelRight);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.climberFoot.setForwards();
+    // Robot.climberFoot.setForwards();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climbStinger1.setAngle(ClimberConstants.kClimbAngle);
-    Robot.climbStinger2.setAngle(ClimberConstants.kClimbAngle);
+    Robot.climbStingerLeft.setAngle(ClimberConstants.kClimbAngle);
+    Robot.climbStingerRight.setAngle(ClimberConstants.kClimbAngle);
     
+    if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
+      Robot.climberFoot.setForwards();
+    }
     Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
     Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
 
@@ -46,8 +53,8 @@ public class ClimberClimb extends Command {
   @Override
   protected void end() {
     Robot.climberFoot.setReverse();
-    Robot.climbStinger1.setAngle(ClimberConstants.kStinger1StowAngle);
-    Robot.climbStinger2.setAngle(ClimberConstants.kStinger2AngleOffset);
+    Robot.climbStingerLeft.setAngle(ClimberConstants.kStinger1StowAngle);
+    Robot.climbStingerRight.setAngle(ClimberConstants.kStinger2AngleOffset);
     
   }
 

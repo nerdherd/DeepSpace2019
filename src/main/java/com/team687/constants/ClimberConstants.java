@@ -22,6 +22,8 @@ public class ClimberConstants {
     public static final double kD2 = 0;
     public static final double kF2 = 1.352;
 
+    public static final double kRollP = 0.0001;
+
     public static final double kStinger1BacklashOffset = 0;
     public static final double kStinger2BacklashOffset = 0;
     
@@ -45,7 +47,7 @@ public class ClimberConstants {
     public static final int kRightStingerAccel = 750;
 
     public static final double kStartClimbingAngle = 25;
-
+    public static final double kLevel3Angle = 17; // Idk what this is
 
     public static final double kClimbAngle = 18;
     

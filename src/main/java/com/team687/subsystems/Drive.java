@@ -27,14 +27,14 @@ public class Drive extends ShiftingDrivetrain {
 
   public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
-       new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
-     },
-     new NerdyTalon[] {
-       new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
-       new NerdyTalon(RobotMap.kRightSlaveTalon2ID)
-     },
+    new VictorSPX[] {
+      new VictorSPX(RobotMap.kLeftSlaveVictor1ID),
+      new VictorSPX(RobotMap.kLeftSlaveVictor2ID)
+    },
+    new VictorSPX[] {
+      new VictorSPX(RobotMap.kRightSlaveVictor1ID),
+      new VictorSPX(RobotMap.kRightSlaveVictor2ID)
+    },
      true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     

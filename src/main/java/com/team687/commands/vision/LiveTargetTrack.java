@@ -13,7 +13,7 @@ public class LiveTargetTrack extends Command {
 
     public LiveTargetTrack(double kRotP) {
         requires(Robot.drive);
-        // requires(Robot.jevois);
+        requires(Robot.jevois);
 
         m_rotP = kRotP;
         m_strP = 0.004;
@@ -29,31 +29,31 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected void execute() {
-        // double angularTargetError = -Robot.jevois.getAngleToTurn();
-        // double power = m_rotP * angularTargetError;
-        // 
-        // double pow = m_strP * Robot.jevois.getDistance() +0.1;
-        // if(Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0){
-        //     // double strPower = m_strP * Robot.oi.getDriveJoyRightY() +0.25;
-        //     strPower = pow;
-        // }
-        // else{
-        //     strPower = Robot.oi.getDriveJoyRightY();
-        // }
+        double angularTargetError = -Robot.jevois.getAngleToTurn();
+        double power = m_rotP * angularTargetError;
+        
+        double pow = m_strP * Robot.jevois.getDistance() +0.1;
+        if(Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0){
+            // double strPower = m_strP * Robot.oi.getDriveJoyRightY() +0.25;
+            strPower = pow;
+        }
+        else{
+            strPower = Robot.oi.getDriveJoyRightY();
+        }
 
-        // if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
-        //     Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
-        // }
+        if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
+            Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
+        }
         
-        // else if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
-        //     Robot.drive.setPowerFeedforward(power + strPower, -power + strPower);
-        // }
-        // else{
-        //     Robot.drive.setPowerFeedforward(strPower, strPower);
-        // }  
+        else if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
+            Robot.drive.setPowerFeedforward(power + strPower, -power + strPower);
+        }
+        else{
+            Robot.drive.setPowerFeedforward(strPower, strPower);
+        }  
         
-        // SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
-        // SmartDashboard.putNumber("Calculated number" , pow);
+        SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
+        SmartDashboard.putNumber("Calculated number" , pow);
         // m_lastError = angularTargetError;
     }
 

@@ -7,6 +7,7 @@
 
 package com.team687.commands.climber;
 
+import com.nerdherd.lib.misc.NerdyMath;
 import com.team687.Robot;
 import com.team687.constants.ClimberConstants;
 
@@ -21,7 +22,7 @@ public class ClimberClimb extends Command {
   private double m_integrator, m_lastTime;
 
   public ClimberClimb() {
-    // requires(Robot.climberFoot);
+    requires(Robot.climberFoot);
     requires(Robot.climbStingerLeft);
     requires(Robot.climbStingerRight);
     requires(Robot.drive);
@@ -32,7 +33,7 @@ public class ClimberClimb extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Robot.climberFoot.setForwards();
+    Robot.climberFoot.setForwards();
     m_integrator = 0;
     m_lastTime = Timer.getFPGATimestamp();
   }
@@ -40,20 +41,26 @@ public class ClimberClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.climbStingerLeft.setPower(Robot.oi.getOperatorJoyY());
-    // Robot.climbStingerRight.setPower(-Robot.oi.getOperatorJoyY());
     m_integrator += ClimberConstants.kRollI * 
       (Timer.getFPGATimestamp() - m_lastTime) * Robot.drive.getRoll();
-    Robot.climbStingerLeft.setAngle(ClimberConstants.kLevel3Angle + 
-      ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
-    Robot.climbStingerRight.setAngle(ClimberConstants.kLevel3Angle - 
-      ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
+    Robot.climbStingerLeft.setPower(NerdyMath.boundBetween(
+      Robot.oi.getOperatorJoyY() + 
+      (ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
+      -0.25, 0.6));
+    Robot.climbStingerRight.setPower(NerdyMath.boundBetween(
+      Robot.oi.getOperatorJoyY() -
+      (ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
+      -0.25, 0.6));
+    // Robot.climbStingerLeft.setAngle(ClimberConstants.kLevel3Angle + 
+    //   ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
+    // Robot.climbStingerRight.setAngle(ClimberConstants.kLevel3Angle - 
+    //   ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
 
-    if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
-      Robot.climberFoot.setForwards();
-    }
-    Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
-    Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
+    // if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
+    //   Robot.climberFoot.setForwards();
+    // }
+    // Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
+    // Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
 
     Robot.drive.setPower(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
   }

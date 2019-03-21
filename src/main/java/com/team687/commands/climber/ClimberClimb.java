@@ -10,12 +10,15 @@ package com.team687.commands.climber;
 import com.team687.Robot;
 import com.team687.constants.ClimberConstants;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 
 
 public class ClimberClimb extends Command {
+
+  private double m_integrator, m_lastTime;
 
   public ClimberClimb() {
     // requires(Robot.climberFoot);
@@ -30,6 +33,8 @@ public class ClimberClimb extends Command {
   @Override
   protected void initialize() {
     // Robot.climberFoot.setForwards();
+    m_integrator = 0;
+    m_lastTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -37,10 +42,12 @@ public class ClimberClimb extends Command {
   protected void execute() {
     // Robot.climbStingerLeft.setPower(Robot.oi.getOperatorJoyY());
     // Robot.climbStingerRight.setPower(-Robot.oi.getOperatorJoyY());
+    m_integrator += ClimberConstants.kRollI * 
+      (Timer.getFPGATimestamp() - m_lastTime) * Robot.drive.getRoll();
     Robot.climbStingerLeft.setAngle(ClimberConstants.kLevel3Angle + 
-      ClimberConstants.kRollP * Robot.drive.getPitch());
+      ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
     Robot.climbStingerRight.setAngle(ClimberConstants.kLevel3Angle - 
-      ClimberConstants.kRollP * Robot.drive.getPitch());
+      ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
 
     if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
       Robot.climberFoot.setForwards();

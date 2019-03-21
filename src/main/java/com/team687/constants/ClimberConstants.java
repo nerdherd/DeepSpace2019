@@ -23,6 +23,7 @@ public class ClimberConstants {
     public static final double kF2 = 1.352;
 
     public static final double kRollP = 0.0001;
+    public static final double kRollI = 0.0000001;
 
     public static final double kStinger1BacklashOffset = 0;
     public static final double kStinger2BacklashOffset = 0;

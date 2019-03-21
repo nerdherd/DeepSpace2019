@@ -126,9 +126,9 @@ public class Robot extends TimedRobot {
 	
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber_testing_", 0.02, 
-			//elevator, elevatorClosedLoopError, arm, 
-			//armClosedLoopError, superstructureData, intake,
-			climbStingerLeft, climbStingerRight, drive);//drive);
+			elevator, arm, 
+			superstructureData, intake,
+			climbStingerLeft, climbStingerRight, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();

@@ -7,6 +7,8 @@
 
 package com.team687.subsystems;
 
+import com.nerdherd.lib.logging.NerdyBadlog;
+import com.nerdherd.lib.misc.NerdyMath;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.team687.Robot;
 
@@ -15,45 +17,41 @@ import com.team687.Robot;
  */
 public class ClimbStinger extends SingleMotorArm {
 
-    private double originalAngleOffset;
-
     public ClimbStinger(int talonID, String name, boolean inversion, 
-                        boolean sensorPhase, double angleOffset) {
+                        boolean sensorPhase) {
         super(talonID, name, inversion, sensorPhase);
-        originalAngleOffset = angleOffset;
-        super.configAngleOffset(originalAngleOffset);
-        super.configFFs(0, 0);
-    }
-
-    @Override
-    public void periodic() {
-        updateAbsoluteAngle(Robot.drive.getPitch());
-    }
-
-    @Override
-    public void configFFs(double newGravityFF, double newStaticFF) {
     }
 
     public double getRelativeAngle() {
         return super.getAngle();
     }
 
-    public void updateAbsoluteAngle(double angle) {
-        this.configAngleOffset(angle + originalAngleOffset);
-    }
-
     public double getAbsoluteAngle() {
-        return super.getAngle();
+        return super.getAngle() + Robot.drive.getPitch();
     }
 
     @Override
-    public double angleToTicks(double angle) {
-        return super.angleToTicks(angle);
+    public double getFFIfMoving() {
+        if (this.getAbsoluteAngle() > 90) {
+            return -this.m_gravityFF * 
+                Math.cos(NerdyMath.degreesToRadians(Robot.drive.getPitch())) *
+                Math.cos(NerdyMath.degreesToRadians(this.getAbsoluteAngle()));
+        } else {
+            return this.m_gravityFF * 
+                Math.cos(NerdyMath.degreesToRadians(Robot.drive.getPitch())) *
+                Math.cos(NerdyMath.degreesToRadians(this.getAbsoluteAngle()));
+        }
+    }
+    
+    @Override
+    public double getFFIfNotMoving(double error) {
+        return this.getFFIfMoving() + Math.signum(error) * this.m_staticFF;
     }
 
-    //TODO: put this in SingleMotorTalonSRX
-    public void configPIDF(double kP, double kI, double kD, double kF, int pidIndex) {
-        super.motor.configPIDF(kP, kI, kD, kF, pidIndex);
+    @Override
+    public void initLoggingData() {
+        super.initLoggingData();
+        NerdyBadlog.createTopic(name + "/AbsoluteAngle", () -> getAbsoluteAngle());
     }
 
 }

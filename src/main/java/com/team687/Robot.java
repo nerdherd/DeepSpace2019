@@ -71,8 +71,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		// led = new LED();
-		// jevois = new Jevois(115200, SerialPort.Port.kUSB);
-		// jevois.startCameraStream();
+		jevois = new Jevois(115200, SerialPort.Port.kUSB);
+		jevois.startCameraStream();
 		// limelight = new Limelight();
 		pressureSensor = new PressureSensor("PressureSensor", 3);
 

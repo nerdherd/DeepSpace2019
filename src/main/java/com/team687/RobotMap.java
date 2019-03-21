@@ -32,12 +32,9 @@ public class RobotMap {
 
     public static final int kArmTalonID = 7;
     public static final int kElevatorTalonID = 6;
-    
-    public static final int kClimbStinger1ID = 0;
-    public static final int kClimbStinger2ID = 0;
 
-    public static final int kClimberWheelRightID = 0;
-    public static final int kClimberWheelLeftID = 0;
+    public static final int kClimberWheelRightID = 13;
+    public static final int kClimberWheelLeftID = 12;
 
     public static final int kLeftIntakeVictorID = 7;
     public static final int kRightIntakeVictorID = 8;
@@ -45,10 +42,10 @@ public class RobotMap {
     public static final int kClawPiston1ID = 2;
     public static final int kClawPiston2ID = 1;
     
-    public static final int kClimberPiston1ID = 2;
-    public static final int kClimberPiston2ID = 1;
+    public static final int kClimberPiston1ID = 5;
+    public static final int kClimberPiston2ID = 4;
     
-    public static final int kClimbStingerLeftID = 7;
-    public static final int kClimbStingerRightID = 0;
+    public static final int kClimbStingerLeftID = 14;
+    public static final int kClimbStingerRightID = 15;
 
 }

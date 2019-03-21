@@ -1,6 +1,7 @@
 package com.team687;
 
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
+import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
@@ -92,7 +93,7 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
-		// SmartDashboard.putData("Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		SmartDashboard.putData("Drive Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
 
 		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
 		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));

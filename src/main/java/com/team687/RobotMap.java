@@ -36,8 +36,8 @@ public class RobotMap {
     public static final int kClimbStingerLeftID = 7;
     public static final int kClimbStingerRightID = 0;
 
-    public static final int kClimberWheelRightID = 0;
-    public static final int kClimberWheelLeftID = 0;
+    public static final int kClimberWheelRightID = 1;
+    public static final int kClimberWheelLeftID = 5;
 
     public static final int kLeftIntakeVictorID = 1;
     public static final int kRightIntakeVictorID = 2;

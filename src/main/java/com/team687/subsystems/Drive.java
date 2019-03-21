@@ -10,6 +10,7 @@ package com.team687.subsystems;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.drivetrain.shifting.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
+import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.NerdyTalon;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.Robot;
@@ -85,6 +86,11 @@ public class Drive extends ShiftingDrivetrain {
     SmartDashboard.putNumber("Yaw", getRawYaw());
     SmartDashboard.putNumber("Pitch", getPitch());
     SmartDashboard.putNumber("Roll", getRoll());
+  }
+
+  @Override
+  public void initLoggingData() {
+    NerdyBadlog.createTopic("Pitch", () -> getPitch());
   }
   
 }

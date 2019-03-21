@@ -8,61 +8,37 @@
 package com.team687.commands.climber;
 
 import com.team687.Robot;
-import com.team687.constants.ClimberConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
-
-
-public class ClimberClimb extends Command {
-  private double m_kP;
-
-  public ClimberClimb() {
-    requires(Robot.climberFoot);
+public class StowStingers extends Command {
+  public StowStingers() {
     requires(Robot.climbStingerLeft);
     requires(Robot.climbStingerRight);
-    requires(Robot.drive);
-    requires(Robot.climberWheelLeft);
-    requires(Robot.climberWheelRight);
-    m_kP = 0.04;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Robot.climberFoot.setForwards();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.climbStingerLeft.setPower(Robot.oi.getOperatorJoyY());
-    // Robot.climbStingerRight.setPower(-Robot.oi.getOperatorJoyY());
-
-    if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
-      Robot.climberFoot.setForwards();
-    }
-    Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
-    Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
-
-    Robot.drive.setPower(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
+    Robot.climbStingerLeft.setPower(0.5);
+    Robot.climbStingerRight.setPower(0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Robot.climbStingerLeft.getAngle() > 80) && 
+      (Robot.climbStingerRight.getAngle() > 80);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.climberFoot.setReverse();
-    Scheduler.getInstance().add(new StowStingers());
-    // Robot.climbStingerLeft.setAngle(ClimberConstants.kStinger1StowAngle);
-    // Robot.climbStingerRight.setAngle(ClimberConstants.kStinger2AngleOffset);
-    
   }
 
   // Called when another command which requires one or more of the same

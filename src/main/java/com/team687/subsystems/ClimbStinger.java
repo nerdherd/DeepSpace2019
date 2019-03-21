@@ -27,14 +27,20 @@ public class ClimbStinger extends SingleMotorArm {
     }
 
     public double getAbsoluteAngle() {
-        return super.getAngle() - Robot.drive.getPitch();
+        return super.getAngle() + Robot.drive.getPitch();
     }
 
     @Override
     public double getFFIfMoving() {
-        return this.m_gravityFF * 
-            Math.cos(NerdyMath.degreesToRadians(Robot.drive.getPitch())) *
-            Math.cos(NerdyMath.degreesToRadians(this.getAngle()));
+        if (this.getAbsoluteAngle() > 90) {
+            return -this.m_gravityFF * 
+                Math.cos(NerdyMath.degreesToRadians(Robot.drive.getPitch())) *
+                Math.cos(NerdyMath.degreesToRadians(this.getAbsoluteAngle()));
+        } else {
+            return this.m_gravityFF * 
+                Math.cos(NerdyMath.degreesToRadians(Robot.drive.getPitch())) *
+                Math.cos(NerdyMath.degreesToRadians(this.getAbsoluteAngle()));
+        }
     }
     
     @Override

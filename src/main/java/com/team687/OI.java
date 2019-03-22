@@ -98,18 +98,18 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
 		// SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
-		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12.0));
-		SmartDashboard.putData("Reset Left Stinger", new ResetSingleMotorEncoder(Robot.climbStingerLeft));
-		SmartDashboard.putData("Reset Right Stinger", new ResetSingleMotorEncoder(Robot.climbStingerRight));
-		SmartDashboard.putData("Climber voltage ramping", new DualClimberVoltageRamp());
-		SmartDashboard.putData("Climber voltage ramping FF", new DualClimberVoltageRampFF());
-		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
-		SmartDashboard.putData("Climb!!!", new ClimberClimb());
-		SmartDashboard.putData("Slo mo left", new SetMotorPower(Robot.climbStingerLeft, -0.2));
-		SmartDashboard.putData("Slo mo right", new SetMotorPower(Robot.climbStingerRight, -0.2));
-		SmartDashboard.putData("Set Climber angle 18", new SetClimberAngle(18));
-		SmartDashboard.putData("Set Climber angle 25", new SetClimberAngle(25));
-		SmartDashboard.putData("Set Voltage -1", new SetClimberVoltageFF(-1));
+		// SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12.0));
+		// SmartDashboard.putData("Reset Left Stinger", new ResetSingleMotorEncoder(Robot.climbStingerLeft));
+		// SmartDashboard.putData("Reset Right Stinger", new ResetSingleMotorEncoder(Robot.climbStingerRight));
+		// SmartDashboard.putData("Climber voltage ramping", new DualClimberVoltageRamp());
+		// SmartDashboard.putData("Climber voltage ramping FF", new DualClimberVoltageRampFF());
+		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		// SmartDashboard.putData("Climb!!!", new ClimberClimb());
+		// SmartDashboard.putData("Slo mo left", new SetMotorPower(Robot.climbStingerLeft, -0.2));
+		// SmartDashboard.putData("Slo mo right", new SetMotorPower(Robot.climbStingerRight, -0.2));
+		// SmartDashboard.putData("Set Climber angle 18", new SetClimberAngle(18));
+		// SmartDashboard.putData("Set Climber angle 25", new SetClimberAngle(25));
+		// SmartDashboard.putData("Set Voltage -1", new SetClimberVoltageFF(-1));
 
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));

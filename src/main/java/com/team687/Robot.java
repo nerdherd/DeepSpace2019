@@ -141,8 +141,8 @@ public class Robot extends TimedRobot {
 		arm.reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		pressureSensor.reportToSmartDashboard();
-		climbStingerLeft.reportToSmartDashboard();
-		climbStingerRight.reportToSmartDashboard();
+		// climbStingerLeft.reportToSmartDashboard();
+		// climbStingerRight.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());

@@ -41,8 +41,8 @@ public class ClimberClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    m_integrator += ClimberConstants.kRollI * 
-      (Timer.getFPGATimestamp() - m_lastTime) * Robot.drive.getRoll();
+    // m_integrator += ClimberConstants.kRollI * 
+    //   (Timer.getFPGATimestamp() - m_lastTime) * Robot.drive.getRoll();
     Robot.climbStingerLeft.setPower(NerdyMath.boundBetween(
       Robot.oi.getOperatorJoyY(), // + 
       //(ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
@@ -59,8 +59,8 @@ public class ClimberClimb extends Command {
     // if (Robot.climbStingerLeft.getAngle() < ClimberConstants.kStartClimbingAngle) {
     //   Robot.climberFoot.setForwards();
     // }
-    // Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
-    // Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelLeft.setPower(Robot.oi.getDriveJoyRightY());
+    Robot.climberWheelRight.setPower(Robot.oi.getDriveJoyRightY());
 
     Robot.drive.setPower(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
   }

@@ -44,6 +44,11 @@ public class LiveTargetTrack extends Command {
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
             Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
         }
+
+        else if(Robot.jevois.getDistance() > 95 && Robot.jevois.getContourNum() > 0) {
+            Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
+
+        }
         
         else if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
             Robot.drive.setPowerFeedforward(power + strPower, -power + strPower);

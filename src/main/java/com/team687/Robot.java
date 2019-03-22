@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
 		
 		climbStingerLeft = new ClimbStinger(RobotMap.kClimbStingerLeftID, "Climb Stinger Left", true, true);
-		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", true, false);
+		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", true, true);
 		climbStingerLeft.configAngleConversion(ClimberConstants.kStinger1AngleRatio, ClimberConstants.kStinger1AngleOffset);
 		climbStingerRight.configAngleConversion(ClimberConstants.kStinger2AngleRatio, ClimberConstants.kStinger2AngleOffset);
 		climbStingerLeft.configFFs(ClimberConstants.kLeftStingerGravityFF, 
@@ -105,6 +105,7 @@ public class Robot extends TimedRobot {
 		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
 		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
 		
+		climberFoot.setForwards();
 		
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));
@@ -138,6 +139,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
 		pressureSensor.reportToSmartDashboard();
 		climbStingerLeft.reportToSmartDashboard();
 		climbStingerRight.reportToSmartDashboard();

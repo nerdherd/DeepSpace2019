@@ -88,15 +88,15 @@ public class OI extends DefaultOI {
 		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.0139));
 		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
-		startClimbing_R7.whileHeld(new ClimberClimb());
+		// startClimbing_R7.whileHeld(new ClimberClimb());
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
-		SmartDashboard.putData("Drive Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		// SmartDashboard.putData("Drive Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
 
-		SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
-		SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
+		// SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
+		// SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
 		
 		SmartDashboard.putData("Voltage Ramp Stinger", new MotorVoltageRamping(Robot.climbStingerLeft, 0.25/12.0));
 		SmartDashboard.putData("Reset Left Stinger", new ResetSingleMotorEncoder(Robot.climbStingerLeft));
@@ -109,7 +109,8 @@ public class OI extends DefaultOI {
 		SmartDashboard.putData("Slo mo right", new SetMotorPower(Robot.climbStingerRight, -0.2));
 		SmartDashboard.putData("Set Climber angle 18", new SetClimberAngle(18));
 		SmartDashboard.putData("Set Climber angle 25", new SetClimberAngle(25));
-		SmartDashboard.putData("Set Voltage 1", new SetClimberVoltageFF(-1));
+		SmartDashboard.putData("Set Voltage -1", new SetClimberVoltageFF(-1));
+
 		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));

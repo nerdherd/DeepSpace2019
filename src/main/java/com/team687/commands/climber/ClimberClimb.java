@@ -26,14 +26,14 @@ public class ClimberClimb extends Command {
     requires(Robot.climbStingerLeft);
     requires(Robot.climbStingerRight);
     requires(Robot.drive);
-    // requires(Robot.climberWheelLeft);
-    // requires(Robot.climberWheelRight);
+    requires(Robot.climberWheelLeft);
+    requires(Robot.climberWheelRight);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.climberFoot.setForwards();
+    Robot.climberFoot.setReverse();
     m_integrator = 0;
     m_lastTime = Timer.getFPGATimestamp();
   }
@@ -44,13 +44,13 @@ public class ClimberClimb extends Command {
     m_integrator += ClimberConstants.kRollI * 
       (Timer.getFPGATimestamp() - m_lastTime) * Robot.drive.getRoll();
     Robot.climbStingerLeft.setPower(NerdyMath.boundBetween(
-      Robot.oi.getOperatorJoyY() + 
-      (ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
-      -0.25, 0.6));
+      Robot.oi.getOperatorJoyY(), // + 
+      //(ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
+      -1, 0.25));
     Robot.climbStingerRight.setPower(NerdyMath.boundBetween(
-      Robot.oi.getOperatorJoyY() -
-      (ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
-      -0.25, 0.6));
+      Robot.oi.getOperatorJoyY(), // -
+      //(ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator), 
+      -1, 0.25));
     // Robot.climbStingerLeft.setAngle(ClimberConstants.kLevel3Angle + 
     //   ClimberConstants.kRollP * Robot.drive.getRoll() + m_integrator);
     // Robot.climbStingerRight.setAngle(ClimberConstants.kLevel3Angle - 

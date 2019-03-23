@@ -43,11 +43,9 @@ public class Robot extends TimedRobot {
 	public static Drive drive;
 	public static DriverStation ds;
 	public static DeepSpaceAutoChooser chooser;
-	public static SingleMotorElevator elevator;
-	public static SingleMotorArm arm;
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
-	public static Piston claw, climberFoot;
+	public static Piston claw;
 	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
@@ -61,7 +59,6 @@ public class Robot extends TimedRobot {
 	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
 	// big yummy
 	// public static HallSensor armHallEffect;
-	public static Superstructure superstructureData;
 
 	public static Command autoCommand;
 
@@ -78,36 +75,30 @@ public class Robot extends TimedRobot {
 	    drive = new Drive();
 		ds = DriverStation.getInstance();
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
-		elevator = Elevator.getInstance();
-		arm = Arm.getInstance();
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
-		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
-
-		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",true);
-		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
 		
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));
 
-		superstructureData = Superstructure.getInstance();
-
 		
-		armZero = new ResetSingleMotorEncoder(arm);
+		armZero = new ResetSingleMotorEncoder(Arm.getInstance());
 		armZero.setRunWhenDisabled(true);
-		elevatorZero = new ResetSingleMotorEncoder(elevator);
+		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
 
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
-			() -> (double) arm.motor.getClosedLoopError());
+			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
-			() -> (double) arm.motor.getClosedLoopError());
+			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "LAR_", 0.02, 
-			elevator, arm, 
-			superstructureData, intake);//, drive);
+			Elevator.getInstance(),
+			Arm.getInstance(), 
+			Superstructure.getInstance(),
+			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();
@@ -115,13 +106,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		elevator.reportToSmartDashboard();
-		arm.reportToSmartDashboard();
+		Elevator.getInstance().reportToSmartDashboard();
+		Arm.getInstance().reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		oi.reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
-		superstructureData.reportToSmartDashboard();
+		Superstructure.getInstance().reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
@@ -140,8 +131,7 @@ public class Robot extends TimedRobot {
 			hasBeenSandstorm = false;
 			hasBeenTeleop = false;
 		}
-		superstructureData.isHatchMode = true;
-		superstructureData.isClimbMode = false;
+		Superstructure.getInstance().isHatchMode = true;
 	}
 
 	@Override
@@ -149,8 +139,8 @@ public class Robot extends TimedRobot {
 		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		if (oi.driveJoyLeft.getRawButton(5) && oi.driveJoyRight.getRawButton(5)) {
-			arm.configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
-			elevator.configDistanceOffset(ElevatorConstants.kElevatorHeightOffset);
+			Arm.getInstance().configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
+			Elevator.getInstance().configDistanceOffset(ElevatorConstants.kElevatorHeightOffset);
 			Scheduler.getInstance().add(armZero);
 			Scheduler.getInstance().add(elevatorZero);
 			drive.resetEncoders();
@@ -162,7 +152,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		climberFoot.setForwards();
 		// drive.setBrakeMode();
 		// autoCommand = chooser.getSelectedAuto();
 		// autoCommand = new FrontCargoShip();
@@ -172,9 +161,8 @@ public class Robot extends TimedRobot {
 		if (hasBeenTeleop) {
 			hasBeenTeleop = false;
 		}
-		hasBeenSandstorm = true;
-		superstructureData.isHatchMode = true;
-		superstructureData.isClimbMode = false;	
+		hasBeenSandstorm = true;	
+		Superstructure.getInstance().isHatchMode = true;	
 	}
 
 	/**
@@ -190,8 +178,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		superstructureData.isClimbMode = false;	
-		climberFoot.setForwards();
 		
 		// jevois.startLog();
 		// drive.startLog();

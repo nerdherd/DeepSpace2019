@@ -9,6 +9,8 @@ package com.team687.commands.superstructure;
 
 import com.team687.Robot;
 import com.team687.constants.SuperstructureConstants;
+import com.team687.subsystems.Arm;
+import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -20,8 +22,8 @@ public class Stow extends Command {
 
   public Stow() {
     requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
+    requires(Arm.getInstance());
+    requires(Elevator.getInstance());
     requires(Robot.claw);
   }
 
@@ -42,8 +44,8 @@ public class Stow extends Command {
       Robot.intake.setPower(-SuperstructureConstants.kStowHatchIntakeVoltage, 
         SuperstructureConstants.kStowHatchIntakeVoltage);
     }
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
+    Arm.getInstance().setAngleMotionMagic(SuperstructureConstants.kArmStowAngle);
+    Elevator.getInstance().setHeightMotionMagic(SuperstructureConstants.kElevatorStowHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()

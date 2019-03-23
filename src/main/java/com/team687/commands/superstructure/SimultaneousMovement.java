@@ -7,7 +7,8 @@
 
 package com.team687.commands.superstructure;
 
-import com.team687.Robot;
+import com.team687.subsystems.Arm;
+import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,8 +18,8 @@ public class SimultaneousMovement extends Command {
 protected double m_armAngle;
 
   public SimultaneousMovement(double elevatorHeightInches, double armAngleDegrees) {
-    requires(Robot.arm);
-    requires(Robot.elevator);
+    requires(Arm.getInstance());
+    requires(Elevator.getInstance());
     m_elevatorHeight = elevatorHeightInches;
     m_armAngle = armAngleDegrees;
   }
@@ -31,8 +32,8 @@ protected double m_armAngle;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setHeightMotionMagic(m_elevatorHeight);
-    Robot.arm.setAngleMotionMagic(m_armAngle);
+    Elevator.getInstance().setHeightMotionMagic(m_elevatorHeight);
+    Arm.getInstance().setAngleMotionMagic(m_armAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()

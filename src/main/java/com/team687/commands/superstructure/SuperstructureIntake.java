@@ -9,6 +9,9 @@ package com.team687.commands.superstructure;
 
 import com.team687.Robot;
 import com.team687.constants.SuperstructureConstants;
+import com.team687.subsystems.Arm;
+import com.team687.subsystems.Elevator;
+import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,8 +22,8 @@ public class SuperstructureIntake extends Command {
   // I might actually change this later when my brain is working enough to solve the equations
   public SuperstructureIntake() {
     requires(Robot.intake);
-    requires(Robot.arm);
-    requires(Robot.elevator);
+    requires(Arm.getInstance());
+    requires(Elevator.getInstance());
     requires(Robot.claw);
   }
 
@@ -32,12 +35,12 @@ public class SuperstructureIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.superstructureData.isHatchMode = false;
+    Superstructure.getInstance().isHatchMode = false;
     Robot.claw.setForwards();
     Robot.intake.setPower(SuperstructureConstants.kCargoIntakeVoltage, 
       -SuperstructureConstants.kCargoIntakeVoltage);
-    Robot.arm.setAngleMotionMagic(SuperstructureConstants.kCargoIntakeArmAngle);
-    Robot.elevator.setHeightMotionMagic(SuperstructureConstants.kCargoIntakeElHeight);
+    Arm.getInstance().setAngleMotionMagic(SuperstructureConstants.kCargoIntakeArmAngle);
+    Elevator.getInstance().setHeightMotionMagic(SuperstructureConstants.kCargoIntakeElHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()

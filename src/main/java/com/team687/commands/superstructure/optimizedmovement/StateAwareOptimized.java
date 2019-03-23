@@ -5,11 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.superstructure.optimizedmovement;
 
 import com.team687.Robot;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 public class StateAwareOptimized extends OptimizedSimultaneousMovement {
   public StateAwareOptimized(double desiredHeight) {

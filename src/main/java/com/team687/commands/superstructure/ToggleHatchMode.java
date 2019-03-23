@@ -7,7 +7,7 @@
 
 package com.team687.commands.superstructure;
 
-import com.team687.Robot;
+import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,7 +20,7 @@ public class ToggleHatchMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.superstructureData.isHatchMode = !Robot.superstructureData.isHatchMode;
+    Superstructure.getInstance().isHatchMode = !Superstructure.getInstance().isHatchMode;
   }
 
   // Called repeatedly when this Command is scheduled to run

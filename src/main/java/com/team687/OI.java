@@ -36,8 +36,9 @@ public class OI extends DefaultOI {
 	// retractChevalRamps_, retractKickerWheels_;
 
 	public OI() {
-		super();
-		// super(0.15);
+		// super();
+		super(0.15);
+		super.configLerping(true);
 
 		intakeArm_1 = new JoystickButton(super.operatorJoy, 1);
 		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);

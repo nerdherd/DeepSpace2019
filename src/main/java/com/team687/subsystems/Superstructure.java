@@ -19,11 +19,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Superstructure implements Loggable {
   
-  public boolean isHatchMode;
+  public boolean isHatchMode, isClimbMode;
   private static Superstructure m_superstructureInstance = new Superstructure();
 
   private Superstructure() {
     isHatchMode = true;
+    isClimbMode = false;
   }
   
   public static Superstructure getInstance() {
@@ -35,6 +36,7 @@ public class Superstructure implements Loggable {
   }
 
   public void reportToSmartDashboard() {
+    SmartDashboard.putBoolean("Is Climb Mode?", Superstructure.getInstance().isClimbMode);
     SmartDashboard.putBoolean("Is Hatch Mode?", Superstructure.getInstance().isHatchMode);
     SmartDashboard.putBoolean("Is Cargo Mode?", !Superstructure.getInstance().isHatchMode);
     SmartDashboard.putNumber("Superstructure Height", Arm.getArmHeight() + Robot.elevator.getHeight());
@@ -42,6 +44,7 @@ public class Superstructure implements Loggable {
 
   @Override
   public void initLoggingData() {
+    NerdyBadlog.createTopic("Superstructure/ClimbMode", () -> NerdyMath.boolToDouble(m_superstructureInstance.isClimbMode));
     NerdyBadlog.createTopic("Superstructure/HatchMode", () -> NerdyMath.boolToDouble(m_superstructureInstance.isHatchMode));
     NerdyBadlog.createTopic("Superstructure/Height", () -> Arm.getArmHeight() + Robot.elevator.getHeight());
   }

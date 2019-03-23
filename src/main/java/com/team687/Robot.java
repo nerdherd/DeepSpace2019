@@ -11,17 +11,14 @@ import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
-import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
 import com.team687.constants.ArmConstants;
-import com.team687.constants.ClimberConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
-import com.team687.subsystems.ClimbStinger;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
@@ -33,6 +30,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -59,7 +57,6 @@ public class Robot extends TimedRobot {
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
-	public static ClimbStinger climbStingerLeft, climbStingerRight;
 
 	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
 	// big yummy
@@ -70,6 +67,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		LiveWindow.disableAllTelemetry();
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		jevois.startCameraStream();
@@ -84,28 +82,9 @@ public class Robot extends TimedRobot {
 		arm = Arm.getInstance();
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		climberFoot = new Piston(RobotMap.kClimberPiston1ID, RobotMap.kClimberPiston2ID);
-		
-		climbStingerLeft = new ClimbStinger(RobotMap.kClimbStingerLeftID, "Climb Stinger Left", true, true);
-		climbStingerRight = new ClimbStinger(RobotMap.kClimbStingerRightID, "Climb Stinger Right", true, true);
-		climbStingerLeft.configAngleConversion(ClimberConstants.kStinger1AngleRatio, ClimberConstants.kStinger1AngleOffset);
-		climbStingerRight.configAngleConversion(ClimberConstants.kStinger2AngleRatio, ClimberConstants.kStinger2AngleOffset);
-		climbStingerLeft.configFFs(ClimberConstants.kLeftStingerGravityFF, 
-			ClimberConstants.kLeftStingerStaticFF);
-		climbStingerRight.configFFs(ClimberConstants.kRightStingerGravityFF, 
-			ClimberConstants.kRightStingerStaticFF);
-		climbStingerLeft.configTalonDeadband(0.004);
-		climbStingerRight.configTalonDeadband(0.004);
-		climbStingerLeft.configMotionMagic(ClimberConstants.kLeftStingerMaxVel,
-			ClimberConstants.kLeftStingerAccel);
-		climbStingerRight.configMotionMagic(ClimberConstants.kRightStingerMaxVel,
-			ClimberConstants.kRightStingerAccel);
-		climbStingerLeft.configPIDF(ClimberConstants.kP1, ClimberConstants.kI1, ClimberConstants.kD1, ClimberConstants.kF1);
-		climbStingerRight.configPIDF(ClimberConstants.kP2, ClimberConstants.kI2, ClimberConstants.kD2, ClimberConstants.kF2);
 
-		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",false);
+		climberWheelLeft = new SingleMotorVictorSPX(RobotMap.kClimberWheelLeftID,"ClimbStinger",true);
 		climberWheelRight = new SingleMotorVictorSPX(RobotMap.kClimberWheelRightID,"ClimbStinger",false);
-		
-		climberFoot.setForwards();
 		
 		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
 									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));
@@ -126,10 +105,9 @@ public class Robot extends TimedRobot {
 			() -> (double) arm.motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber_testing_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "LAR_", 0.02, 
 			elevator, arm, 
-			superstructureData, intake,
-			climbStingerLeft, climbStingerRight, drive);
+			superstructureData, intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();
@@ -140,9 +118,8 @@ public class Robot extends TimedRobot {
 		elevator.reportToSmartDashboard();
 		arm.reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
-		pressureSensor.reportToSmartDashboard();
-		// climbStingerLeft.reportToSmartDashboard();
-		// climbStingerRight.reportToSmartDashboard();
+		oi.reportToSmartDashboard();
+		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		superstructureData.reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
@@ -164,6 +141,7 @@ public class Robot extends TimedRobot {
 			hasBeenTeleop = false;
 		}
 		superstructureData.isHatchMode = true;
+		superstructureData.isClimbMode = false;
 	}
 
 	@Override
@@ -184,6 +162,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		climberFoot.setForwards();
 		// drive.setBrakeMode();
 		// autoCommand = chooser.getSelectedAuto();
 		// autoCommand = new FrontCargoShip();
@@ -193,8 +172,9 @@ public class Robot extends TimedRobot {
 		if (hasBeenTeleop) {
 			hasBeenTeleop = false;
 		}
-		hasBeenSandstorm = true;	
-		superstructureData.isHatchMode = true;	
+		hasBeenSandstorm = true;
+		superstructureData.isHatchMode = true;
+		superstructureData.isClimbMode = false;	
 	}
 
 	/**
@@ -210,6 +190,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		superstructureData.isClimbMode = false;	
+		climberFoot.setForwards();
 		
 		// jevois.startLog();
 		// drive.startLog();

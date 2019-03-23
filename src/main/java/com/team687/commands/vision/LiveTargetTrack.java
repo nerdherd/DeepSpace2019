@@ -54,7 +54,7 @@ public class LiveTargetTrack extends Command {
             Robot.drive.setPowerFeedforward(power + strPower, -power + strPower);
         }
         else{
-            Robot.drive.setPowerFeedforward(strPower, strPower);
+            Robot.drive.setPowerFeedforward(strPower, 0.7 *  strPower);
         }  
         
         SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
@@ -64,7 +64,9 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.oi.isButtonPressed(10);
+        return Robot.oi.operatorJoy.getRawButton(10);// || 
+            // !(Robot.oi.driveJoyLeft.getRawButton(1) || 
+            // Robot.oi.driveJoyRight.getRawButton(1));
     }
 
     @Override

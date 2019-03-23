@@ -24,12 +24,11 @@ public class LeftRocketNear extends CommandGroup {
    */
   public LeftRocketNear() {
     addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathOne, 3, true, 0.01, 0));
-    addParallel(new DriveAtHeading(0, 0));
-    addParallel(new SetHatchMode(true));
-    addParallel(new TeleopSimultaneous(67));
-    addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
-    addParallel(new Stow());
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathTwo, 3, false, 0.01, 0));
- 
+    // addParallel(new DriveAtHeading(0, 0));
+    // addParallel(new SetHatchMode(true));
+    // addParallel(new TeleopSimultaneous(67));
+    // addSequential(new SetDualMotorPower(Robot.intake, 0.25, 0.25));
+    // addParallel(new Stow());
+    // addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathTwo, 3, false, 0.01, 0));
   }
 }

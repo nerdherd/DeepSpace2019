@@ -9,6 +9,7 @@ package com.team687.commands.superstructure;
 
 import com.team687.Robot;
 import com.team687.constants.SuperstructureConstants;
+import com.team687.subsystems.Superstructure;
 
 /**
  * Add your docs here.
@@ -25,7 +26,7 @@ public class TeleopSimultaneous extends SimultaneousMovement {
     }
 
     public void adjustDesiredHeight() {
-        if (!Robot.superstructureData.isHatchMode) {
+        if (!Superstructure.getInstance().isHatchMode) {
           super.m_armAngle = SuperstructureConstants.kCargoModeArmAngle;
           super.m_elevatorHeight = m_initialElevatorHeight + 
             SuperstructureConstants.kTeleopModeHeightDelta;
@@ -42,17 +43,17 @@ public class TeleopSimultaneous extends SimultaneousMovement {
     @Override
     protected void initialize() {
         adjustDesiredHeight();
-        m_wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;
+        m_wasHatchModeLastUpdate = Superstructure.getInstance().isHatchMode;
         super.initialize();
     }
 
     @Override
     protected void execute() {
-        if (m_wasHatchModeLastUpdate != Robot.superstructureData.isHatchMode) {
+        if (m_wasHatchModeLastUpdate != Superstructure.getInstance().isHatchMode) {
             adjustDesiredHeight();
         }
         super.execute();
-        m_wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;
+        m_wasHatchModeLastUpdate = Superstructure.getInstance().isHatchMode;
     }
 
 }

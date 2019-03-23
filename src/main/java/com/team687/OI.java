@@ -5,7 +5,6 @@ import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
-import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
@@ -16,6 +15,7 @@ import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.commands.vision.LiveTargetTrack;
 import com.team687.constants.SuperstructureConstants;
+import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -65,7 +65,6 @@ public class OI extends DefaultOI {
 		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.4, 0.4));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
 		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.75, -0.75));
-		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawOpen_5.whenPressed(new StopIntaking());
 		highElevator_7.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kHighElHeight));
 		cargoShip_8.whenPressed(new CargoShipCargo());
@@ -118,18 +117,18 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Turn 180 deg", new TurnAngle(Robot.drive, 180, 1, 5, 0.0025, 0.00042));
 		// SmartDashboard.putData("Turn 0 deg", new TurnAngle(Robot.drive, 0, 1, 5, 0.009, 0.0004));
 
-		// SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Robot.elevator, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Robot.elevator, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Robot.elevator, -0.25 / 12.0));
+		// SmartDashboard.putData("Voltage ramp elevator", new MotorVoltageRamping(Elevator.getInstance(), 0.25 / 12.0));
+		// SmartDashboard.putData("Voltage ramp elevator with FF up", new MechanismVoltageRampingWithFF(Elevator.getInstance(), 0.25 / 12.0));
+		// SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Elevator.getInstance(), -0.25 / 12.0));
 
-		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Robot.elevator));
+		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Elevator.getInstance()));
 
-		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Robot.elevator, 42));
-		// SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Robot.elevator, 60));
-		// SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Robot.elevator, 75));
-		// SmartDashboard.putData("Elevator MM 16 in", new SetElevatorHeightMotionMagic(Robot.elevator, 16));
-		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Robot.elevator, 52));
-		//SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Robot.elevator, 75));
+		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 42));
+		// SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 60));
+		// SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 75));
+		// SmartDashboard.putData("Elevator MM 16 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 16));
+		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 52));
+		//SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 75));
 
 		// SmartDashboard.putData("A waste of my time hatch 1", new SimultaneousMovement(18, 14.5));
 		// SmartDashboard.putData("A waste of my time hatch 2", new SimultaneousMovement(45.5, 14.5));
@@ -140,19 +139,19 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Test resting state", new SimultaneousMovement(16, 0));
 		// SmartDashboard.putData("Huggable intake", new SimultaneousMovement(14, -30));
 		
-		// SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Robot.arm, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Robot.arm, 0.25 / 12.0));
-		// SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Robot.arm, -0.25 / 12.0));
-		// // // SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Robot.arm, 0));
-		// SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Robot.arm, 0));
-		// SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Robot.arm, -30));
-		// SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Robot.arm, 67));
-		// SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Robot.arm, 32));
-		// SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Robot.arm, 45));
-		// SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Robot.arm, 22));
-		// SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Robot.arm));
-		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Robot.arm, 
-		// 						Robot.armHallEffect, 2./12.));
+		// SmartDashboard.putData("Voltage ramp arm", new MotorVoltageRamping(Arm.getInstance(), 0.25 / 12.0));
+		// SmartDashboard.putData("Voltage ramp arm up with FF", new MechanismVoltageRampingWithFF(Arm.getInstance(), 0.25 / 12.0));
+		// SmartDashboard.putData("Voltage ramp arm down with FF", new MechanismVoltageRampingWithFF(Arm.getInstance(), -0.25 / 12.0));
+		// // // SmartDashboard.putData("Set arm voltage 0", new SetMotorPower(Arm.getInstance(), 0));
+		// SmartDashboard.putData("Set arm angle 0 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 0));
+		// SmartDashboard.putData("Set arm angle -30 deg", new SetArmAngleMotionMagic(Arm.getInstance(), -30));
+		// SmartDashboard.putData("Set arm angle 67 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 67));
+		// SmartDashboard.putData("Set arm angle 32 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 32));
+		// SmartDashboard.putData("Set arm angle 45 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 45));
+		// SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 22));
+		// SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Arm.getInstance()));
+		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Arm.getInstance(), 
+		// 						Arm.getInstance()HallEffect, 2./12.));
 
 		// lineFollow = new JoystickButton(super.driv, 11);
 		// lineFollow.whileHeld(new LineFollow(0.254));
@@ -164,9 +163,9 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Piston extend ?", new ExtendPiston(Robot.claw));
 		// SmartDashboard.putData("Piston retract? ?", new RetractPiston(Robot.claw));
 
-		// SmartDashboard.putData("Elevator set position 0", new SetElevatorHeightMotionMagic(Robot.elevator, 11.75));
+		// SmartDashboard.putData("Elevator set position 0", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 11.75));
 
-		// SmartDashboard.putData("Elevator zero with tach", new ZeroMechanismWithHallEffect(Robot.elevator, Robot.elevatorTach, -1));
+		// SmartDashboard.putData("Elevator zero with tach", new ZeroMechanismWithHallEffect(Elevator.getInstance(), Elevator.getInstance()Tach, -1));
 
 		// SmartDashboard.putData("Set Optimized height 60", new OptimizedSimultaneousMovement(60));
 		// SmartDashboard.putData("Set Optimized height 80", new OptimizedSimultaneousMovement(80));

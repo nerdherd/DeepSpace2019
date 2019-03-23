@@ -5,11 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.superstructure.optimizedmovement;
 
-import com.team687.Robot;
-
-import edu.wpi.first.wpilibj.command.Command;
+import com.team687.subsystems.Superstructure;
 
 public class TeleopOptimizedSimultaneous extends OptimizedSimultaneousMovement {
 
@@ -21,11 +19,11 @@ public class TeleopOptimizedSimultaneous extends OptimizedSimultaneousMovement {
 
   public void adjustDesiredHeight(boolean isInitialize) {
     if (isInitialize) {
-      if (!Robot.superstructureData.isHatchMode) {
+      if (!Superstructure.getInstance().isHatchMode) {
         super.m_desiredHeight += 8;
       }
     } else {
-      if (!Robot.superstructureData.isHatchMode) {
+      if (!Superstructure.getInstance().isHatchMode) {
         super.m_desiredHeight += 8;
       } else {
         super.m_desiredHeight -= 8;
@@ -36,18 +34,18 @@ public class TeleopOptimizedSimultaneous extends OptimizedSimultaneousMovement {
   @Override
   protected void initialize() {
     adjustDesiredHeight(true);
-    wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;
+    wasHatchModeLastUpdate = Superstructure.getInstance().isHatchMode;
     super.initialize();
   }
 
   @Override
   protected void execute() {
-    if (wasHatchModeLastUpdate != Robot.superstructureData.isHatchMode) {
+    if (wasHatchModeLastUpdate != Superstructure.getInstance().isHatchMode) {
       adjustDesiredHeight(false);
       super.initialize();
     }
     super.execute();
-    wasHatchModeLastUpdate = Robot.superstructureData.isHatchMode;
+    wasHatchModeLastUpdate = Superstructure.getInstance().isHatchMode;
   }
 
 }

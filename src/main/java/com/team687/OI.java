@@ -38,7 +38,7 @@ public class OI extends DefaultOI {
 	public OI() {
 		// super();
 		super(0.15);
-		super.configLerping(true);
+		super.configLerping(false);
 
 		intakeArm_1 = new JoystickButton(super.operatorJoy, 1);
 		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
@@ -182,10 +182,10 @@ public class OI extends DefaultOI {
 	}
 
 	public void reportToSmartDashboard() {
-		SmartDashboard.putNumber("Left Drive Y", getDriveJoyLeftY());
-		SmartDashboard.putNumber("Left Drive X", getDriveJoyLeftX());
-		SmartDashboard.putNumber("Right Drive Y", getDriveJoyRightY());
-		SmartDashboard.putNumber("Right Drive X", getDriveJoyRightX());
+		SmartDashboard.putNumber("Left Drive Y", super.getDriveJoyLeftY());
+		SmartDashboard.putNumber("Left Drive X", super.getDriveJoyLeftX());
+		SmartDashboard.putNumber("Right Drive Y", super.getDriveJoyRightY());
+		SmartDashboard.putNumber("Right Drive X", super.getDriveJoyRightX());
 	}
 
 	public boolean isButtonPressed(int button){

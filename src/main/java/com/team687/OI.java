@@ -5,6 +5,8 @@ import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
+import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
+import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.StopIntaking;
@@ -38,7 +40,7 @@ public class OI extends DefaultOI {
 	public OI() {
 		// super();
 		super(0.15);
-		super.configLerping(false);
+		super.configLerping(true);
 
 		intakeArm_1 = new JoystickButton(super.operatorJoy, 1);
 		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
@@ -67,6 +69,7 @@ public class OI extends DefaultOI {
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
 		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.75, -0.75));
 		clawOpen_5.whenPressed(new StopIntaking());
+		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		highElevator_7.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kHighElHeight));
 		cargoShip_8.whenPressed(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kMidElHeight));

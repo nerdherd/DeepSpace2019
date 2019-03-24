@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB);
 		jevois.startCameraStream();
-		// limelight = new Limelight();
+		limelight = new Limelight();
 		pressureSensor = new PressureSensor("PressureSensor", 3);
 
 		chooser = new DeepSpaceAutoChooser();

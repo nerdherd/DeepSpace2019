@@ -16,27 +16,27 @@ package com.team687;
 public class RobotMap {
 	// Power up robots
 	
-    public static final int kRightMasterTalonID = 2;
-    public static final int kLeftMasterTalonID = 1;
+    public static final int kRightMasterTalonID = 13;
+    public static final int kLeftMasterTalonID = 20;
 
-    public static final int kRightSlaveVictor1ID = 3;
-    public static final int kLeftSlaveVictor1ID = 1;
+    public static final int kRightSlaveTalon1ID = 14;
+    public static final int kLeftSlaveTalon1ID = 21;
 
-    public static final int kRightSlaveVictor2ID = 4;
-    public static final int kLeftSlaveVictor2ID = 2;
+    public static final int kRightSlaveTalon2ID = 15;
+    public static final int kLeftSlaveTalon2ID = 22;
 
     public static final int kDrivetrainShifter1ID = 2;
-    public static final int kDrivetrainShifter2ID = 1;
+    public static final int kDrivetrainShifter2ID = 5;
 
     // public static final int kChevalRampTalonID = 0;
 
-    public static final int kArmTalonID = 7;
-    public static final int kElevatorTalonID = 6;
+    public static final int kArmTalonID = 11;
+    public static final int kElevatorTalonID = 12;
 
-    public static final int kLeftIntakeVictorID = 7;
-    public static final int kRightIntakeVictorID = 8;
+    public static final int kLeftIntakeVictorID = 1;
+    public static final int kRightIntakeVictorID = 2;
 
-    public static final int kClawPiston1ID = 3;
-    public static final int kClawPiston2ID = 0;
+    public static final int kClawPiston1ID = 1;
+    public static final int kClawPiston2ID = 6;
 
 }

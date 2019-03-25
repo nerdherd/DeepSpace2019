@@ -45,13 +45,14 @@ public class DeepSpaceAutoChooser extends AutoChooser {
             // if (getAutoMode() == AutoMode.CargoShip) {
             //     auto = new RightCargoShip();
             // } else if (getAutoMode() == AutoMode.RocketShip) {
-            auto =  new FrontCargoShip();
+            // auto =  new FrontCargoShip();
+            auto = new RightRocketNear();
             // }
         } else if (getStartingPosition() == StartingPosition.LEFT) {
             // if (getAutoMode() == AutoMode.CargoShip) {
             //     auto = new LeftCargoShip();
             // } else if (getAutoMode() == AutoMode.RocketShip) {
-                auto =  new FrontCargoShip();
+                auto =  new LeftRocketNear();
             // }
         } else if (getStartingPosition() == StartingPosition.CENTER) {
             auto = new FrontCargoShip();

@@ -5,19 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.climber;
+package com.team687.commands.superstructure.optimizedmovement;
 
-import com.nerdherd.lib.motor.commands.mechanisms.SetArmAngleMotionMagic;
 import com.team687.Robot;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+public class StateAwareOptimized extends OptimizedSimultaneousMovement {
+  public StateAwareOptimized(double desiredHeight) {
+    super(desiredHeight);
+  }
 
-public class SetClimberAngle extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public SetClimberAngle(double angle) {
-    addParallel(new SetArmAngleMotionMagic(Robot.climbStingerLeft, angle));
-    addParallel(new SetArmAngleMotionMagic(Robot.climbStingerRight, angle));
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+    if (Robot.claw.isForwards()) {
+      super.m_desiredHeight += 8;
+    }
+    super.initialize();
   }
 }

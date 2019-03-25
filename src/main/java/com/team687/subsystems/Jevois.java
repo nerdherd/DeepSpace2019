@@ -11,6 +11,8 @@ import com.team687.constants.VisionConstants;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -41,9 +43,13 @@ public class Jevois extends Subsystem implements Runnable {
 	public Jevois(int baud, SerialPort.Port port) {
 		m_send = false;
 		sendValue = "None";
-		m_cam = new SerialPort(baud, port);
-		m_stream = new Thread(this);
-		m_stream.start();
+		try {
+			m_cam = new SerialPort(baud, port);
+			m_stream = new Thread(this);
+			m_stream.start();
+		} catch (UncleanStatusException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void startCameraStream() {

@@ -7,7 +7,7 @@
 
 package com.team687.commands.superstructure;
 
-import com.team687.Robot;
+import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -27,7 +27,7 @@ public class SetHatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.superstructureData.isHatchMode = m_hatchModeToSet;
+    Superstructure.getInstance().isHatchMode = m_hatchModeToSet;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,13 +39,13 @@ public class SetHatchMode extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.superstructureData.isHatchMode = m_hatchModeToSet;
+    Superstructure.getInstance().isHatchMode = m_hatchModeToSet;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.superstructureData.isHatchMode = m_hatchModeToSet;
+    Superstructure.getInstance().isHatchMode = m_hatchModeToSet;
   }
 }

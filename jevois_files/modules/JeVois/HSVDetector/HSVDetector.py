@@ -212,7 +212,7 @@ class HSVDetector:
             cv2.circle(self.outimg, right_extTop, 3, (255, 0, 0), -1)
             cv2.circle(self.outimg, right_extBot, 3, (255, 255, 0), -1)
 
-
+        # solvePnP stuff should be revisted later
 
         def solvePnP(imgPoints):
             rvec, tvec = cv2.solvePnP(OBJ_POINTS, imgPoints, CAMERA_MATRIX, None)
@@ -248,9 +248,7 @@ class HSVDetector:
 
         # checks if the contour is tilted to the right based on y-differences
         def get_orientation(cnt): 
-            contour_rect = cv2.minAreaRect(cnt)
-            contour_corners = cv2.boxPoints(contour_rect)
-            contour_corners = np.int0(contour_corners)
+            contour_corners = getContourCorners(cnt)
 
             contour_ab = contour_corners[0][1] - contour_corners[1][1]
             contour_ad = contour_corners[0][1] - contour_corners[3][1]
@@ -316,15 +314,11 @@ class HSVDetector:
                 distance = abs((mount_height - target_height) / math.tan(radian))
             return distance
 
-        def getDistanceWithArea(left_contour, right_contour):
-            left_contour_rect = cv2.minAreaRect(left_contour)
-            left_contour_corners = cv2.boxPoints(left_contour_rect)
-            left_contour_corners = np.int0(left_contour_corners)
+        def getDistanceWithWidth(left_contour, right_contour):
+            left_contour_corners = getContourCorners(left_contour_corners)
             left_inward_point = left_contour_corners[1][0]
             
-            right_contour_rect = cv2.minAreaRect(right_contour)
-            right_contour_corners = cv2.boxPoints(right_contour_rect)
-            right_contour_corners = np.int0(right_contour_corners)
+            right_contour_corners = getContourCorners(right_contour_corners)
             right_inward_point = right_contour_corners[3][0]
 
             target_width_px = right_inward_point - left_inward_point
@@ -365,7 +359,7 @@ class HSVDetector:
                         "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                         "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                         "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
-                        "/" + str(round(getDistanceWithArea(left_contour, right_contour))))
+                        "/" + str(round(getDistanceWithWidth(left_contour, right_contour))))
                     # rvec, tvec = solvePnP(getContourCorners(left_contour))
                     # draw(self.outimg, corners, rvec, tvec)
                     # toSend = ("Degrees: " + str(getTargetYDegrees()) + 
@@ -382,6 +376,7 @@ class HSVDetector:
             if(get_orientation(mid_contour) == 1):
                 left_contour = mid_contour 
                 right_contour = sortedByPosition[2]
+                drawRectContours(left_contour, right_contour)
             elif(get_orientation(mid_contour) == 2):
                 right_contour = mid_contour
                 left_contour = sortedByPosition[0]
@@ -391,18 +386,13 @@ class HSVDetector:
                     "/" + str(getArea(left_contour) + getArea(right_contour)) +  # Total area 
                     "/" + str(round(getTwoContourCenter(left_contour, right_contour)[0] - 160, 2)) + # center x point; -160 to 160 scale to be used in robot code
                     "/" + str(round(120 - getTwoContourCenter(left_contour, right_contour)[1], 2)) + # center y point
-                    "/" + str(round(getDistanceWithArea(left_contour, right_contour))))
-                    # toSend = "Distance: " + str(getDistance(29, 35, 120 - getTwoContourCenter(left_contour, right_contour)[1]))
-            # toSend = ("Degrees: " + str(getTargetYDegrees(120 - getYCenter(left_contour, right_contour))) + 
-            #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
-            #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
+                    "/" + str(round(getDistanceWithWidth(left_contour, right_contour))))
             jevois.sendSerial(toSend)
-        
-        
         else:
             toSend = "/0/0/0/0/0/0"
             jevois.sendSerial(toSend)
 
+        # vertical center line
         cv2.line(self.outimg, (160, 0), (160, 240), (255, 0, 0), 2)
 
 

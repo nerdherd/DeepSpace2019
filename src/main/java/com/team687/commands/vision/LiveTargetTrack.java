@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double m_rotP, m_rotD, m_lastError;
+    private double m_rotP, m_rotD, m_lastError, strPower, double m_strP;
 
-    public LiveTargetTrack(double kRotP) {
+    public LiveTargetTrack(double kRotP, double kRotD) {
         requires(Robot.drive);
         requires(Robot.jevois);
 
         m_rotP = kRotP;
+        m_strP = 0.004;
+
+        m_rotD = kRotD;
     }
 
     @Override
@@ -29,23 +32,36 @@ public class LiveTargetTrack extends Command {
     @Override
     protected void execute() {
         double angularTargetError = -Robot.jevois.getAngleToTurn();
-        double power = m_rotP * angularTargetError;
+        // double power = m_rotP * angularTargetError;
+        double rotPower = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
 
-        // double power = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
-
-        if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
-            Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
-        }
-        
-        if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
-            Robot.drive.setPowerFeedforward(power + Robot.oi.getDriveJoyRightY(), -power + Robot.oi.getDriveJoyRightY());
+        double pow = m_strP * Robot.jevois.getDistance() +0.1;
+        if(Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0){
+            // double strPower = m_strP * Robot.oi.getDriveJoyRightY() +0.25;
+            strPower = pow;
         }
         else{
-            Robot.drive.setPowerFeedforward(Robot.oi.getDriveJoyRightY(), Robot.oi.getDriveJoyRightY());
-        }      
+            strPower = Robot.oi.getDriveJoyRightY();
+        }
+
+        if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
+            Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
+        }
+
+        else if(Robot.jevois.getDistance() > 95 && Robot.jevois.getContourNum() > 0) {
+            Robot.drive.setPowerFeedforward(strPower, 0.7 * strPower);
+
+        }
+        
+        else if(!(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband)){
+            Robot.drive.setPowerFeedforward(rotPower + strPower, -rotPower + strPower);
+        }
+        else{
+            Robot.drive.setPowerFeedforward(strPower, 0.7 *  strPower);
+        }       
         
         SmartDashboard.putBoolean("Target Detected", Robot.jevois.getContourNum() > 0);
-        // m_lastError = angularTargetError;
+        m_lastError = angularTargetError;
     }
 
     @Override

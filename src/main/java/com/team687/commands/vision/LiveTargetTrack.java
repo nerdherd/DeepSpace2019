@@ -25,7 +25,7 @@ public class LiveTargetTrack extends Command {
 
     protected void initialize() {
         Robot.jevois.enableStream();
-        // m_lastError = 0;
+        m_lastError = -Robot.jevois.getAngleToTurn();
         SmartDashboard.putString("Current Command", "LiveTargetTrack");
     }
 

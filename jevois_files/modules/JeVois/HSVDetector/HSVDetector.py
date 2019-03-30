@@ -22,10 +22,34 @@ class HSVDetector:
 
         self.blur_output = None
 
-        self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [56.502255822460675, 91.33420536298233]
-        self.__hsv_threshold_saturation = [181.16007194244605, 255.0]
-        self.__hsv_threshold_value = [74.30489506699723, 173.43434343434342]
+        self.__cv_extractchannel_src = self.blur_output
+        self.__cv_extractchannel_channel = 1.0
+
+        self.cv_extractchannel_output = None
+
+        self.__cv_threshold_src = self.cv_extractchannel_output
+        self.__cv_threshold_thresh = 30.0
+        self.__cv_threshold_maxval = 255.0
+        self.__cv_threshold_type = cv2.THRESH_BINARY
+
+        self.cv_threshold_output = None
+
+        self.__mask_input = self.blur_output
+        self.__mask_mask = self.cv_threshold_output
+
+        self.mask_output = None
+
+        self.__normalize_input = self.mask_output
+        self.__normalize_type = cv2.NORM_MINMAX
+        self.__normalize_alpha = 0.0
+        self.__normalize_beta = 255.0
+
+        self.normalize_output = None
+
+        self.__hsv_threshold_input = self.normalize_output
+        self.__hsv_threshold_hue = [56.502255822460675, 111.89659552115455]
+        self.__hsv_threshold_saturation = [193.16572165996018, 255.0]
+        self.__hsv_threshold_value = [45.49133574496333, 173.43434343434342]
 
         self.hsv_threshold_output = None
 
@@ -57,7 +81,7 @@ class HSVDetector:
         self.convex_hulls_output = None
 
         self.__filter_contours_contours = self.convex_hulls_output
-        self.__filter_contours_min_area = 150.0
+        self.__filter_contours_min_area = 250.0
         self.__filter_contours_min_perimeter = 0.0
         self.__filter_contours_min_width = 0.0
         self.__filter_contours_max_width = 100000.0
@@ -70,10 +94,6 @@ class HSVDetector:
         self.__filter_contours_max_ratio = 100.0
 
         self.filter_contours_output = None
-
-
-
-
         # self.start_time = 0
         # self.end_time = 0
 
@@ -207,6 +227,7 @@ class HSVDetector:
             imgpts = np.int32(imgpts).reshape(-1,2)
             # draw ground floor in green
             img = cv2.drawContours(img, [imgpts[:4]],-1,(0,255,0),-3)
+        
             # draw pillars in blue color
             for i,j in zip(range(4),range(4,8)):
                 img = cv2.line(img, tuple(imgpts[i]), tuple(imgpts[j]),(255),3)
@@ -214,7 +235,7 @@ class HSVDetector:
             img = cv2.drawContours(img, [imgpts[4:]],-1,(0,0,255),3)
 
             return img
-
+                  
         def getContourCorners(cnt):
             contour_rect = cv2.minAreaRect(cnt)
             contour_corners = cv2.boxPoints(contour_rect)
@@ -376,10 +397,14 @@ class HSVDetector:
             #     "Distance: " + str(getDistance(28.5, 40, 120 - getYCenter(left_contour, right_contour))) + 
             #     "Horizontal Angle: " + str(getRobotAngleToTurn()))
             jevois.sendSerial(toSend)
-
+        
+        
         else:
             toSend = "/0/0/0/0/0/0"
             jevois.sendSerial(toSend)
+
+        cv2.line(self.outimg, (160, 0), (160, 240), (255, 0, 0), 2)
+
 
         # Write a title:
       #  cv2.putText(self.outimg, "687 Nerdy JeVois", (3, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)

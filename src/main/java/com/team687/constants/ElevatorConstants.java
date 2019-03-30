@@ -47,5 +47,4 @@ public class ElevatorConstants {
     public static final double kElevatorInPerS = kElevatorMotionMagicCruiseVelocity * kElevatorDistanceRatio * 10.;
 
     public static final double kManualZeroVoltage = -1.5;
-
 }

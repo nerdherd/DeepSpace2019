@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.superstructure.optimizedmovement;
 
 import com.nerdherd.lib.misc.NerdyMath;
-import com.team687.Robot;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Arm;
+import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -33,8 +33,8 @@ public class OptimizedSimultaneousMovement extends Command {
 
   public OptimizedSimultaneousMovement(double desiredHeight) {
     m_desiredHeight = desiredHeight;
-    requires(Robot.elevator);
-    requires(Robot.arm);
+    requires(Elevator.getInstance());
+    requires(Arm.getInstance());
 
   }
 
@@ -93,12 +93,12 @@ public class OptimizedSimultaneousMovement extends Command {
   @Override
   protected void initialize() {
     double initStartTime = Timer.getFPGATimestamp();
-    m_direction = Math.signum(m_desiredHeight - (Robot.elevator.getHeight() + 
+    m_direction = Math.signum(m_desiredHeight - (Elevator.getInstance().getHeight() + 
       Arm.getArmHeight()));
-    m_thetaInitial = Robot.arm.getAngle();
-    m_desiredHeightDelta = m_desiredHeight - Robot.elevator.getHeight() - Arm.getArmHeight();
+    m_thetaInitial = Arm.getInstance().getAngle();
+    m_desiredHeightDelta = m_desiredHeight - Elevator.getInstance().getHeight() - Arm.getArmHeight();
     if (m_direction == 0) {
-      m_armGoal = Robot.arm.getAngle();
+      m_armGoal = Arm.getInstance().getAngle();
       m_elevatorGoal = m_desiredHeight - Arm.getArmHeight();
     } else {
       this.searchAndSetGoals();
@@ -109,8 +109,8 @@ public class OptimizedSimultaneousMovement extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setHeightMotionMagic(m_elevatorGoal);
-    Robot.arm.setAngleMotionMagic(m_armGoal);
+    Elevator.getInstance().setHeightMotionMagic(m_elevatorGoal);
+    Arm.getInstance().setAngleMotionMagic(m_armGoal);
   }
 
   // Make this return true when this Command no longer needs to run execute()

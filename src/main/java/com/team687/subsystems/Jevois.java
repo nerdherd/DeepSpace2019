@@ -11,6 +11,8 @@ import com.team687.constants.VisionConstants;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.hal.util.UncleanStatusException;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -41,9 +43,13 @@ public class Jevois extends Subsystem implements Runnable {
 	public Jevois(int baud, SerialPort.Port port) {
 		m_send = false;
 		sendValue = "None";
-		m_cam = new SerialPort(baud, port);
-		m_stream = new Thread(this);
-		m_stream.start();
+		try {
+			m_cam = new SerialPort(baud, port);
+			m_stream = new Thread(this);
+			m_stream.start();
+		} catch (UncleanStatusException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void startCameraStream() {
@@ -181,6 +187,9 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("X coord", getTargetX());
 		SmartDashboard.putNumber("Angle to Turn", getAngleToTurn());
 		SmartDashboard.putNumber("Distance", getDistance());
+		SmartDashboard.putBoolean("Contour detected", getContourNum() > 0);
+		SmartDashboard.putBoolean("Within 2 degrees", Math.abs(Robot.jevois.getAngleToTurn()) <= 2);
+
 	//	SmartDashboard.putNumber("Exposure", getExp());
 
 	}
@@ -215,7 +224,7 @@ public class Jevois extends Subsystem implements Runnable {
 			}
 			try {
 				m_writer = new FileWriter(m_file);
-				m_writer.append("Time,Velocity,Contours,Area,TargetX,TargetY,Length,Height\n");
+				m_writer.append("Time,Contours,Area,TargetX,TargetY,Distance,Angle\n");
 				m_logStartTime = Timer.getFPGATimestamp();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -239,11 +248,10 @@ public class Jevois extends Subsystem implements Runnable {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
 				m_writer.append(String.valueOf(timestamp) + ","
-						+ String.valueOf(
-								(Robot.drive.getLeftMasterVelocity() + Robot.drive.getRightMasterVelocity()) / 2)
-						+ "," + String.valueOf(getContourNum()) + "," + String.valueOf(getTargetArea()) + ","
-						+ String.valueOf(getTargetX()) + "," + String.valueOf(getTargetY()));
-				// m_writer.flush();
+						+ String.valueOf(getContourNum()) + "," + String.valueOf(getTargetArea()) + ","
+						+ String.valueOf(getTargetX()) + "," + String.valueOf(getTargetY()) +"," 
+						+ String.valueOf(getDistance()) + "," + String.valueOf(getAngleToTurn()) + "\n");
+				m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 				writeException = true;

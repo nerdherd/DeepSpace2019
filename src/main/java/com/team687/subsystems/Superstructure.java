@@ -23,7 +23,7 @@ public class Superstructure implements Loggable {
   private static Superstructure m_superstructureInstance = new Superstructure();
 
   private Superstructure() {
-    isHatchMode = false;
+    isHatchMode = true;
   }
   
   public static Superstructure getInstance() {
@@ -31,19 +31,19 @@ public class Superstructure implements Loggable {
   }
 
   public double getSuperstructureHeight() {
-    return Arm.getArmHeight() + Robot.elevator.getHeight();
+    return Arm.getArmHeight() + Elevator.getInstance().getHeight();
   }
 
   public void reportToSmartDashboard() {
     SmartDashboard.putBoolean("Is Hatch Mode?", Superstructure.getInstance().isHatchMode);
     SmartDashboard.putBoolean("Is Cargo Mode?", !Superstructure.getInstance().isHatchMode);
-    SmartDashboard.putNumber("Superstructure Height", Arm.getArmHeight() + Robot.elevator.getHeight());
+    SmartDashboard.putNumber("Superstructure Height", Arm.getArmHeight() + Elevator.getInstance().getHeight());
   }
 
   @Override
   public void initLoggingData() {
     NerdyBadlog.createTopic("Superstructure/HatchMode", () -> NerdyMath.boolToDouble(m_superstructureInstance.isHatchMode));
-    NerdyBadlog.createTopic("Superstructure/Height", () -> Arm.getArmHeight() + Robot.elevator.getHeight());
+    NerdyBadlog.createTopic("Superstructure/Height", () -> Arm.getArmHeight() + Elevator.getInstance().getHeight());
   }
 
 }

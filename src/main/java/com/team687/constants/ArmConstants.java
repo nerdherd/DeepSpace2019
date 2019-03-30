@@ -45,5 +45,4 @@ public class ArmConstants {
     public static final double kArmMaxDegPerS = kArmMotionMagicCruiseVelocity * kArmAngleRatio * 10.;
 
     public static final double kManualZeroVoltage = -1.5;
-
 }

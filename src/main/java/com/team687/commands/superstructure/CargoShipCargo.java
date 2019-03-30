@@ -16,8 +16,8 @@ import com.team687.subsystems.Superstructure;
 public class CargoShipCargo extends SimultaneousMovement {
 
     public CargoShipCargo() {
-        super(SuperstructureConstants.kCargoIntakeElHeight, 
-            SuperstructureConstants.kCargoIntakeArmAngle);
+        super(SuperstructureConstants.kCargoShipElHeight, 
+            SuperstructureConstants.kCargoShipArmAngle);
         Superstructure.getInstance().isHatchMode = false;
     }
 

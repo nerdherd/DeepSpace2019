@@ -32,7 +32,7 @@ public class RobotMap {
 
     public static final int kArmTalonID = 11;
     public static final int kElevatorTalonID = 12;
-    
+
     public static final int kLeftIntakeVictorID = 1;
     public static final int kRightIntakeVictorID = 2;
 

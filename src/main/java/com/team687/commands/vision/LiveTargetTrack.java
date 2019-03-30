@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LiveTargetTrack extends Command {
 
-    private double m_rotP, m_rotD, m_lastError, strPower, double m_strP;
+    private double m_rotP, m_rotD, m_lastError, strPower, m_strP;
 
     public LiveTargetTrack(double kRotP, double kRotD) {
         requires(Robot.drive);
@@ -66,7 +66,9 @@ public class LiveTargetTrack extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.oi.operatorJoy.getRawButton(10);// || 
+            // !(Robot.oi.driveJoyLeft.getRawButton(1) || 
+            // Robot.oi.driveJoyRight.getRawButton(1));
     }
 
     @Override

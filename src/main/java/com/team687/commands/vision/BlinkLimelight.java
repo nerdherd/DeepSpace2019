@@ -5,33 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.superstructure;
+package com.team687.commands.vision;
 
-import com.team687.subsystems.Superstructure;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleHatchMode extends Command {
-
-  public ToggleHatchMode() {
-    
+public class BlinkLimelight extends Command {
+  public BlinkLimelight() {
+    requires(Robot.limelight);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Superstructure.getInstance().isHatchMode = !Superstructure.getInstance().isHatchMode;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(Robot.jevois.getContourNum() > 0){
+      Robot.limelight.blink();
+    }
+    else{
+      Robot.limelight.setOff();
+    }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  // Make this return true when this Command no longer needs to run execute() 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

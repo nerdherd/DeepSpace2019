@@ -15,7 +15,7 @@ import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
-import com.team687.commands.vision.LiveTargetTrack;
+import com.team687.commands.vision.TargetTrack;
 import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Elevator;
@@ -79,13 +79,13 @@ public class OI extends DefaultOI {
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
 		// liveTargetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
-		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.00834, 0.0));
+		liveTargetTrack_L1.whileHeld(new TargetTrack(0.00834, 0.0));
 		// toggleClimbMode_L7.whenPressed(new ToggleClimbMode());
 		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(
 			SuperstructureConstants.kArmZeroVoltage, SuperstructureConstants.kElZeroVoltage));
 
 		// liveTargetTrack_R1.whileHeld(new ClimbDeployElseVisionTrack());
-		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.00834, 0.00));
+		liveTargetTrack_R1.whileHeld(new TargetTrack(0.00834, 0.00));
 		shiftHighSpeed_R4.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 		// deployClimberFoot_R7.whileHeld(new ClimberUp());

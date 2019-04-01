@@ -18,13 +18,13 @@ public class AutoConstants {
     // pathfinder constants
     public static final double dt = 0.02;
     // max speed and accel
-    public static final double kAcceleration = 20;
-    public static final double kCruiseVelocity = 20;
+    public static final double kAcceleration = 15;
+    public static final double kCruiseVelocity = 12;
     // Jerk is set to a high number since jerk barely matters, poofs don't jerk anymore
     public static final double kJerk = 100;
     public static final double kCentripetalAcceleration = 5;
 
-    private static double kRobotLength = 0;
+    public static double kRobotLength = 16.5;
     private static double kRobotWidth = 0;
     private static double kTapeLength = 18;
 

@@ -43,7 +43,7 @@ public class Drive extends ShiftingDrivetrain {
      super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
-     super.configDate("AZN_");
+     super.configDate("04_01_19_");
      // floor
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
@@ -79,13 +79,14 @@ public class Drive extends ShiftingDrivetrain {
 
   @Override
   public void reportToSmartDashboard() {
-    SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
-		SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
-		SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
-		SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
-    SmartDashboard.putNumber("Yaw", getRawYaw());
-    SmartDashboard.putNumber("Pitch", getPitch());
-    SmartDashboard.putNumber("Roll", getRoll());
+    // SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
+		// SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
+		// SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
+		// SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
+    // SmartDashboard.putNumber("Yaw", getRawYaw());
+    // SmartDashboard.putNumber("Pitch", getPitch());
+    // SmartDashboard.putNumber("Roll", getRoll());
+    super.reportToSmartDashboard();
   }
 
   @Override

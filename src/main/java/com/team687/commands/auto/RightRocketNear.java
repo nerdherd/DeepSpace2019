@@ -23,7 +23,7 @@ public class RightRocketNear extends CommandGroup {
    * Add your docs here.
    */
   public RightRocketNear() {
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightRocketNearPathOne, 3, true, 0.01, 0));
+    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightRocketNearPathOne, 3, true, 0.3, 0));
     // addParallel(new DriveAtHeading(0, 0));
     // addParallel(new SetHatchMode(true));
     // addParallel(new TeleopSimultaneous(67));

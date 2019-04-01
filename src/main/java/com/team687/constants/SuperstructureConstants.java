@@ -23,14 +23,17 @@ public class SuperstructureConstants {
 
     public static final double kHatchModeArmAngle = 45;
     public static final double kCargoModeArmAngle = 70;
-    public static final double kTeleopModeHeightDelta = 5.8;
+    public static final double kTeleopModeHeightDelta = 7.8;
 
     public static final double kCargoShipArmAngle = 75;
     public static final double kCargoShipElHeight = 27;
 
     public static final double kLowElHeight = 9.2;
+    // public static final double kMidElHeight = 37.2;
+    // public static final double kHighElHeight = 65.2;
     public static final double kMidElHeight = 37.2;
-    public static final double kHighElHeight = 65.2;
+    // me no likey this thing below
+    public static final double kHighElHeight = 66.2;
 
     public static final double kArmZeroVoltage = 5;
     public static final double kElZeroVoltage = -2;

@@ -9,6 +9,7 @@ import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
+import com.team687.commands.auto.LeftRocketNear;
 import com.team687.commands.auto.RightRocketNear;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
@@ -80,6 +81,10 @@ public class OI extends DefaultOI {
 		stow_10.whenPressed(new Stow());
 		lowElevator_11.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kLowElHeight));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
+
+		SmartDashboard.putData("Stow", new Stow());
+
+		SmartDashboard.putData("Left Rocket", new LeftRocketNear());
 
 		// liveTargetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
 		liveTargetTrack_L1.whileHeld(new TargetTrack(0.00834, 0.0));

@@ -29,8 +29,8 @@ public class AutoConstants {
     private static double kTapeLength = 18;
 
 
-    private static double kRightRobotOriginX = 5.541;
-    private static double kRightRobotOriginY = 10;
+    private static double kRightRobotOriginX = 5.75;
+    private static double kRightRobotOriginY = 9.5;
 
     private static double kRightCargoPathOnePointTwoX = 22;
     private static double kRightCargoPathOnePointTwoY = 7.33;
@@ -41,8 +41,8 @@ public class AutoConstants {
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
 
-    private static double kRightRocketNearPathOnePointTwoX = 13.5;
-    private static double kRightRocketNearPathOnePointTwoY = 4;
+    private static double kRightRocketNearPathOnePointTwoX = 13.25;
+    private static double kRightRocketNearPathOnePointTwoY = 3.5;
 
     public static ArrayList<TrajectoryPoint> rightRocketNearPathOne = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kRightRobotOriginX, kRightRobotOriginY, 0).pose,
@@ -61,8 +61,8 @@ public class AutoConstants {
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
 // Left paths start here
-    private static double kLeftRobotOriginX = 5.541;
-    private static double kLeftRobotOriginY = 16.7;
+    private static double kLeftRobotOriginX = 5.75;
+    private static double kLeftRobotOriginY = 17.417;
 
     private static double kLeftCargoPathOnePointTwoX = 22;
     private static double kLeftCargoPathOnePointTwoY = 19.5;
@@ -73,8 +73,8 @@ public class AutoConstants {
         new Pose2D(kLeftCargoPathOnePointTwoX, kLeftCargoPathOnePointTwoY, -90).pose), 
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
-    private static double kLeftRocketNearPathOnePointTwoX = 13.5;
-    private static double kLeftRocketNearPathOnePointTwoY = 23;
+    private static double kLeftRocketNearPathOnePointTwoX = 13.583;
+    private static double kLeftRocketNearPathOnePointTwoY = 23.83;
 
     public static ArrayList<TrajectoryPoint> leftRocketNearPathOne = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kLeftRobotOriginX, kLeftRobotOriginY, 0).pose,
@@ -84,11 +84,11 @@ public class AutoConstants {
 
     private static double kLeftRocketNearPathTwoPointOneX = 17.33;
     private static double kLeftRocketNearPathTwoPointOneY = 24.79;
-    private static double kLeftRocketNearPathTwoPointTwoX = 7;
+    private static double kLeftRocketNearPathTwoPointTwoX = 7.1;
     private static double kLeftRocketNearPathTwoPointTwoY = 24.79;
 
     public static ArrayList<TrajectoryPoint> leftRocketNearPathTwo = gen.generateTrajectory(
-        Arrays.asList(new Pose2D(kLeftRocketNearPathTwoPointOneX, kLeftRocketNearPathTwoPointOneY, -150).pose,
+        Arrays.asList(new Pose2D(kLeftRocketNearPathTwoPointOneX, kLeftRocketNearPathTwoPointOneY, 180).pose,
         new Pose2D(kLeftRocketNearPathTwoPointTwoX, kLeftRocketNearPathTwoPointTwoY, 180).pose), 
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 

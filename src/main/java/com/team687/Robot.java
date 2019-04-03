@@ -101,6 +101,7 @@ public class Robot extends TimedRobot {
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();
+		drive.setBrakeMode();
 	}
 
 	@Override
@@ -118,6 +119,7 @@ public class Robot extends TimedRobot {
 		drive.logToCSV();
 		// jevois.logToCSV();
 		// }
+
 	}
 
 	@Override
@@ -131,6 +133,7 @@ public class Robot extends TimedRobot {
 			hasBeenTeleop = false;
 		}
 		Superstructure.getInstance().isHatchMode = true;
+		drive.setCoastMode();
 	}
 
 	@Override

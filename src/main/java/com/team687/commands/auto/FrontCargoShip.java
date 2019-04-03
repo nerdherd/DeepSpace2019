@@ -24,7 +24,7 @@ public class FrontCargoShip extends CommandGroup {
     // addParallel(new SetHatchMode(true));
     // addParallel(new TeleopSimultaneous(SuperstructureConstants.kLowElHeight));
     addParallel(new SimultaneousMovement(SuperstructureConstants.kLowElHeight, SuperstructureConstants.kHatchModeArmAngle));
-    addSequential(new AutoLiveTargetTrack(0.3, Robot.drive.feetToTicks(5 , DriveConstants.kLeftTicksPerFoot), 0.00834, 0));
+    addSequential(new AutoLiveTargetTrack(0.3, Robot.drive.feetToTicks(5 , DriveConstants.kLeftTicksPerFoot), 0.00834, 0, 1.75));
     // outtake hatch
 
     // addParallel(new IntakeOrOuttakeRollers(-0.45, 0.45));

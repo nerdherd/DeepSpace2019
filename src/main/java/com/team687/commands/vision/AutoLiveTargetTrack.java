@@ -12,7 +12,7 @@ public class AutoLiveTargetTrack extends Command {
     private double m_rotP, m_rotD, m_lastError, strPower, m_strP, m_straightPower, m_distance, m_initialDist;
     private boolean isLockedOn;
 
-    public AutoLiveTargetTrack(double straightPower, double dist, double kRotP, double kRotD) {
+    public AutoLiveTargetTrack(double straightPower, double dist, double kRotP, double kRotD, double kDriveRotationDeadband) {
         requires(Robot.drive);
         requires(Robot.jevois);
 
@@ -30,9 +30,9 @@ public class AutoLiveTargetTrack extends Command {
     @Override
 
     protected void initialize() {
-        Robot.jevois.enableStream();
+        // Robot.jevois.enableStream();
         m_lastError = -Robot.jevois.getAngleToTurn();
-        SmartDashboard.putString("Current Command", "LiveTargetTrack");
+        SmartDashboard.putString("Current Command", "AutoLiveTargetTrack");
         m_initialDist = Robot.drive.getAverageEncoderPosition();
     }
 

@@ -7,18 +7,19 @@
 
 package com.team687;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
-import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
-import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
+import com.team687.subsystems.Climber;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -41,8 +43,10 @@ public class Robot extends TimedRobot {
 	public static final String kDate = "2019_03_15_";
 
 	public static Drive drive;
+	public static Climber climber;
 	public static DriverStation ds;
 	public static DeepSpaceAutoChooser chooser;
+
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
 	public static Piston claw;
@@ -51,12 +55,13 @@ public class Robot extends TimedRobot {
 	public static Jevois jevois;
 	public static ResetSingleMotorEncoder armZero;
 	public static ResetSingleMotorEncoder elevatorZero;
+	public static SingleMotorTalonSRX vaccum;
 	public static Limelight limelight;
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static OI oi;
 
-	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
+	
 	// big yummy
 	// public static HallSensor armHallEffect;
 
@@ -85,6 +90,9 @@ public class Robot extends TimedRobot {
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
 
+
+		climber = new Climber();
+		vaccum = new SingleMotorTalonSRX(RobotMap.kVaccumID, "Climber", false, false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",

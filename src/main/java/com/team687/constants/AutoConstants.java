@@ -261,10 +261,10 @@ public class AutoConstants {
     //     new Pose2D(kLeftRocketPathSevenPointTwoX, kRightRocketPathSevenPointTwoY, 90).pose),
     //  kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
-    // public static ArrayList<TrajectoryPoint> straightLine = gen.generateTrajectory(
-    //     Arrays.asList(new Pose2D(0, 0, 0).pose, 
-    //     new Pose2D(10, 0, 0).pose),
-    //     100, 0, 0, kCruiseVelocity, kAcceleration, false);
+    public static ArrayList<TrajectoryPoint> straightLine = gen.generateTrajectory(
+        Arrays.asList(new Pose2D(0, 0, 0).pose, 
+        new Pose2D(50, 0, 0).pose),
+        100, 0, 0, 10, 10, false);
     
     // private static double kMidCargoPathPointOneX = 0;
     // private static double kMidCargoPathPointOneY = 0;

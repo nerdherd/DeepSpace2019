@@ -43,7 +43,7 @@ public class Drive extends ShiftingDrivetrain {
      super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
-     super.configDate("04_01_19_");
+     super.configDate("04_05_19_");
      // floor
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
@@ -87,6 +87,8 @@ public class Drive extends ShiftingDrivetrain {
     // SmartDashboard.putNumber("Pitch", getPitch());
     // SmartDashboard.putNumber("Roll", getRoll());
     super.reportToSmartDashboard();
+    SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
+    SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
   }
 
   @Override

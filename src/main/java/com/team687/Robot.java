@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "04_01_19_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "04_05_19_", 0.02, 
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),

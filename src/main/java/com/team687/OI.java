@@ -1,5 +1,6 @@
 package com.team687;
 
+import com.nerdherd.lib.drivetrain.auto.DriveFalconTrajectory;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
 import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
@@ -20,6 +21,7 @@ import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.commands.vision.TargetTrack;
+import com.team687.constants.AutoConstants;
 import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Elevator;
@@ -121,6 +123,7 @@ public class OI extends DefaultOI {
 
 		SmartDashboard.putData("Reset Drive Encoder", new ResetDriveEncoders(Robot.drive));
 		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		SmartDashboard.putData("Straight Line Path", new DriveFalconTrajectory(Robot.drive, AutoConstants.straightLine, 3, true, 0.3, 0));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
 		// SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 100000, 10000, 10000));
 		// SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));

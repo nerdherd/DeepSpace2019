@@ -23,8 +23,8 @@ public class DriveConstants {
 
 	// public static final double kRightStatic = 1.286;
 	
-	public static final int kMaxAcceleration = 32000;
-	public static final int kMaxVelocity = 24000;
+	public static final int kMaxAcceleration = 40000;
+	public static final int kMaxVelocity = 34000;
 
 //	Rot PID Constants
 	public static final double kDriveRotationTolerance = 0;

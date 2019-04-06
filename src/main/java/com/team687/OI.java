@@ -4,6 +4,7 @@ import com.nerdherd.lib.drivetrain.auto.DriveFalconTrajectory;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
 import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
+import com.nerdherd.lib.drivetrain.characterization.OpenLoopDrive;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
@@ -123,6 +124,7 @@ public class OI extends DefaultOI {
 
 		SmartDashboard.putData("Reset Drive Encoder", new ResetDriveEncoders(Robot.drive));
 		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		SmartDashboard.putData("10 Volt", new OpenLoopDrive(Robot.drive, 0.83333));
 		SmartDashboard.putData("Straight Line Path", new DriveFalconTrajectory(Robot.drive, AutoConstants.straightLine, 3, true, 0.3, 0));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
 		// SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 100000, 10000, 10000));

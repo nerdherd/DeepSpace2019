@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.Climber;
+package com.team687.commands.climber;
 
-import com.team687.Robot;
 import com.team687.constants.ClimberConstants;
+import com.team687.subsystems.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ClimbLift extends Command {
   public ClimbLift() {
-    requires(Robot.climber);
+    requires(Climber.getInstance());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -27,7 +27,7 @@ public class ClimbLift extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climber.setPositionMotionMagic(ClimberConstants.kDesiredLiftPos);
+    Climber.getInstance().setPositionMotionMagic(ClimberConstants.kDesiredLiftPos);
   }
 
   // Make this return true when this Command no longer needs to run execute()

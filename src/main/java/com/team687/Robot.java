@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
 		elevatorZero.setRunWhenDisabled(true);
 
 
-		climber = new Climber();
+		climber = Climber.getInstance();
 		vaccum = new SingleMotorTalonSRX(RobotMap.kVaccumID, "Climber", false, false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 

@@ -40,7 +40,7 @@ public class RobotMap {
     public static final int kClawPiston2ID = 1;
 
     public static final int kClimberTalonID = 50;
-    public static final int kNerdyTalonID = 10;
+    public static final int kClimberTalon2ID = 10;
     public static final int kVaccumID = 30;
 
 

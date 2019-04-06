@@ -18,8 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class Climber extends SingleMotorElevator {
+
   private static Climber m_climberInstance = new Climber();
-  public Climber(){
+
+  private Climber() {
     super(RobotMap.kClimberTalonID, "Climber", ClimberConstants.kClimberInversion, ClimberConstants.kClimberSensorPhase);
     super.configTalonDeadband(ClimberConstants.kClimberTalonDeadband);
     super.configFFs(ClimberConstants.kClimberGravityFF, 
@@ -30,11 +32,11 @@ public class Climber extends SingleMotorElevator {
       ClimberConstants.kClimberD, ClimberConstants.kClimberF);
     super.configHeightConversion(ClimberConstants.kClimberDistanceRatio,
       ClimberConstants.kClimberHeightOffset);
-    super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kNerdyTalonID)});
+    super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kClimberTalon2ID)});
     
   }
 
-  public static Climber getInstance(){
+  public static Climber getInstance() {
     return m_climberInstance;
   }
 

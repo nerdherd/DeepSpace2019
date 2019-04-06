@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.Climber;
+package com.team687.commands.climber;
 
 import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.team687.Robot;

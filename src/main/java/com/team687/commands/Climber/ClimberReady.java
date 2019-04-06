@@ -5,38 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.team687.commands.Climber;
+package com.team687.commands.climber;
 
-import com.team687.Robot;
+import com.nerdherd.lib.motor.commands.mechanisms.SetElevatorHeightPID;
 import com.team687.constants.ClimberConstants;
+import com.team687.subsystems.Climber;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class ClimberReady extends Command {
+public class ClimberReady extends SetElevatorHeightPID {
   public ClimberReady() {
-    requires(Robot.climber);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    Robot.climber.setPosition(ClimberConstants.kDesiredUpPos);
-    
-
-
+    super(Climber.getInstance(), ClimberConstants.kDesiredUpPos);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Math.abs(Robot.climber.getHeight() - ClimberConstants.kDesiredUpPos) < ClimberConstants.kPositionTolerance);     
+    return (Math.abs(Climber.getInstance().getHeight() - ClimberConstants.kDesiredUpPos) < 
+            ClimberConstants.kPositionTolerance);     
 
   }
 

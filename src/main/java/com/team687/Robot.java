@@ -91,8 +91,8 @@ public class Robot extends TimedRobot {
 		elevatorZero.setRunWhenDisabled(true);
 
 
-		climber = Climber.getInstance();
-		vaccum = new SingleMotorTalonSRX(RobotMap.kVaccumID, "Climber", false, false);
+		// climber = Climber.getInstance();
+		// vaccum = new SingleMotorTalonSRX(RobotMap.kVaccumID, "Climber", false, false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "04_05_19_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "04_06_19_", 0.02, 
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),

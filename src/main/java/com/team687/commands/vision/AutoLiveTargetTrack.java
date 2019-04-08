@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoLiveTargetTrack extends Command {
+public class AutoLiveTargetTrack    extends Command {
 
     private double m_rotP, m_rotD, m_lastError, strPower, m_strP, m_straightPower, m_distance, m_initialDist;
     private boolean isLockedOn;
@@ -40,7 +40,7 @@ public class AutoLiveTargetTrack extends Command {
     protected void execute() {
         
         double angularTargetError = -Robot.jevois.getAngleToTurn();
-        if(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband){
+        if(Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband && Robot.jevois.getContourNum() > 0){
             isLockedOn = true;
         }
         // double power = m_rotP * angularTargetError;

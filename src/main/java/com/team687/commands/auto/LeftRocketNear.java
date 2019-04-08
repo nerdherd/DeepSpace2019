@@ -29,23 +29,25 @@ public class LeftRocketNear extends CommandGroup {
    * Add your docs here.
    */
   public LeftRocketNear() {
-  addParallel(new SimultaneousMovement(SuperstructureConstants.kLowElHeight,                   SuperstructureConstants.kHatchModeArmAngle));
-    addSequential(new DriveFalconTrajectory(Robot.drive,              AutoConstants.leftRocketNearPathOne, 3, true, 0.3, 0));
-    addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(2.25,  DriveConstants.kLeftTicksPerFoot), 0.00784, 0, 1.20));
+  addParallel(new SimultaneousMovement(SuperstructureConstants.kLowElHeight, SuperstructureConstants.kHatchModeArmAngle));
+    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathOne, 3, true, 0.35, 0));
+    addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(2.5,  DriveConstants.kLeftTicksPerFoot), 0.00784, 0, .06));
     addParallel(new SetHatchMode(true));
     addParallel(new SetDualMotorPower(Robot.intake, 0.75, -0.75));
     addSequential(new DriveTime(Robot.drive, -0.2, 1));
     addParallel(new SetDualMotorPower(Robot.intake, 0, 0));
     addParallel(new Stow());
-    addSequential(new TurnToAngle(Robot.drive, 180, 1, 2, 0.0027, 0));
+    addSequential(new TurnToAngle(Robot.drive, 180, 1, 1.5, 0.0027, 0));
     addParallel(new SimultaneousMovement(SuperstructureConstants.kLowElHeight,                   SuperstructureConstants.kHatchModeArmAngle));
     addParallel(new RetractPiston(Robot.claw));
-    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathTwo, 3, true, 0.3, 0));
-    addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(3.25, DriveConstants.kLeftTicksPerFoot), 0.00934, 0, 0.75));
+    addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.leftRocketNearPathTwo, 3, true, 0.23, 0));
+    addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(3.75, DriveConstants.kLeftTicksPerFoot), 0.01254, 0, 0.5));
     addParallel(new SetDualMotorPower(Robot.intake, -0.75, 0.75));
     addSequential(new WaitTime(0.75));
     addSequential(new Stow());
     addSequential(new DriveTime(Robot.drive, -0.2, 0.05));
+
+
     // addParallel(new Stow());
     // addParallel(new DriveAtHeading(0, 0));
     // addParallel(new SetHatchMode(true));

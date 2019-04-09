@@ -33,10 +33,9 @@ public class Climber extends SingleMotorElevator {
     super.configHeightConversion(ClimberConstants.kClimberDistanceRatio,
       ClimberConstants.kClimberHeightOffset);
     super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kClimberTalon2ID)});
-    
   }
 
-  public static Climber getInstance() {
+  public static synchronized Climber getInstance() {
     return m_climberInstance;
   }
 
@@ -46,8 +45,7 @@ public class Climber extends SingleMotorElevator {
 
   @Override
   public void reportToSmartDashboard() {
-    SmartDashboard.putNumber(name + "Height", getHeight());
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    super.reportToSmartDashboard();
+    // SmartDashboard.putNumber(name + "Height", getHeight());
   }
 }

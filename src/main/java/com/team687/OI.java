@@ -7,6 +7,7 @@ import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.characterization.OpenLoopDrive;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
+import com.nerdherd.lib.motor.commands.MotorJoystickControl;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
@@ -25,6 +26,7 @@ import com.team687.commands.vision.TargetTrack;
 import com.team687.constants.AutoConstants;
 import com.team687.constants.SuperstructureConstants;
 import com.team687.subsystems.Arm;
+import com.team687.subsystems.Climber;
 import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -116,11 +118,7 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber voltage ramping", new DualClimberVoltageRamp());
 		// SmartDashboard.putData("Climber voltage ramping FF", new DualClimberVoltageRampFF());
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
-		// SmartDashboard.putData("Slo mo left", new SetMotorPower(Robot.climbStingerLeft, -0.2));
-		// SmartDashboard.putData("Slo mo right", new SetMotorPower(Robot.climbStingerRight, -0.2));
-		// SmartDashboard.putData("Set Climber angle 18",1 new SetClimberAngle(18));
-		// SmartDashboard.putData("Set Climber angle 25", new SetClimberAngle(25));
-		// SmartDashboard.putData("Set Voltage -1", new SetClimberVoltageFF(-1));
+		SmartDashboard.putData("Climber joystick control", new MotorJoystickControl(super.operatorJoy, Climber.getInstance()));
 
 		SmartDashboard.putData("Reset Drive Encoder", new ResetDriveEncoders(Robot.drive));
 		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));

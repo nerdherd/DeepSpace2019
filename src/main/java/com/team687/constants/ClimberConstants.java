@@ -11,9 +11,9 @@ package com.team687.constants;
  * Add your docs here.
  */
 public class ClimberConstants {
-    public static final boolean kClimberInversion = true;
+    public static final boolean kClimberInversion = false;
 
-    public static final boolean kClimberSensorPhase = true;
+    public static final boolean kClimberSensorPhase = false;
     public static final double kClimberTalonDeadband = 0.004;
 
     // public static final double kClimberGravityFF = -0;
@@ -31,7 +31,7 @@ public class ClimberConstants {
     public static final double kClimberF = 0;
 
     // public static final double kClimberDistanceRatio = -1./4096. * 1.432 * Math.PI * 2;
-    public static final double kClimberDistanceRatio = 1./4096.;
+    public static final double kClimberDistanceRatio = 1./4096. * 1.432 * Math.PI * 2;
 
     public static final double kDroopCompensation = 0;
     public static final double kClimberHeightOffset = 0;

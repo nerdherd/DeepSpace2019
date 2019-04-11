@@ -43,7 +43,6 @@ public class Robot extends TimedRobot {
 	public static final String kDate = "2019_03_15_";
 
 	public static Drive drive;
-	public static Climber climber;
 	public static DriverStation ds;
 	public static DeepSpaceAutoChooser chooser;
 
@@ -55,7 +54,7 @@ public class Robot extends TimedRobot {
 	public static Jevois jevois;
 	public static ResetSingleMotorEncoder armZero;
 	public static ResetSingleMotorEncoder elevatorZero;
-	public static SingleMotorTalonSRX vaccum;
+	public static SingleMotorVictorSPX vacuum;
 	public static Limelight limelight;
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
@@ -90,9 +89,7 @@ public class Robot extends TimedRobot {
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
 
-
-		// climber = Climber.getInstance();
-		// vaccum = new SingleMotorTalonSRX(RobotMap.kVaccumID, "Climber", false, false);
+		vacuum = new SingleMotorVictorSPX(RobotMap.kVaccumID, "Climber", false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
@@ -101,10 +98,11 @@ public class Robot extends TimedRobot {
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "04_06_19_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber2_electricboogaloo_", 0.02, 
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),
+			Climber.getInstance(),
 			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
@@ -118,6 +116,7 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		oi.reportToSmartDashboard();
+		Climber.getInstance().reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		Superstructure.getInstance().reportToSmartDashboard();

@@ -8,8 +8,11 @@ import com.nerdherd.lib.drivetrain.characterization.OpenLoopDrive;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.MotorJoystickControl;
+import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
+import com.nerdherd.lib.motor.commands.SetMotorPower;
+import com.nerdherd.lib.motor.commands.mechanisms.MechanismVoltageRampingWithFF;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.team687.commands.auto.LeftRocketNear;
@@ -119,6 +122,26 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber voltage ramping FF", new DualClimberVoltageRampFF());
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
 		SmartDashboard.putData("Climber joystick control", new MotorJoystickControl(super.operatorJoy, Climber.getInstance()));
+		SmartDashboard.putData("Reset climber encoder", new ResetSingleMotorEncoder(Climber.getInstance()));
+		SmartDashboard.putData("Climber voltage ramp", new MotorVoltageRamping(Climber.getInstance(), 0.25/12.));
+		SmartDashboard.putData("Climber voltage ramp with FF up", new MechanismVoltageRampingWithFF(Climber.getInstance(), 0.25/12.));
+		SmartDashboard.putData("Climber voltage ramp with FF down", new MechanismVoltageRampingWithFF(Climber.getInstance(), -0.25/12.));
+
+		SmartDashboard.putData("Climber 1V", new SetMotorPower(Climber.getInstance(), 1./12.));
+		SmartDashboard.putData("Climber -1V", new SetMotorPower(Climber.getInstance(), -1./12.));
+		SmartDashboard.putData("Climber 2V", new SetMotorPower(Climber.getInstance(), 2./12.));
+		SmartDashboard.putData("Climber -2V", new SetMotorPower(Climber.getInstance(), -2./12.));
+		SmartDashboard.putData("Climber 3V", new SetMotorPower(Climber.getInstance(), 3./12.));
+		SmartDashboard.putData("Climber -3V", new SetMotorPower(Climber.getInstance(), -3./12.));
+		SmartDashboard.putData("Climber 6V", new SetMotorPower(Climber.getInstance(), 6./12.));
+		SmartDashboard.putData("Climber -6V", new SetMotorPower(Climber.getInstance(), -6./12.));
+
+		SmartDashboard.putData("Climber succ 1V", new SetMotorPower(Robot.vacuum, 1./12.));
+		SmartDashboard.putData("Climber succ -1V", new SetMotorPower(Robot.vacuum, -1./12.));
+		SmartDashboard.putData("Climber succ 3V", new SetMotorPower(Robot.vacuum, 3./12.));
+		SmartDashboard.putData("Climber succ -3V", new SetMotorPower(Robot.vacuum, -3./12.));
+		SmartDashboard.putData("Climber succ 6V", new SetMotorPower(Robot.vacuum, 6./12.));
+		SmartDashboard.putData("Climber succ -6V", new SetMotorPower(Robot.vacuum, -6./12.));
 
 		SmartDashboard.putData("Reset Drive Encoder", new ResetDriveEncoders(Robot.drive));
 		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));

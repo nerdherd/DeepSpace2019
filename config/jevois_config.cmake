@@ -17,9 +17,9 @@
 # CMake configuration variables inherited from compiling the core JeVois library and to be used when compiling modules
 
 set(JEVOIS_VERSION_MAJOR 1)
-set(JEVOIS_VERSION_MINOR 5)
-set(JEVOIS_VERSION_PATCH 2)
-set(JEVOIS_SOVERSION "1.5.2")
+set(JEVOIS_VERSION_MINOR 6)
+set(JEVOIS_VERSION_PATCH 1)
+set(JEVOIS_SOVERSION "1.6.1")
 
 set(JEVOIS_SRC_ROOT "")
 

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "DeepSpace2019 (in project DeepSpace2019)",
+    "file": "D:\\vscode-workspace\\DeepSpace2019\\build\\libs\\DeepSpace2019.jar",
+    "extensions": [],
+    "librarydir": "D:\\vscode-workspace\\DeepSpace2019\\build\\tmp\\jniExtractDir",
+    "mainclass": "com.team687.Main"
+  }
+]

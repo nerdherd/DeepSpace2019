@@ -14,8 +14,12 @@ import com.team687.subsystems.LED;
 import com.team687.subsystems.Sensor;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -36,6 +40,14 @@ public class Robot extends TimedRobot {
 	public static Sensor sensor;
 	public static LED led;
 
+	// Double camera testing
+
+	public static UsbCamera camera1;
+	public static UsbCamera camera2;
+	public static VideoSink server;
+	public static Joystick joy1;
+	public static boolean prevTrigger = false;
+
 	public static OI oi;
 
 	@Override
@@ -43,15 +55,28 @@ public class Robot extends TimedRobot {
 		autoChooser = new AutoChooser();
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
-		jevois.startCameraStream();
+		// jevois.startCameraStream();
+		try {
+			camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+			camera1.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+		} catch (Exception e) {
+		}
 		
 		sensor = new Sensor();
-		drive = new Drive();
+		// drive = new Drive();
 		ds = DriverStation.getInstance();	
 		oi = new OI();
+		// joy1 = new Joystick(0);
 
-		CameraServer.getInstance().startAutomaticCapture(0);
+		// CameraServer.getInstance().startAutomaticCapture(0);
 	
+		// camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+		camera2.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+
+		server = CameraServer.getInstance().addServer("Switched camera");
+		camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+		camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);	
 
 
 		// UsbCamera lifeCam = new UsbCamera("USB Camera 0", 0);
@@ -67,8 +92,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		// jevois.reportToSmartDashboard();
-		drive.reportToSmartDashboard();
+		jevois.reportToSmartDashboard();
+		// drive.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
 
 		Scheduler.getInstance().run();
@@ -99,9 +124,17 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		// jevois.reportToSmartDashboard();
 		// sensor.reportToSmartDashboard();
-		drive.reportToSmartDashboard();
-		jevois.logToCSV();
+		// drive.reportToSmartDashboard();
+		// jevois.logToCSV();
 		Scheduler.getInstance().run();
+		// if (joy1.getTrigger() && !prevTrigger) {
+		// 	System.out.println("Setting camera 2");
+		// 	server.setSource(camera2);
+		//   } else if (!joy1.getTrigger() && prevTrigger) {
+		// 	System.out.println("Setting camera 1");
+		// 	server.setSource(camera1);
+		//   }
+		//   prevTrigger = joy1.getTrigger();
 	}
 
 	/**

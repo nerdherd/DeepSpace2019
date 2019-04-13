@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoLiveTargetTrack    extends Command {
+public class AutoLiveTargetTrack extends Command {
 
     private double m_rotP, m_rotD, m_lastError, strPower, m_strP, m_straightPower, m_distance, m_initialDist;
     private boolean isLockedOn;
@@ -23,8 +23,7 @@ public class AutoLiveTargetTrack    extends Command {
 
         m_rotD = kRotD;
         m_straightPower = straightPower;
-        m_distance = dist;
-        
+        m_distance = dist;     
     }
 
     @Override

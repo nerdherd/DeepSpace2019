@@ -16,6 +16,7 @@ import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.PressureSensor;
+import com.nerdherd.lib.sensor.VexUltrasonic;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
 	public static Limelight limelight;
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
+	public static VexUltrasonic ultrasonic;
 	public static OI oi;
 
 	
@@ -97,6 +99,7 @@ public class Robot extends TimedRobot {
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
+		ultrasonic = new VexUltrasonic("ultrasonic", RobotMap.kUltrasonicPingPort, RobotMap.kUltrasonicEchoPort);
 		oi = new OI();
 		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber2_electricboogaloo_", 0.02, 
 			Elevator.getInstance(),

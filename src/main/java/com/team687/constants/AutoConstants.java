@@ -13,6 +13,8 @@ import com.nerdherd.lib.drivetrain.trajectory.falconlib.TrajectoryPoint;
  */
 public class AutoConstants {
 
+    public static double kUltrasonicOuttakeDistace = 0;
+    
     private static TrajectoryGen gen = new TrajectoryGen();
 
     // pathfinder constants

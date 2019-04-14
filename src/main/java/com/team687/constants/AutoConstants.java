@@ -20,11 +20,11 @@ public class AutoConstants {
     // pathfinder constants
     public static final double dt = 0.02;
     // max speed and accel
-    public static final double kAcceleration = 24;
-    public static final double kCruiseVelocity = 24;
+    public static final double kAcceleration = 10;
+    public static final double kCruiseVelocity = 10;
     // Jerk is set to a high number since jerk barely matters, poofs don't jerk anymore
     public static final double kJerk = 100;
-    public static final double kCentripetalAcceleration = 5;
+    public static final double kCentripetalAcceleration = 8;
 
     public static double kRobotLength = 34;
     private static double kRobotWidth = 32;
@@ -66,7 +66,7 @@ public class AutoConstants {
     private static double kLeftRobotOriginX = 4.5;
     private static double kLeftRobotOriginY = 17.6666;
 
-    private static double kLeftCargoPathOnePointTwoX = 23.43;
+    private static double kLeftCargoPathOnePointTwoX = 23.75;
     private static double kLeftCargoPathOnePointTwoY = 19.5;
 
 
@@ -75,8 +75,8 @@ public class AutoConstants {
         new Pose2D(kLeftCargoPathOnePointTwoX, kLeftCargoPathOnePointTwoY, -90).pose), 
         kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
 
-    private static double kLeftRocketNearPathOnePointTwoX = 13.33;
-    private static double kLeftRocketNearPathOnePointTwoY = 23.42;
+    private static double kLeftRocketNearPathOnePointTwoX = 11;
+    private static double kLeftRocketNearPathOnePointTwoY = 22.75;
 
     public static ArrayList<TrajectoryPoint> leftRocketNearPathOne = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kLeftRobotOriginX, kLeftRobotOriginY, 0).pose,
@@ -92,7 +92,7 @@ public class AutoConstants {
     public static ArrayList<TrajectoryPoint> leftRocketNearPathTwo = gen.generateTrajectory(
         Arrays.asList(new Pose2D(kLeftRocketNearPathTwoPointOneX, kLeftRocketNearPathTwoPointOneY, 180).pose,
         new Pose2D(kLeftRocketNearPathTwoPointTwoX, kLeftRocketNearPathTwoPointTwoY, 180).pose), 
-        kCentripetalAcceleration, 0, 0, kCruiseVelocity, kAcceleration, false);
+        kCentripetalAcceleration, 0, 0, kCruiseVelocity * 1.3, kAcceleration * 1.3, false);
 
 // Old paths from when we thought the robot would be done soon
     // // Right Rocket Path One

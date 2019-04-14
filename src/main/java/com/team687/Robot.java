@@ -41,7 +41,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	public static final String kDate = "2019_03_15_";
+	public static final String kDate = "2019_04_13_";
 
 	public static Drive drive;
 	public static DriverStation ds;
@@ -129,6 +129,7 @@ public class Robot extends TimedRobot {
 		drive.logToCSV();
 		// jevois.logToCSV();
 		// }
+		ultrasonic.reportToSmartDashboard();
 
 	}
 

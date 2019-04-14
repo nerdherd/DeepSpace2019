@@ -32,7 +32,8 @@ public class Climber extends SingleMotorElevator {
       ClimberConstants.kClimberD, ClimberConstants.kClimberF);
     super.configHeightConversion(ClimberConstants.kClimberDistanceRatio,
       ClimberConstants.kClimberHeightOffset);
-    // super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kClimberTalon2ID)});
+    super.configCurrentLimit(60, 30);
+    super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kClimberTalon2ID)});
   }
 
   public static synchronized Climber getInstance() {

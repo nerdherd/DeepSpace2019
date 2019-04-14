@@ -43,7 +43,7 @@ public class RobotMap {
     public static final int kClimberTalon2ID = 17;
     public static final int kVaccumID = 10;
 
-    public static final int kUltrasonicEchoPort = 0;
+    public static final int kUltrasonicEchoPort = 2;
     public static final int kUltrasonicPingPort = 1;
 
 

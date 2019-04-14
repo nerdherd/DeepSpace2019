@@ -55,11 +55,11 @@ public class AutoLiveTargetTrack extends Command {
         }
 
         if(Robot.jevois.getDistance() < VisionConstants.kDetectDistance && Robot.jevois.getContourNum() > 0) {
-            Robot.drive.setPowerFeedforward(0.8 *  strPower, strPower);
+            Robot.drive.setPowerFeedforward(0.87 *  strPower, strPower);
         }
 
         else if(Robot.jevois.getDistance() > 95 && Robot.jevois.getContourNum() > 0) {
-            Robot.drive.setPowerFeedforward(0.8 *  strPower, strPower);
+            Robot.drive.setPowerFeedforward(0.87 *  strPower, strPower);
 
         }
         

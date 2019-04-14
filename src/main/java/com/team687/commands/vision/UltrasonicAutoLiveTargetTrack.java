@@ -15,12 +15,14 @@ import com.team687.constants.AutoConstants;
  */
 public class UltrasonicAutoLiveTargetTrack extends AutoLiveTargetTrack{
 
-    public UltrasonicAutoLiveTargetTrack(double straightPower, double rotP, double rotD, double driveRotationDeadband) {
+    private double m_ultrasonicDistance;
+    public UltrasonicAutoLiveTargetTrack(double straightPower, double rotP, double rotD, double driveRotationDeadband, double ultrasonicDistance) {
         super(straightPower, 0, rotP, rotD, driveRotationDeadband);
+        m_ultrasonicDistance = ultrasonicDistance;
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.ultrasonic.getInches() < AutoConstants.kUltrasonicOuttakeDistace;  
+        return Robot.ultrasonic.getInches() < m_ultrasonicDistance;  
     }
 }

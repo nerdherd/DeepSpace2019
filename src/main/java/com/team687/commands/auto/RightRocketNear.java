@@ -13,9 +13,8 @@ import com.nerdherd.lib.motor.commands.SetDualMotorPower;
 import com.team687.Robot;
 import com.team687.commands.superstructure.SetHatchMode;
 import com.team687.commands.superstructure.SimultaneousMovement;
-import com.team687.commands.vision.AutoLiveTargetTrack;
+import com.team687.commands.vision.UltrasonicAutoLiveTargetTrack;
 import com.team687.constants.AutoConstants;
-import com.team687.constants.DriveConstants;
 import com.team687.constants.SuperstructureConstants;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -27,7 +26,8 @@ public class RightRocketNear extends CommandGroup {
   public RightRocketNear() {
     addParallel(new SimultaneousMovement(SuperstructureConstants.kLowElHeight, SuperstructureConstants.kHatchModeArmAngle));
     addSequential(new DriveFalconTrajectory(Robot.drive, AutoConstants.rightRocketNearPathOne, 3, true, 0.3, 0));
-    addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(2.25, DriveConstants.kLeftTicksPerFoot), 0.00934, 0, 1.75));
+    // addSequential(new AutoLiveTargetTrack(0.2, Robot.drive.feetToTicks(2.25, DriveConstants.kLeftTicksPerFoot), 0.00934, 0, 1.75));
+    addSequential(new UltrasonicAutoLiveTargetTrack(0.2, 0.00934, 0, 1.75, 8));
     // addParallel(new DriveAtHeading(0, 0));
     // addParallel(new SetHatchMode(true));
     // addParallel(new TeleopSimultaneous(67));

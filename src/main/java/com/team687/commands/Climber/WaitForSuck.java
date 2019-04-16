@@ -7,40 +7,54 @@
 
 package com.team687.commands.climber;
 
-import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.team687.Robot;
 import com.team687.constants.ClimberConstants;
 import com.team687.subsystems.Climber;
 
-public class ClimberReady extends SetMotorPower {
-  public ClimberReady() {
-    super(Climber.getInstance(), ClimberConstants.kDesiredUpPow);
+import edu.wpi.first.wpilibj.command.Command;
+
+public class WaitForSuck extends Command {
+
+  private int m_detectionCounter;
+
+  public WaitForSuck() {
+    requires(Climber.getInstance());
+    requires(Robot.vacuum);
     requires(Robot.climberRatchet);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    super.initialize();
-    Robot.climberRatchet.setReverse();
+    Climber.getInstance().setPower(0);
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    if (Robot.mapSensor.getRaw() < 1.75) {
+      m_detectionCounter++;
+    } else {
+      m_detectionCounter = 0;
+    }
+    Robot.vacuum.setPower(ClimberConstants.kSuckPower);
+    Robot.climberRatchet.setForwards();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Climber.getInstance().getHeight() > ClimberConstants.kHardStopPos;     
-
+    return m_detectionCounter > 5;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Climber.getInstance().setPower(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

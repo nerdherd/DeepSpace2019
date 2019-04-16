@@ -31,18 +31,18 @@ public class ClimberConstants {
     public static final double kClimberF = 0;
 
     // public static final double kClimberDistanceRatio = -1./4096. * 1.432 * Math.PI * 2;
-    public static final double kClimberDistanceRatio = 1./4096. * 1.432 * Math.PI * 2;
+    public static final double kClimberDistanceRatio = 1./4096. * 1.432 * Math.PI;
 
-    public static final double kDroopCompensation = 0;
-    public static final double kClimberHeightOffset = 0;
-
-    public static final double kMaxClimberHeight = 0;
-    public static final double kMinClimberHeight = 0;
+    public static final double kClimberHeightOffset = 2;
 
     public static final double kManualZeroVoltage = 0;
 
     public static final double kPositionTolerance = 2;
 
-    public static final double kDesiredUpPos = 0;
-    public static final double kDesiredLiftPos = 0;
+    public static final double kHardStopPos = 29.75;
+    public static final double kClimbGoodPos = 7.75;
+
+    public static final double kDesiredUpPow = 0.25;
+    public static final double kDesiredLiftPow = -0.5;
+    public static final double kSuckPower = 0.5;
 }

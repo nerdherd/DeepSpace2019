@@ -17,8 +17,9 @@ public class ClimberClimb extends CommandGroup {
    * Add your docs here.
    */
   public ClimberClimb() {
-    addParallel(new SetMotorPower(Robot.vacuum, 0.5));
+    // addParallel(new SetMotorPower(Robot.vacuum, 0.5));
     addSequential(new ClimberReady());
+    addSequential(new WaitForSuck());
     addSequential(new ClimbLift());
 
     // Add Commands here:

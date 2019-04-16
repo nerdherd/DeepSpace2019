@@ -7,43 +7,27 @@
 
 package com.team687.commands.climber;
 
+import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.team687.constants.ClimberConstants;
 import com.team687.subsystems.Climber;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class ClimbLift extends Command {
+public class ClimbLift extends SetMotorPower {
   public ClimbLift() {
-    requires(Climber.getInstance());
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    super(Climber.getInstance(), ClimberConstants.kDesiredLiftPow);
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    Climber.getInstance().setPositionMotionMagic(ClimberConstants.kDesiredLiftPos);
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Climber.getInstance().getHeight() < ClimberConstants.kClimbGoodPos;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
+    Climber.getInstance().setPower(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    this.end();
   }
 }

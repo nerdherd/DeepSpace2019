@@ -7,16 +7,15 @@
 
 package com.team687;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
-import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
-import com.nerdherd.lib.sensor.PressureSensor;
 import com.nerdherd.lib.sensor.VexUltrasonic;
+import com.nerdherd.lib.sensor.analog.LinearAnalogSensor;
+import com.nerdherd.lib.sensor.analog.PressureSensor;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
@@ -32,7 +31,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -49,7 +47,7 @@ public class Robot extends TimedRobot {
 
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
-	public static Piston claw;
+	public static Piston claw, climberRatchet;
 	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
@@ -60,6 +58,7 @@ public class Robot extends TimedRobot {
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
 	public static VexUltrasonic ultrasonic;
+	public static LinearAnalogSensor mapSensor;
 	public static OI oi;
 
 	
@@ -90,6 +89,10 @@ public class Robot extends TimedRobot {
 		armZero.setRunWhenDisabled(true);
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
+		mapSensor = new LinearAnalogSensor("MAP Sensor", 0);
+		climberRatchet = new Piston(RobotMap.kClimberRatchetForwardID, 
+									RobotMap.kClimberRatchetReverseID);
+		climberRatchet.setReverse();
 
 		vacuum = new SingleMotorVictorSPX(RobotMap.kVaccumID, "Climber", false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
@@ -106,6 +109,7 @@ public class Robot extends TimedRobot {
 			Arm.getInstance(), 
 			Superstructure.getInstance(),
 			Climber.getInstance(),
+			mapSensor,
 			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
@@ -127,6 +131,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
+		mapSensor.reportToSmartDashboard();
 		// jevois.logToCSV();
 		// }
 		ultrasonic.reportToSmartDashboard();

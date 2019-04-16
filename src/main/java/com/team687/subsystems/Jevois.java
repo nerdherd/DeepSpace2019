@@ -53,6 +53,8 @@ public class Jevois extends Subsystem implements Runnable {
 		try {
 			m_visionCam = CameraServer.getInstance().startAutomaticCapture(0);
 			m_visionCam.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+			m_visionCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
 		} catch (Exception e) {
 		}
 	}

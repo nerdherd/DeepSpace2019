@@ -55,12 +55,12 @@ public class Robot extends TimedRobot {
 		autoChooser = new AutoChooser();
 		// led = new LED();
 		jevois = new Jevois(115200, SerialPort.Port.kUSB1);
-		// jevois.startCameraStream();
-		try {
-			camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-			camera1.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
-		} catch (Exception e) {
-		}
+		jevois.startCameraStream();
+		// try {
+		// 	camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+		// 	camera1.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+		// } catch (Exception e) {
+		// }
 		
 		sensor = new Sensor();
 		// drive = new Drive();
@@ -68,20 +68,14 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		// joy1 = new Joystick(0);
 
-		// CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(0);
 	
 		// camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-		camera2.setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
-
 		server = CameraServer.getInstance().addServer("Switched camera");
-		camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);	
 
 
-		// UsbCamera lifeCam = new UsbCamera("USB Camera 0", 0);
-		// MjpegServer mjpegserver = new MjpegServer("serve_USB Camera 0", 1181); //if it doesnt work, try increasing 1181
-		// mjpegserver.setSource(lifeCam);
 	}
 
 	@Override

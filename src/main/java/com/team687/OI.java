@@ -1,22 +1,34 @@
 package com.team687;
 
+import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
+import com.nerdherd.lib.drivetrain.auto.ResetGyro;
+import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.commands.SetDualMotorPower;
+import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
+import com.team687.commands.auto.LeftRocketNear;
+import com.team687.commands.climber.ClimbLift;
+import com.team687.commands.climber.ClimberClimb;
+import com.team687.commands.climber.ClimberReady;
+import com.team687.commands.climber.WaitForSuck;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
+import com.team687.commands.superstructure.SimultaneousMovement;
 import com.team687.commands.superstructure.StopIntaking;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
-import com.team687.commands.vision.LiveTargetTrack;
+import com.team687.commands.vision.TargetTrack;
 import com.team687.constants.SuperstructureConstants;
+import com.team687.subsystems.Arm;
+import com.team687.subsystems.Climber;
 import com.team687.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,7 +43,7 @@ public class OI extends DefaultOI {
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			liveTargetTrack_R1, shiftHighSpeed_R2, shiftLowSpeed_R3, zeroSuperstructure_L11, deployClimberFoot_R7,
+			liveTargetTrack_R1, shiftHighSpeed_R4, shiftLowSpeed_R3, zeroSuperstructure_L11, deployClimberFoot_R7,
 			toggleClimbMode_L7;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
@@ -60,7 +72,7 @@ public class OI extends DefaultOI {
 		zeroSuperstructure_L11 = new JoystickButton(super.driveJoyLeft, 11);
 		
 		liveTargetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
-		shiftHighSpeed_R2 = new JoystickButton(super.driveJoyRight, 4);
+		shiftHighSpeed_R4 = new JoystickButton(super.driveJoyRight, 4);
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 		deployClimberFoot_R7 = new JoystickButton(super.driveJoyRight, 7);
 
@@ -77,25 +89,29 @@ public class OI extends DefaultOI {
 		lowElevator_11.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kLowElHeight));
 		toggleMode_12.whenPressed(new ToggleHatchMode());
 
+		SmartDashboard.putData("Stow", new Stow());
+
+		SmartDashboard.putData("Left Rocket", new LeftRocketNear());
+
 		// liveTargetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
-		liveTargetTrack_L1.whileHeld(new LiveTargetTrack(0.0139));
+		liveTargetTrack_L1.whileHeld(new TargetTrack(0.00834, 0.0));
 		// toggleClimbMode_L7.whenPressed(new ToggleClimbMode());
 		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(
 			SuperstructureConstants.kArmZeroVoltage, SuperstructureConstants.kElZeroVoltage));
 
 		// liveTargetTrack_R1.whileHeld(new ClimbDeployElseVisionTrack());
-		liveTargetTrack_R1.whileHeld(new LiveTargetTrack(0.0139));
-		shiftHighSpeed_R2.whenPressed(new ShiftHigh(Robot.drive));
+		liveTargetTrack_R1.whileHeld(new TargetTrack(0.00834, 0.00));
+		shiftHighSpeed_R4.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 		// deployClimberFoot_R7.whileHeld(new ClimberUp());
 
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
-		// SmartDashboard.putData("Drive Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
-
-		// SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Robot.climberFoot));
-		// SmartDashboard.putData("Climber foot retract?", new RetractPiston(Robot.climberFoot));
+		SmartDashboard.putData("Drive Voltage Ramp", new DriveCharacterizationTest(Robot.drive, 0.25));
+		// SmartDashboard.putData("Intake Rollers", new IntakeOrOuttakeRollers(0.5, -0.5));
+		// SmartDashboard.putData("Climber foot extend?", new ExtendPiston(Climber.getInstance()Foot));
+		// SmartDashboard.putData("Climber foot retract?", new RetractPiston(Climber.getInstance()Foot));
 		// SmartDashboard.putData("Reset Left Stinger", new ResetSingleMotorEncoder(Robot.climbStingerLeft));
 		// SmartDashboard.putData("Reset Right Stinger", new ResetSingleMotorEncoder(Robot.climbStingerRight));
 		// SmartDashboard.putData("Climb!!!", new ClimberClimb());
@@ -104,14 +120,47 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber voltage ramping", new DualClimberVoltageRamp());
 		// SmartDashboard.putData("Climber voltage ramping FF", new DualClimberVoltageRampFF());
 		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
-		// SmartDashboard.putData("Slo mo left", new SetMotorPower(Robot.climbStingerLeft, -0.2));
-		// SmartDashboard.putData("Slo mo right", new SetMotorPower(Robot.climbStingerRight, -0.2));
-		// SmartDashboard.putData("Set Climber angle 18",1 new SetClimberAngle(18));
-		// SmartDashboard.putData("Set Climber angle 25", new SetClimberAngle(25));
-		// SmartDashboard.putData("Set Voltage -1", new SetClimberVoltageFF(-1));
+		// SmartDashboard.putData("Climber joystick control", new MotorJoystickControl(super.operatorJoy, Climber.getInstance()));
+		SmartDashboard.putData("Reset climber encoder", new ResetSingleMotorEncoder(Climber.getInstance()));
+		// SmartDashboard.putData("Climber voltage ramp", new MotorVoltageRamping(Climber.getInstance(), 0.25/12.));
+		// SmartDashboard.putData("Climber voltage ramp with FF up", new MechanismVoltageRampingWithFF(Climber.getInstance(), 0.25/12.));
+		// SmartDashboard.putData("Climber voltage ramp with FF down", new MechanismVoltageRampingWithFF(Climber.getInstance(), -0.25/12.));
+		SmartDashboard.putData("Engage ratchet", new ExtendPiston(Robot.climberRatchet));
+		SmartDashboard.putData("Disengage ratchet", new RetractPiston(Robot.climberRatchet));
 
-		// SmartDashboard.putData("Reset Encoder", new ResetDriveEncoders(Robot.drive));
-		// SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		SmartDashboard.putData("Climber Climb", new ClimberClimb());
+		SmartDashboard.putData("Climber Ready", new ClimberReady());
+		SmartDashboard.putData("Climber Wait for succ", new WaitForSuck());
+		SmartDashboard.putData("Climber Lift", new ClimbLift());
+		SmartDashboard.putData("Climber 0V", new SetMotorPower(Climber.getInstance(), 0));
+		for (double i = 1; i < 13; i++) {
+			SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
+			SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
+		}
+		SmartDashboard.putData("Climber 0.25V", new SetMotorPower(Climber.getInstance(), 0.25/12.));
+		SmartDashboard.putData("Climber -0.25V", new SetMotorPower(Climber.getInstance(), -0.25/12.));
+		// SmartDashboard.putData("Climber 2V", new SetMotorPower(Climber.getInstance(), 2./12.));
+		// SmartDashboard.putData("Climber -2V", new SetMotorPower(Climber.getInstance(), -2./12.));
+		// SmartDashboard.putData("Climber 3V", new SetMotorPower(Climber.getInstance(), 3./12.));
+		// SmartDashboard.putData("Climber -3V", new SetMotorPower(Climber.getInstance(), -3./12.));
+		// SmartDashboard.putData("Climber 6V", new SetMotorPower(Climber.getInstance(), 6./12.));
+		// SmartDashboard.putData("Climber -6V", new SetMotorPower(Climber.getInstance(), -6./12.));
+		// SmartDashboard.putData("Climber 12V", new SetMotorPower(Climber.getInstance(), 1.));
+		// SmartDashboard.putData("Climber -12V", new SetMotorPower(Climber.getInstance(), -1.));
+
+		SmartDashboard.putData("Climber succ 1V", new SetMotorPower(Robot.vacuum, 1./12.));
+		SmartDashboard.putData("Climber succ -1V", new SetMotorPower(Robot.vacuum, -1./12.));
+		SmartDashboard.putData("Climber succ 3V", new SetMotorPower(Robot.vacuum, 3./12.));
+		SmartDashboard.putData("Climber no succ", new SetMotorPower(Robot.vacuum, 0));
+		SmartDashboard.putData("Climber succ -3V", new SetMotorPower(Robot.vacuum, -3./12.));
+		SmartDashboard.putData("Climber succ 6V", new SetMotorPower(Robot.vacuum, 6./12.));
+		SmartDashboard.putData("Climber succ -6V", new SetMotorPower(Robot.vacuum, -6./12.));
+
+		SmartDashboard.putData("Level 1 Hatch Score", new SimultaneousMovement(SuperstructureConstants.kLowElHeight, SuperstructureConstants.kHatchModeArmAngle));
+		SmartDashboard.putData("Reset Drive Encoder", new ResetDriveEncoders(Robot.drive));
+		SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
+		// SmartDashboard.putData("10 Volt", new OpenLoopDrive(Robot.drive, 0.83333));
+		// SmartDashboard.putData("Straight Line Path", new DriveFalconTrajectory(Robot.drive, AutoConstants.straightLine, 3, true, 0.3, 0));
 		// SmartDashboard.putData("Drive 3 V", new OpenLoopDrive(Robot.drive, 0.25));
 		// SmartDashboard.putData("Drive Motion Magic", new DriveDistanceMotionMagic(Robot.drive, 100000, 10000, 10000));
 		// SmartDashboard.putData("Set Velocity", new VelocityTest(Robot.drive, 5000, 5));
@@ -126,7 +175,8 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Voltage ramp elevator with FF down", new MechanismVoltageRampingWithFF(Elevator.getInstance(), -0.25 / 12.0));
 
 		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Elevator.getInstance()));
-
+		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Arm.getInstance()));
+		// SmartDashboard.putData("Rocket Right", new RightRocketNear());
 		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 42));
 		// SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 60));
 		// SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 75));
@@ -155,7 +205,7 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Set arm angle 22 deg", new SetArmAngleMotionMagic(Arm.getInstance(), 22));
 		// SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Arm.getInstance()));
 		// SmartDashboard.putData("Zero arm with hall effect", new ZeroMechanismWithHallEffect(Arm.getInstance(), 
-		// 						Arm.getInstance()HallEffect, 2./12.));
+		// 						HallEffect, 2./12.));
 
 		// lineFollow = new JoystickButton(super.driv, 11);
 		// lineFollow.whileHeld(new LineFollow(0.254));

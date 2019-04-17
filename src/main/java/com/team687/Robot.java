@@ -12,13 +12,14 @@ import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
-import com.nerdherd.lib.motor.single.mechanisms.SingleMotorArm;
-import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.nerdherd.lib.pneumatics.Piston;
-import com.nerdherd.lib.sensor.PressureSensor;
+import com.nerdherd.lib.sensor.VexUltrasonic;
+import com.nerdherd.lib.sensor.analog.LinearAnalogSensor;
+import com.nerdherd.lib.sensor.analog.PressureSensor;
 import com.team687.constants.ArmConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
+import com.team687.subsystems.Climber;
 import com.team687.subsystems.Drive;
 import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Jevois;
@@ -38,25 +39,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	public static final String kDate = "2019_03_15_";
+	public static final String kDate = "2019_04_13_";
 
 	public static Drive drive;
 	public static DriverStation ds;
 	public static DeepSpaceAutoChooser chooser;
+
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
-	public static Piston claw;
+	public static Piston claw, climberRatchet;
 	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
 	public static ResetSingleMotorEncoder armZero;
 	public static ResetSingleMotorEncoder elevatorZero;
+	public static SingleMotorVictorSPX vacuum;
 	public static Limelight limelight;
 	private static boolean hasBeenTeleop = false;
 	private static boolean hasBeenSandstorm = false;
+	public static VexUltrasonic ultrasonic;
+	public static LinearAnalogSensor mapSensor;
 	public static OI oi;
 
-	public static SingleMotorVictorSPX climberWheelLeft, climberWheelRight;
+	
 	// big yummy
 	// public static HallSensor armHallEffect;
 
@@ -77,15 +82,19 @@ public class Robot extends TimedRobot {
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		
-		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", false), 
-									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", false));
-
+		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true), 
+									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true));
 		
 		armZero = new ResetSingleMotorEncoder(Arm.getInstance());
 		armZero.setRunWhenDisabled(true);
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
+		mapSensor = new LinearAnalogSensor("MAP Sensor", 0);
+		climberRatchet = new Piston(RobotMap.kClimberRatchetForwardID, 
+									RobotMap.kClimberRatchetReverseID);
+		climberRatchet.setReverse();
 
+		vacuum = new SingleMotorVictorSPX(RobotMap.kVaccumID, "Climber", false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
@@ -93,15 +102,19 @@ public class Robot extends TimedRobot {
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 	
+		ultrasonic = new VexUltrasonic("ultrasonic", RobotMap.kUltrasonicPingPort, RobotMap.kUltrasonicEchoPort);
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "LAR_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber2_electricboogaloo_", 0.02, 
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),
+			Climber.getInstance(),
+			mapSensor,
 			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		// jevois.startLog();
+		drive.setBrakeMode();
 	}
 
 	@Override
@@ -110,6 +123,7 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		oi.reportToSmartDashboard();
+		Climber.getInstance().reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		Superstructure.getInstance().reportToSmartDashboard();
@@ -117,8 +131,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
+		mapSensor.reportToSmartDashboard();
 		// jevois.logToCSV();
 		// }
+		ultrasonic.reportToSmartDashboard();
+
 	}
 
 	@Override
@@ -132,6 +149,7 @@ public class Robot extends TimedRobot {
 			hasBeenTeleop = false;
 		}
 		Superstructure.getInstance().isHatchMode = true;
+		drive.setCoastMode();
 	}
 
 	@Override

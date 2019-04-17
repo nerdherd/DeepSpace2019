@@ -45,7 +45,7 @@ public class Arm extends SingleMotorArm {
         }
     }
 
-    public static Arm getInstance() {
+    public static synchronized Arm getInstance() {
         return m_armInstance;
     }
 

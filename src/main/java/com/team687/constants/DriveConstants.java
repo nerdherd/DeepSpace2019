@@ -3,23 +3,28 @@ package com.team687.constants;
 public class DriveConstants {
 
 //	TalonSRX Constants
-	public static final double kLeftP = 0.0001122;
+	public static final double kLeftP = 0.0003122;
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
-	public static final double kLeftF = 0.02054;
+	public static final double kLeftF = 0.025788;
+
+	// Free Speed Constants (on jacks)
+	// public static final double kLeftF = 0.02219;
+	// public static final double kRightF = 0.022855;
+	// public static final double kLeftStatic = 1.2;
+	// public static final double kRightStatic = 1.128;
 	
-	
-	public static final double kRightP = 0.0001122;
+	public static final double kRightP = 0.0003122;
 	public static final double kRightI = 0;
 	public static final double kRightD = 0;
-	public static final double kRightF = 0.02034;
+	public static final double kRightF = 0.0302;
 	
-	public static final double kLeftStatic = 1.707;
+	public static final double kLeftStatic = 1.952;
 
-	public static final double kRightStatic = 1.695;
+	public static final double kRightStatic = 1.980;
 	
-	public static final int kMaxAcceleration = 32000;
-	public static final int kMaxVelocity = 24000;
+	public static final int kMaxAcceleration = 40000;
+	public static final int kMaxVelocity = 40000;
 
 //	Rot PID Constants
 	public static final double kDriveRotationTolerance = 0;
@@ -34,8 +39,8 @@ public class DriveConstants {
 //	Physical Robot Constants
 	public static final double kWheelDiameter = 6;
 	public static final double kDrivetrainWidth = 2.108211152;
-	public static final double kLeftTicksPerFoot = 2500;
-	public static final double kRightTicksPerFoot = 2500;
+	public static final double kLeftTicksPerFoot = 25000;
+	public static final double kRightTicksPerFoot = 25000;
 	
 //	Other Constants 
 	public static final double kJoystickDeadband = 0.1;

@@ -27,13 +27,13 @@ public class Drive extends ShiftingDrivetrain {
 
   public Drive() {
     super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
-    new VictorSPX[] {
-      new VictorSPX(RobotMap.kLeftSlaveVictor1ID),
-      new VictorSPX(RobotMap.kLeftSlaveVictor2ID)
+    new NerdyTalon[] {
+      new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
+      new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
     },
-    new VictorSPX[] {
-      new VictorSPX(RobotMap.kRightSlaveVictor1ID),
-      new VictorSPX(RobotMap.kRightSlaveVictor2ID)
+    new NerdyTalon[] {
+      new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
+      new NerdyTalon(RobotMap.kRightSlaveTalon2ID)
     },
      true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
@@ -43,7 +43,7 @@ public class Drive extends ShiftingDrivetrain {
      super.configSensorPhase(false, false);
      
      super.configTicksPerFoot(DriveConstants.kLeftTicksPerFoot, DriveConstants.kRightTicksPerFoot);
-     super.configDate("AZN_");
+     super.configDate("04_13_19_");
      // floor
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
@@ -79,13 +79,16 @@ public class Drive extends ShiftingDrivetrain {
 
   @Override
   public void reportToSmartDashboard() {
-    SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
-		SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
-		SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
-		SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
-    SmartDashboard.putNumber("Yaw", getRawYaw());
-    SmartDashboard.putNumber("Pitch", getPitch());
-    SmartDashboard.putNumber("Roll", getRoll());
+    // SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
+		// SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
+		// SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
+		// SmartDashboard.putNumber("Right Master Position", getRightMasterPosition());
+    // SmartDashboard.putNumber("Yaw", getRawYaw());
+    // SmartDashboard.putNumber("Pitch", getPitch());
+    // SmartDashboard.putNumber("Roll", getRoll());
+    super.reportToSmartDashboard();
+    SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
+    SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
   }
 
   @Override

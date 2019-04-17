@@ -34,7 +34,7 @@ public class Elevator extends SingleMotorElevator {
       ElevatorConstants.kElevatorHeightOffset);
   }
 
-  public static Elevator getInstance() {
+  public static synchronized Elevator getInstance() {
     return m_elevatorInstance;
   }
 

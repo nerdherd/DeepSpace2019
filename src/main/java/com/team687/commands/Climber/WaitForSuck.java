@@ -26,7 +26,6 @@ public class WaitForSuck extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Climber.getInstance().setPower(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,6 +38,7 @@ public class WaitForSuck extends Command {
     }
     Robot.vacuum.setPower(ClimberConstants.kSuckPower);
     Robot.climberRatchet.setForwards();
+    Climber.getInstance().setVoltage(-0.25);
   }
 
   // Make this return true when this Command no longer needs to run execute()

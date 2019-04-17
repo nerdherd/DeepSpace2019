@@ -40,9 +40,9 @@ public class ClimberConstants {
     public static final double kPositionTolerance = 2;
 
     public static final double kHardStopPos = 29.75;
-    public static final double kClimbGoodPos = 7.75;
+    public static final double kClimbGoodPos = 7;
 
-    public static final double kDesiredUpPow = 0.25;
-    public static final double kDesiredLiftPow = -0.5;
-    public static final double kSuckPower = 0.5;
+    public static final double kDesiredUpPow = 0.75;
+    public static final double kDesiredLiftPow = -0.75;
+    public static final double kSuckPower = 1;
 }

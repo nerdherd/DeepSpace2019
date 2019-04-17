@@ -137,8 +137,8 @@ public class OI extends DefaultOI {
 			SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
 			SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
 		}
-		// SmartDashboard.putData("Climber 1V", new SetMotorPower(Climber.getInstance(), 1./12.));
-		// SmartDashboard.putData("Climber -1V", new SetMotorPower(Climber.getInstance(), -1./12.));
+		SmartDashboard.putData("Climber 0.25V", new SetMotorPower(Climber.getInstance(), 0.25/12.));
+		SmartDashboard.putData("Climber -0.25V", new SetMotorPower(Climber.getInstance(), -0.25/12.));
 		// SmartDashboard.putData("Climber 2V", new SetMotorPower(Climber.getInstance(), 2./12.));
 		// SmartDashboard.putData("Climber -2V", new SetMotorPower(Climber.getInstance(), -2./12.));
 		// SmartDashboard.putData("Climber 3V", new SetMotorPower(Climber.getInstance(), 3./12.));

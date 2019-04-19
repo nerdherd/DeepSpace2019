@@ -55,7 +55,8 @@ public class DeepSpaceAutoChooser extends AutoChooser {
                 auto =  new LeftRocketNear();
             // }
         } else if (getStartingPosition() == StartingPosition.CENTER) {
-            auto = new FrontCargoShip();
+            // auto = new FrontCargoShip();
+            auto = null;
         }
         return auto;
     }

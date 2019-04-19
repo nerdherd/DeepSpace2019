@@ -7,12 +7,11 @@
 
 package com.team687.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.nerdherd.lib.motor.NerdyTalon;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.team687.RobotMap;
 import com.team687.constants.ClimberConstants;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -33,7 +32,7 @@ public class Climber extends SingleMotorElevator {
     super.configHeightConversion(ClimberConstants.kClimberDistanceRatio,
       ClimberConstants.kClimberHeightOffset);
     super.configCurrentLimit(60, 30);
-    super.motor.configFollowerTalons(new NerdyTalon[]{new NerdyTalon(RobotMap.kClimberTalon2ID)});
+    super.motor.configFollowerVictors(new VictorSPX[]{new VictorSPX(RobotMap.kClimberVictorID)});
   }
 
   public static synchronized Climber getInstance() {

@@ -33,7 +33,7 @@ public class ClimberConstants {
     // public static final double kClimberDistanceRatio = -1./4096. * 1.432 * Math.PI * 2;
     public static final double kClimberDistanceRatio = 1./4096. * 1.432 * Math.PI;
 
-    public static final double kClimberHeightOffset = 2;
+    public static final double kClimberHeightOffset = 2 + 7.5;
 
     public static final double kManualZeroVoltage = 0;
 
@@ -42,7 +42,7 @@ public class ClimberConstants {
     public static final double kHardStopPos = 29.75;
     public static final double kClimbGoodPos = 7;
 
-    public static final double kDesiredUpPow = 0.75;
+    public static final double kDesiredUpPow = 0.5;
     public static final double kDesiredLiftPow = -0.75;
     public static final double kSuckPower = 1;
 }

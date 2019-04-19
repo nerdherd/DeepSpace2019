@@ -40,10 +40,10 @@ public class RobotMap {
     public static final int kClawPiston2ID = 0;
 
     public static final int kClimberTalonID = 16;
-    public static final int kClimberTalon2ID = 17;
+    public static final int kClimberVictorID = 17;
     public static final int kVaccumID = 10;
-    public static final int kClimberRatchetForwardID = 0; // engage ratchet
-    public static final int kClimberRatchetReverseID = 7; // disengage ratchet
+    public static final int kClimberRatchetForwardID = 4; // engage ratchet
+    public static final int kClimberRatchetReverseID = 5; // disengage ratchet
 
     public static final int kUltrasonicEchoPort = 2;
     public static final int kUltrasonicPingPort = 1;

@@ -87,8 +87,8 @@ public class Drive extends ShiftingDrivetrain {
     // SmartDashboard.putNumber("Pitch", getPitch());
     // SmartDashboard.putNumber("Roll", getRoll());
     super.reportToSmartDashboard();
-    SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
-    SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
+    // SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
+    // SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
   }
 
   @Override

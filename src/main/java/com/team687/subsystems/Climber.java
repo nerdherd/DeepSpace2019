@@ -31,7 +31,7 @@ public class Climber extends SingleMotorElevator {
       ClimberConstants.kClimberD, ClimberConstants.kClimberF);
     super.configHeightConversion(ClimberConstants.kClimberDistanceRatio,
       ClimberConstants.kClimberHeightOffset);
-    super.configCurrentLimit(60, 30);
+    super.configCurrentLimit(60, 60);
     super.motor.configFollowerVictors(new VictorSPX[]{new VictorSPX(RobotMap.kClimberVictorID)});
   }
 

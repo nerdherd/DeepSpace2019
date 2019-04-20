@@ -51,8 +51,7 @@ public class Robot extends TimedRobot {
 	public static PressureSensor pressureSensor;
 	// public static LED led;
 	public static Jevois jevois;
-	public static ResetSingleMotorEncoder armZero;
-	public static ResetSingleMotorEncoder elevatorZero;
+	public static ResetSingleMotorEncoder armZero, elevatorZero, climbZero;
 	public static SingleMotorVictorSPX vacuum;
 	public static Limelight limelight;
 	private static boolean hasBeenTeleop = false;
@@ -87,6 +86,8 @@ public class Robot extends TimedRobot {
 		
 		armZero = new ResetSingleMotorEncoder(Arm.getInstance());
 		armZero.setRunWhenDisabled(true);
+		climbZero = new ResetSingleMotorEncoder(Climber.getInstance());
+		climbZero.setRunWhenDisabled(true);
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
 		mapSensor = new LinearAnalogSensor("MAP Sensor", 0);
@@ -101,10 +102,16 @@ public class Robot extends TimedRobot {
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
 		LoggableLambda elevatorClosedLoopError = new LoggableLambda("ElevatorClosedLoopError",
 			() -> (double) Arm.getInstance().motor.getClosedLoopError());
+		// LoggableLambda matchNumber = new LoggableLambda("MatchNumber", () -> {
+		// 	double matchNum = (double) ds.getMatchNumber();
+		// 	return ((matchNum == null) ? matchNum : 0);
+		// });
+		LoggableLambda matchNumber = new LoggableLambda("MatchNumber", () -> (double) ds.getMatchNumber());
 	
 		ultrasonic = new VexUltrasonic("ultrasonic", RobotMap.kUltrasonicPingPort, RobotMap.kUltrasonicEchoPort);
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber2_electricboogaloo_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "HoustonChamps_", 0.02, 
+			matchNumber,
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),
@@ -126,6 +133,7 @@ public class Robot extends TimedRobot {
 		Climber.getInstance().reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
+		SmartDashboard.putNumber("HI MATCH NUMBER ******", ds.getMatchNumber());
 		Superstructure.getInstance().reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
@@ -160,6 +168,7 @@ public class Robot extends TimedRobot {
 			Arm.getInstance().configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
 			Elevator.getInstance().configDistanceOffset(ElevatorConstants.kElevatorHeightOffset);
 			Scheduler.getInstance().add(armZero);
+			Scheduler.getInstance().add(climbZero);
 			Scheduler.getInstance().add(elevatorZero);
 			drive.resetEncoders();
 			drive.resetYaw();

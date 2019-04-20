@@ -11,6 +11,7 @@ public class TargetTrack extends Command {
     private double m_rotP, m_rotD, m_lastError, strPower, m_strP;
     private double yaw = 0;
     private boolean isLockedOn;
+    private int counter;
 
     public TargetTrack(double kRotP, double kRotD) {
         requires(Robot.drive);
@@ -37,8 +38,17 @@ public class TargetTrack extends Command {
         double angularTargetError = -Robot.jevois.getAngleToTurn() * 0.95;
         if (Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband) {
             isLockedOn = true;
+            // counter++;
         } else {
-            isLockedOn = false;
+            // isLockedOn = false;
+            // counter = 0;
+        }
+        if (Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband) {
+            isLockedOn = true;
+            counter++;
+        } else {
+            // isLockedOn = false;
+            counter = 0;
         }
         double rotPower = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
 
@@ -56,6 +66,7 @@ public class TargetTrack extends Command {
             Robot.drive.setPowerFeedforward(0.9 * strPower, strPower);
             SmartDashboard.putString("State:", "1");
         }
+        // else if (counter < 10) {
         else if ((Math.abs(angularTargetError) > VisionConstants.kDriveRotationDeadband) && isLockedOn == false) {
             Robot.drive.setPowerFeedforward(rotPower, -rotPower);
             SmartDashboard.putString("State:", "2");

@@ -8,7 +8,6 @@
 package com.team687.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.nerdherd.lib.motor.NerdyTalon;
 import com.nerdherd.lib.motor.single.mechanisms.SingleMotorElevator;
 import com.team687.RobotMap;
 import com.team687.constants.ClimberConstants;

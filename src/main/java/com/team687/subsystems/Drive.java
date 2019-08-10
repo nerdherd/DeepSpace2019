@@ -7,7 +7,6 @@
 
 package com.team687.subsystems;
 
-// import com.nerdherd.lib.drivetrain.shifting.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.experimental.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.logging.NerdyBadlog;

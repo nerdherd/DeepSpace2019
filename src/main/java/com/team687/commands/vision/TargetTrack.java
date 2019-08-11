@@ -52,12 +52,12 @@ public class TargetTrack extends Command {
         }
         double rotPower = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
 
-        // double pow = m_strP * Robot.jevois.getDistance() + 0.1;
-        // if (Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0) {
-        //     strPower = pow;
-        // } else {
-        //     strPower = Robot.oi.getDriveJoyRightY();
-        // }
+        double pow = m_strP * Robot.jevois.getDistance() + 0.1;
+        if (Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0) {
+            strPower = pow;
+        } else {
+            strPower = Robot.oi.getDriveJoyRightY();
+        }
 
         strPower = Robot.oi.getDriveJoyRightY();
 

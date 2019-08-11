@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
 			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
-		// jevois.startLog();
+		jevois.startLog();
 		drive.setBrakeMode();
 	}
 
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
 		mapSensor.reportToSmartDashboard();
-		// jevois.logToCSV();
+		jevois.logToCSV();
 		// }
 		ultrasonic.reportToSmartDashboard();
 
@@ -152,7 +152,7 @@ public class Robot extends TimedRobot {
 		// jevois.enableStream();	
 		if(hasBeenSandstorm && hasBeenTeleop) {
 			drive.stopLog();
-			// jevois.stopLog();
+			jevois.stopLog();
 			hasBeenSandstorm = false;
 			hasBeenTeleop = false;
 		}
@@ -207,7 +207,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		
 		// jevois.startLog();
-		// drive.startLog();
+		drive.startLog();
 		// drive.setCoastMode();
 		drive.setBrakeMode();
 		hasBeenTeleop = true;

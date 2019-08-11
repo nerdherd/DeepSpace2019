@@ -42,8 +42,8 @@ public class OI extends DefaultOI {
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
 	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
-			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, liveTargetTrack_L1,
-			liveTargetTrack_R1, shiftHighSpeed_R4, shiftLowSpeed_R3, zeroSuperstructure_L11, climberClimb_R7,
+			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, targetTrack_L1,
+			targetTrack_R1, shiftHighSpeed_R4, shiftLowSpeed_R3, zeroSuperstructure_L11, climberClimb_R7,
 			toggleClimbMode_L7, climberClimb_R8;
 
 	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
@@ -67,11 +67,11 @@ public class OI extends DefaultOI {
 		lowElevator_11 = new JoystickButton(super.operatorJoy, 11);
 		toggleMode_12 = new JoystickButton(super.operatorJoy, 12);
 
-		liveTargetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
+		targetTrack_L1 = new JoystickButton(super.driveJoyLeft, 1);
 		toggleClimbMode_L7 = new JoystickButton(super.driveJoyLeft, 7);
 		zeroSuperstructure_L11 = new JoystickButton(super.driveJoyLeft, 11);
 		
-		liveTargetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
+		targetTrack_R1 = new JoystickButton(super.driveJoyRight, 1);
 		shiftHighSpeed_R4 = new JoystickButton(super.driveJoyRight, 4);
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 		climberClimb_R7 = new JoystickButton(super.driveJoyRight, 7);
@@ -94,14 +94,14 @@ public class OI extends DefaultOI {
 
 		SmartDashboard.putData("Left Rocket", new LeftRocketNear());
 
-		// liveTargetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
-		liveTargetTrack_L1.whileHeld(new TargetTrack(0.006, 0.0));
+		// targetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
+		targetTrack_L1.whileHeld(new TargetTrack(0.008, 0.0));
 		// toggleClimbMode_L7.whenPressed(new ToggleClimbMode());
 		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(
 			SuperstructureConstants.kArmZeroVoltage, SuperstructureConstants.kElZeroVoltage));
 
-		// liveTargetTrack_R1.whileHeld(new ClimbDeployElseVisionTrack());
-		liveTargetTrack_R1.whileHeld(new TargetTrack(0.006, 0.00));
+		// targetTrack_R1.whileHeld(new ClimbDeployElseVisionTrack());
+		targetTrack_R1.whileHeld(new TargetTrack(0.008, 0.00));
 		shiftHighSpeed_R4.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 		climberClimb_R7.whenPressed(new ClimberReady());

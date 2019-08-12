@@ -28,6 +28,11 @@ public class SuperstructureConstants {
     public static final double kCargoShipArmAngle = 75;
     public static final double kCargoShipElHeight = 27;
 
+    public static final int kArmThrustMaxVel = 270;
+    public static final int kArmThrustMaxAccel = 270;
+    public static final int kElevatorThrustMaxVel = 1940;
+    public static final int kElevatorThrustMaxAccel = 1940;
+
     public static final double kLowElHeight = 9.2;
     // public static final double kMidElHeight = 37.2;
     // public static final double kHighElHeight = 65.2;

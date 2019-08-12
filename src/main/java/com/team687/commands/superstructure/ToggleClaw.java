@@ -7,39 +7,34 @@
 
 package com.team687.commands.superstructure;
 
-import com.team687.subsystems.Arm;
-import com.team687.subsystems.Elevator;
+import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SimultaneousMovement extends Command {
-
-  protected double m_elevatorHeight;
-protected double m_armAngle;
-
-  public SimultaneousMovement(double elevatorHeightInches, double armAngleDegrees) {
-    requires(Arm.getInstance());
-    requires(Elevator.getInstance());
-    m_elevatorHeight = elevatorHeightInches;
-    m_armAngle = armAngleDegrees;
+public class ToggleClaw extends Command {
+  public ToggleClaw() {
+    requires(Robot.claw);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (Robot.claw.isForwards()) {
+      Robot.claw.setReverse();
+    } else {
+      Robot.claw.setForwards();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Elevator.getInstance().setHeightMotionMagic(m_elevatorHeight);
-    Arm.getInstance().setAngleMotionMagic(m_armAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -51,6 +46,5 @@ protected double m_armAngle;
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

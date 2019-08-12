@@ -12,17 +12,15 @@ import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.auto.LeftRocketNear;
-import com.team687.commands.climber.ClimbLift;
-import com.team687.commands.climber.ClimberClimb;
 import com.team687.commands.climber.ClimberReady;
 import com.team687.commands.climber.SuckAndLift;
-import com.team687.commands.climber.WaitForSuck;
+import com.team687.commands.superstructure.Thrust;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
-import com.team687.commands.superstructure.StopIntaking;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
+import com.team687.commands.superstructure.ToggleClaw;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
 import com.team687.commands.vision.TargetTrack;
@@ -41,13 +39,10 @@ public class OI extends DefaultOI {
 
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
-	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawClose_6, clawOpen_5,
+	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawToggle_5, thrust_6, 
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, targetTrack_L1,
 			targetTrack_R1, shiftHighSpeed_R4, shiftLowSpeed_R3, zeroSuperstructure_L11, climberClimb_R7,
-			toggleClimbMode_L7, climberClimb_R8;
-
-	// public JoystickButton deployChevalRamps_, deployKickerWheels_,
-	// retractChevalRamps_, retractKickerWheels_;
+			toggleClimbMode_L7, climberClimb_R8; // clawClose_6, clawOpen_5,
 
 	public OI() {
 		// super();
@@ -58,8 +53,10 @@ public class OI extends DefaultOI {
 		outtakeRollers_2 = new JoystickButton(super.operatorJoy, 2);
 		stopRollers_3 = new JoystickButton(super.operatorJoy, 3);
 		intakeRollers_4 = new JoystickButton(super.operatorJoy, 4);
-		clawClose_6 = new JoystickButton(super.operatorJoy, 6);
-		clawOpen_5 = new JoystickButton(super.operatorJoy, 5);
+		// clawOpen_5 = new JoystickButton(super.operatorJoy, 5);
+		// clawClose_6 = new JoystickButton(super.operatorJoy, 6);
+		clawToggle_5 = new JoystickButton(super.operatorJoy, 5);
+		thrust_6 = new JoystickButton(super.operatorJoy, 6);
 		highElevator_7 = new JoystickButton(super.operatorJoy, 7);
 		cargoShip_8 = new JoystickButton(super.operatorJoy, 8);
 		midElevator_9 = new JoystickButton(super.operatorJoy, 9);
@@ -81,8 +78,10 @@ public class OI extends DefaultOI {
 		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.4, 0.4));
 		stopRollers_3.whenPressed(new SetDualMotorPower(Robot.intake, 0, 0));
 		intakeRollers_4.whenPressed(new IntakeOrOuttakeRollers(.75, -0.75));
-		clawOpen_5.whenPressed(new StopIntaking());
-		clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
+		// clawOpen_5.whenPressed(new StopIntaking());
+		// clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
+		clawToggle_5.whenPressed(new ToggleClaw());
+		thrust_6.whenPressed(new Thrust(14));
 		highElevator_7.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kHighElHeight));
 		cargoShip_8.whenPressed(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kMidElHeight));
@@ -135,10 +134,10 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber Wait for succ", new WaitForSuck());
 		// SmartDashboard.putData("Climber Lift", new ClimbLift());
 		SmartDashboard.putData("Climber 0V", new SetMotorPower(Climber.getInstance(), 0));
-		for (double i = 1; i < 3; i++) {
-			SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
-			SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
-		}
+		// for (double i = 1; i < 3; i++) {
+		// 	SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
+		// 	SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
+		// }
 
 		// SmartDashboard.putData("Climber succ 1V", new SetMotorPower(Robot.vacuum, 1./12.));
 		// SmartDashboard.putData("Climber succ -1V", new SetMotorPower(Robot.vacuum, -1./12.));

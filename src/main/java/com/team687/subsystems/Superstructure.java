@@ -43,7 +43,7 @@ public class Superstructure implements Loggable {
   @Override
   public void initLoggingData() {
     NerdyBadlog.createTopic("Superstructure/HatchMode", () -> NerdyMath.boolToDouble(m_superstructureInstance.isHatchMode));
-    NerdyBadlog.createTopic("Superstructure/Height", () -> Arm.getArmHeight() + Elevator.getInstance().getHeight());
+    NerdyBadlog.createTopic("Superstructure/Height", () -> getSuperstructureHeight());
   }
 
 }

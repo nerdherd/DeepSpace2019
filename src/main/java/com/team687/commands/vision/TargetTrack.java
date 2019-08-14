@@ -35,7 +35,7 @@ public class TargetTrack extends Command {
 
     @Override
     protected void execute() {
-        double angularTargetError = -Robot.jevois.getAngleToTurn() * 0.95;
+        double angularTargetError = -Robot.jevois.getAngleToTurn() * 0.92;
         if (Math.abs(angularTargetError) < VisionConstants.kDriveRotationDeadband) {
             isLockedOn = true;
             // counter++;
@@ -51,6 +51,7 @@ public class TargetTrack extends Command {
             counter = 0;
         }
         double rotPower = m_rotP * angularTargetError + m_rotD * (angularTargetError - m_lastError);
+        SmartDashboard.putNumber("rotPower", rotPower);
 
         double pow = m_strP * Robot.jevois.getDistance() + 0.1;
         if (Robot.oi.getDriveJoyRightY() > pow && Robot.jevois.getContourNum() > 0) {
@@ -72,6 +73,7 @@ public class TargetTrack extends Command {
             SmartDashboard.putString("State:", "2");
 
 
+
         } else {
             Robot.drive.setPowerFeedforward((0.9 * strPower), strPower);
             SmartDashboard.putString("State:", "3");
@@ -82,6 +84,7 @@ public class TargetTrack extends Command {
     }
 
     @Override
+    
     protected boolean isFinished() {
         return Robot.oi.operatorJoy.getRawButton(10);
     }

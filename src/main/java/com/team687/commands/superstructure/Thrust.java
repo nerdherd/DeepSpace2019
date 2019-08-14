@@ -16,6 +16,7 @@ import com.team687.subsystems.Elevator;
 import com.team687.subsystems.Superstructure;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Adjusts the horizontal distance the arm extends while maintaining the same vertical height
@@ -23,27 +24,30 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Thrust extends SimultaneousMovement {
   public Thrust(double extendDistance) {
     super(
-      NerdyMath.boundBetween(
-        Superstructure.getInstance().getSuperstructureHeight(), 
-        ElevatorConstants.kMinElevatorHeight, 
-        ElevatorConstants.kMaxElevatorHeight
-      ), 
-
+      ElevatorConstants.kMinElevatorHeight, 
       NerdyMath.radiansToDegrees(Math.acos(NerdyMath.boundBetween(extendDistance, 0, 14) / 14.0))
     );
   }
 
   @Override
+  protected void execute() {
+    super.execute();
+    SmartDashboard.putNumber("Elevator target", super.m_elevatorHeight);
+  }
+
+  @Override
   protected void initialize() {
     super.initialize();
-    Arm.getInstance().configMotionMagic(SuperstructureConstants.kArmThrustMaxAccel, SuperstructureConstants.kArmThrustMaxVel);
-    Elevator.getInstance().configMotionMagic(SuperstructureConstants.kElevatorThrustMaxAccel, SuperstructureConstants.kElevatorThrustMaxVel);
+    super.m_elevatorHeight =
+      NerdyMath.boundBetween(
+        Superstructure.getInstance().getSuperstructureHeight(),
+        ElevatorConstants.kMinElevatorHeight, 
+        ElevatorConstants.kMaxElevatorHeight
+      );
   }
 
   @Override
   protected void end() {
     super.end();
-    Arm.getInstance().configMotionMagic(ArmConstants.kArmMotionMagicMaxAccel, ArmConstants.kArmMotionMagicCruiseVelocity);
-    Elevator.getInstance().configMotionMagic(ElevatorConstants.kElevatorMotionMagicMaxAccel, ElevatorConstants.kElevatorMotionMagicCruiseVelocity);
   }
 }

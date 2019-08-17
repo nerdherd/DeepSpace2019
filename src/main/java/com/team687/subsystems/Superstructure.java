@@ -10,7 +10,6 @@ package com.team687.subsystems;
 import com.nerdherd.lib.logging.Loggable;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.misc.NerdyMath;
-import com.team687.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

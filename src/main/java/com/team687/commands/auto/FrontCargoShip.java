@@ -10,7 +10,6 @@ package com.team687.commands.auto;
 import com.team687.Robot;
 import com.team687.commands.superstructure.SimultaneousMovement;
 import com.team687.commands.vision.AutoLiveTargetTrack;
-import com.team687.constants.AutoConstants;
 import com.team687.constants.DriveConstants;
 import com.team687.constants.SuperstructureConstants;
 

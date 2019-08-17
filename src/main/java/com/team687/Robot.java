@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
 
 	// public static SingleMotorTalonSRX chevalRamp;
 	public static DualMotorIntake intake;
+	// public static Piston claw;
 	public static Piston claw, climberRatchet;
 	public static PressureSensor pressureSensor;
 	// public static LED led;
@@ -89,12 +90,12 @@ public class Robot extends TimedRobot {
 		armZero.setRunWhenDisabled(true);
 		elevatorZero = new ResetSingleMotorEncoder(Elevator.getInstance());
 		elevatorZero.setRunWhenDisabled(true);
-		mapSensor = new LinearAnalogSensor("MAP Sensor", 0);
-		climberRatchet = new Piston(RobotMap.kClimberRatchetForwardID, 
-									RobotMap.kClimberRatchetReverseID);
-		climberRatchet.setReverse();
+		// mapSensor = new LinearAnalogSensor("MAP Sensor", 0);
+		// climberRatchet = new Piston(RobotMap.kClimberRatchetForwardID, 
+		// 							RobotMap.kClimberRatchetReverseID);
+		// climberRatchet.setReverse();
 
-		vacuum = new SingleMotorVictorSPX(RobotMap.kVaccumID, "Climber", false);
+		// vacuum = new SingleMotorVictorSPX(RobotMap.kVaccumID, "Climber", false);
 		// chevalRamp = new SingleMotorTalonSRX(RobotMap.kChevalRampTalonID, "Cheval Ramp", true, true);
 
 		LoggableLambda armClosedLoopError = new LoggableLambda("ArmClosedLoopError",
@@ -104,12 +105,10 @@ public class Robot extends TimedRobot {
 	
 		ultrasonic = new VexUltrasonic("ultrasonic", RobotMap.kUltrasonicPingPort, RobotMap.kUltrasonicEchoPort);
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "climber2_electricboogaloo_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "2019_Aug_17", 0.02, 
 			Elevator.getInstance(),
 			Arm.getInstance(), 
 			Superstructure.getInstance(),
-			Climber.getInstance(),
-			mapSensor,
 			intake);//, drive);
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
@@ -123,7 +122,7 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		oi.reportToSmartDashboard();
-		Climber.getInstance().reportToSmartDashboard();
+		// Climber.getInstance().reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		Superstructure.getInstance().reportToSmartDashboard();
@@ -131,7 +130,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
-		mapSensor.reportToSmartDashboard();
+		// mapSensor.reportToSmartDashboard();
 		// jevois.logToCSV();
 		// }
 		ultrasonic.reportToSmartDashboard();

@@ -10,7 +10,6 @@ package com.team687.commands.vision;
 import com.team687.Robot;
 import com.team687.constants.DriveConstants;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

@@ -11,6 +11,7 @@ import com.nerdherd.lib.logging.LoggableLambda;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.dual.DualMotorIntake;
+import com.nerdherd.lib.motor.single.SingleMotorTalonSRX;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.VexUltrasonic;
@@ -82,8 +83,8 @@ public class Robot extends TimedRobot {
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		
-		intake = new DualMotorIntake(new SingleMotorVictorSPX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true), 
-									new SingleMotorVictorSPX(RobotMap.kRightIntakeVictorID, "RightIntake", true));
+		intake = new DualMotorIntake(new SingleMotorTalonSRX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true, true), 
+									new SingleMotorTalonSRX(RobotMap.kRightIntakeVictorID, "RightIntake", true, true));
 		
 		armZero = new ResetSingleMotorEncoder(Arm.getInstance());
 		armZero.setRunWhenDisabled(true);
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
 		Arm.getInstance().reportToSmartDashboard();
 		jevois.reportToSmartDashboard();
 		oi.reportToSmartDashboard();
-		Climber.getInstance().reportToSmartDashboard();
+		// Climber.getInstance().reportToSmartDashboard();
 		// pressureSensor.reportToSmartDashboard();
 		// armHallEffect.reportToSmartDashboard();
 		Superstructure.getInstance().reportToSmartDashboard();

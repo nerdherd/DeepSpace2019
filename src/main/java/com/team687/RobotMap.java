@@ -19,10 +19,10 @@ public class RobotMap {
     public static final int kRightMasterTalonID = 13;
     public static final int kLeftMasterTalonID = 20;
 
-    public static final int kRightSlaveTalon1ID = 14;
-    public static final int kLeftSlaveTalon1ID = 21;
+    public static final int kRightSlaveTalon1ID = 16;
+    public static final int kLeftSlaveTalon1ID = 14;
 
-    public static final int kRightSlaveTalon2ID = 15;
+    public static final int kRightSlaveTalon2ID = 10;
     public static final int kLeftSlaveTalon2ID = 22;
 
     public static final int kRightMasterSparkMaxID = 0;
@@ -37,17 +37,17 @@ public class RobotMap {
     // public static final int kChevalRampTalonID = 0;
 
     public static final int kArmTalonID = 11;
-    public static final int kElevatorTalonID = 12;
+    public static final int kElevatorTalonID = 0;
 
-    public static final int kLeftIntakeVictorID = 3;
+    public static final int kLeftIntakeVictorID = 23;
     public static final int kRightIntakeVictorID = 2;
 
     public static final int kClawPiston1ID = 6;
     public static final int kClawPiston2ID = 1;
 
-    public static final int kClimberTalonID = 16;
-    public static final int kClimberTalon2ID = 17;
-    public static final int kVaccumID = 10;
+    public static final int kClimberTalonID = 99;
+    public static final int kClimberTalon2ID = 98;
+    public static final int kVaccumID = 400;
     public static final int kClimberRatchetForwardID = 0; // engage ratchet
     public static final int kClimberRatchetReverseID = 7; // disengage ratchet
 

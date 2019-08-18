@@ -10,9 +10,10 @@ package com.team687.subsystems;
 import com.nerdherd.lib.drivetrain.experimental.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.logging.NerdyBadlog;
-import com.nerdherd.lib.motor.motorcontrollers.NerdySparkMax;
+import com.nerdherd.lib.motor.motorcontrollers.CANMotorController;
+import com.nerdherd.lib.motor.motorcontrollers.NerdyTalon;
+import com.nerdherd.lib.motor.motorcontrollers.NerdyVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.constants.DriveConstants;
@@ -26,21 +27,22 @@ public class Drive extends ShiftingDrivetrain {
 
 
   public Drive() {
-    // super(RobotMap.kLeftMasterTalonID, RobotMap.kRightMasterTalonID,
-    // new NerdyTalon[] {
-    //   new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
-    //   new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
-    // },
-    // new NerdyTalon[] {
-    //   new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
-    //   new NerdyTalon(RobotMap.kRightSlaveTalon2ID)
-    // },
+    super(new NerdyTalon(RobotMap.kLeftMasterTalonID), new NerdyTalon(RobotMap.kRightMasterTalonID),
+    new CANMotorController[] {
+      new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
+      new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
+    },
+    new CANMotorController[] {
+      new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
+      new NerdyVictorSPX(RobotMap.kRightSlaveTalon2ID)
+    },
 
-    super(new NerdySparkMax(RobotMap.kLeftMasterSparkMaxID, MotorType.kBrushless), 
-    new NerdySparkMax(RobotMap.kRightMasterSparkMaxID, MotorType.kBrushless), 
-    new NerdySparkMax[]{new NerdySparkMax(RobotMap.kLeftSlaveSparkMaxID, MotorType.kBrushless)}, 
-    new NerdySparkMax[]{new NerdySparkMax(RobotMap.kRightSlaveSparkMaxID, MotorType.kBrushless)},
-     true, false,
+    // super(new NerdySparkMax(RobotMap.kLeftMasterSparkMaxID, MotorType.kBrushless), 
+    // new NerdySparkMax(RobotMap.kRightMasterSparkMaxID, MotorType.kBrushless), 
+    // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kLeftSlaveSparkMaxID, MotorType.kBrushless)}, 
+    // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kRightSlaveSparkMaxID, MotorType.kBrushless)},
+    
+    true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     
      super.configAutoChooser(Robot.chooser);
@@ -53,7 +55,9 @@ public class Drive extends ShiftingDrivetrain {
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
      super.configStaticFeedforward(DriveConstants.kLeftStatic, DriveConstants.kRightStatic);
-  }
+      m_rightSlaves[0].followCANMotorController(m_rightMaster);
+      m_rightSlaves[1].followCANMotorController(m_rightMaster);
+    }
 
   @Override
   public void initDefaultCommand() {

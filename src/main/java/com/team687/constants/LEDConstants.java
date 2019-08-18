@@ -7,8 +7,6 @@
 
 package com.team687.constants;
 
-import com.nerdherd.lib.misc.NerdyMath;
-
 /**
  * Add your docs here.
  */

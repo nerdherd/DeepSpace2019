@@ -8,7 +8,6 @@
 package com.team687.commands.vision;
 
 import com.team687.Robot;
-import com.team687.constants.AutoConstants;
 
 /**
  * Add your docs here.

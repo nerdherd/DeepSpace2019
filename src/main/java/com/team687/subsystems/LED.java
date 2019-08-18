@@ -7,11 +7,11 @@
 
 package com.team687.subsystems;
 
+import com.team687.constants.LEDConstants;
+
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.team687.constants.LEDConstants;
 
 /**
  * Add your docs here.

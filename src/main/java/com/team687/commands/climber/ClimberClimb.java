@@ -7,9 +7,6 @@
 
 package com.team687.commands.climber;
 
-import com.nerdherd.lib.motor.commands.SetMotorPower;
-import com.team687.Robot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ClimberClimb extends CommandGroup {

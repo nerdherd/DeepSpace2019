@@ -7,22 +7,23 @@
 
 package com.team687.commands.vision;
 
+import com.team687.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.team687.Robot;
 
 public class LineFollow extends Command {
 
-  private int m_threshold; 
-  private double m_lineFollowOffset;
-  private double m_power;
-  private double m_powerOffset;
+  // private int m_threshold; 
+  // private double m_lineFollowOffset;
+  // private double m_power;
+  // private double m_powerOffset;
 
   public LineFollow(double power) {
-    m_power = power;
-    m_threshold = 2900; //3150 is white, 3309 is blue
-    m_powerOffset = 0.25;
-    m_lineFollowOffset = 200;
+    // m_power = power;
+    // m_threshold = 2900; //3150 is white, 3309 is blue
+    // m_powerOffset = 0.25;
+    // m_lineFollowOffset = 200;
     requires(Robot.drive);
   }
 

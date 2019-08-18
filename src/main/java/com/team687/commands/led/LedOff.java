@@ -7,11 +7,8 @@
 
 package com.team687.commands.led;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-import com.team687.Robot;
-
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class LedOff extends Command {
   public LedOff() {

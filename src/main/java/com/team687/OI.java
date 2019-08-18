@@ -14,12 +14,12 @@ import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.auto.LeftRocketNear;
 import com.team687.commands.climber.ClimberReady;
 import com.team687.commands.climber.SuckAndLift;
-import com.team687.commands.superstructure.Thrust;
 import com.team687.commands.superstructure.CargoShipCargo;
 import com.team687.commands.superstructure.IntakeOrOuttakeRollers;
 import com.team687.commands.superstructure.Stow;
 import com.team687.commands.superstructure.SuperstructureIntake;
 import com.team687.commands.superstructure.TeleopSimultaneous;
+import com.team687.commands.superstructure.Thrust;
 import com.team687.commands.superstructure.ToggleClaw;
 import com.team687.commands.superstructure.ToggleHatchMode;
 import com.team687.commands.superstructure.ZeroSuperstructure;
@@ -39,14 +39,14 @@ public class OI extends DefaultOI {
 
 	// hatch/cargo "modes" (4 buttons for whole rocket, +1 if you include cargo
 	// intake)
-	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawToggle_5, thrust_6, 
+	public JoystickButton intakeArm_1, outtakeRollers_2, stopRollers_3, intakeRollers_4, clawToggle_5, thrust_6,
 			highElevator_7, cargoShip_8, midElevator_9, stow_10, lowElevator_11, toggleMode_12, targetTrack_L1,
 			targetTrack_R1, shiftHighSpeed_R4, shiftLowSpeed_R3, zeroSuperstructure_L11, climberClimb_R7,
-			toggleClimbMode_L7, climberClimb_R8; // clawClose_6, clawOpen_5,
+			toggleClimbMode_L7, climberClimb_R8, shiftHigh_11, shiftLow_12; // clawClose_6, clawOpen_5,
 
 	public OI() {
 		// super();
-		super(0.15);
+		super(0.35);
 		super.configLerping(true);
 
 		intakeArm_1 = new JoystickButton(super.operatorJoy, 1);
@@ -73,6 +73,18 @@ public class OI extends DefaultOI {
 		shiftLowSpeed_R3 = new JoystickButton(super.driveJoyRight, 3);
 		climberClimb_R7 = new JoystickButton(super.driveJoyRight, 7);
 		climberClimb_R8 = new JoystickButton(super.driveJoyRight, 8);
+
+		shiftHigh_11 = new JoystickButton(super.driveJoyRight, 11);
+		shiftLow_12 = new JoystickButton(super.driveJoyRight, 12);
+		// targetTrack_L1 = super.driverController.aButton;
+		// toggleClimbMode_L7 = super.driverController.bButton;
+		// zeroSuperstructure_L11 = super.driverController.yButton;
+		
+		// targetTrack_R1 = super.driverController.xButton;
+		// shiftHighSpeed_R4 = super.driverController.leftBumper;
+		// shiftLowSpeed_R3 = super.driverController.rightBumper;
+		// climberClimb_R7 = super.driverController.upDPad;
+		// climberClimb_R8 = new JoystickButton(super.driveJoyRight, 8);
 
 		intakeArm_1.whenPressed(new SuperstructureIntake());
 		outtakeRollers_2.whenPressed(new IntakeOrOuttakeRollers(-.4, 0.4));
@@ -106,6 +118,8 @@ public class OI extends DefaultOI {
 		climberClimb_R7.whenPressed(new ClimberReady());
 		climberClimb_R8.whileHeld(new SuckAndLift());
 
+		shiftHigh_11.whenPressed(new ShiftHigh(Robot.drive));
+		shiftLow_12.whenPressed(new ShiftLow(Robot.drive));
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 

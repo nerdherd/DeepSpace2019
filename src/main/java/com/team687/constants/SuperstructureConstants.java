@@ -44,6 +44,6 @@ public class SuperstructureConstants {
     public static final double kElZeroVoltage = -2;
 
     public static final double kStowHatchIntakeVoltage = 0.25;
-    public static final double kStowCargoIntakeVoltage = 0.1;
+    public static final double kStowCargoIntakeVoltage = 0.25;
 
 }

@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
 		//CameraServer.getInstance().startAutomaticCapture();
 		drive.startLog();
 		jevois.startLog();
-		drive.setBrakeMode();
+		drive.setCoastMode();
 	}
 
 	@Override
@@ -165,6 +165,7 @@ public class Robot extends TimedRobot {
 		// jevois.reportToSmartDashboard();
 		drive.reportToSmartDashboard();
 		if (oi.driveJoyLeft.getRawButton(5) && oi.driveJoyRight.getRawButton(5)) {
+			// if (oi.driverController.getAButton()) {
 			Arm.getInstance().configAngleOffset(ArmConstants.kEffectiveArmAngleOffset);
 			Elevator.getInstance().configDistanceOffset(ElevatorConstants.kElevatorHeightOffset);
 			Scheduler.getInstance().add(armZero);

@@ -7,7 +7,11 @@
 
 package com.team687.commands.climber;
 
+import com.nerdherd.lib.motor.commands.MotorVoltageRamping;
+import com.team687.subsystems.Climber;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class SuckAndLift extends CommandGroup {
   /**
@@ -33,4 +37,20 @@ public class SuckAndLift extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
   }
+
+  @Override
+  protected void end() {
+    Scheduler.getInstance().add(new MotorVoltageRamping(Climber.getInstance(), 0.75) {
+      @Override
+      protected boolean isFinished() {
+        return super.isFinished() || m_motor.getVoltage() >= 0;
+      }
+    });
+  }
+
+  @Override
+  protected void interrupted() {
+    end();
+  }
+
 }

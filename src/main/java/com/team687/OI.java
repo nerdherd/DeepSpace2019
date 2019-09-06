@@ -118,8 +118,8 @@ public class OI extends DefaultOI {
 		climberClimb_R7.whenPressed(new ClimberReady());
 		climberClimb_R8.whileHeld(new SuckAndLift());
 
-		shiftHigh_11.whenPressed(new ShiftHigh(Robot.drive));
-		shiftLow_12.whenPressed(new ShiftLow(Robot.drive));
+		// shiftHigh_11.whenPressed(new ShiftHigh(Robot.drive));
+		// shiftLow_12.whenPressed(new ShiftLow(Robot.drive));
 		SmartDashboard.putData("High Speed", new ShiftHigh(Robot.drive));
 		SmartDashboard.putData("Low Speed", new ShiftLow(Robot.drive));
 
@@ -148,10 +148,10 @@ public class OI extends DefaultOI {
 		// SmartDashboard.putData("Climber Wait for succ", new WaitForSuck());
 		// SmartDashboard.putData("Climber Lift", new ClimbLift());
 		SmartDashboard.putData("Climber 0V", new SetMotorPower(Climber.getInstance(), 0));
-		// for (double i = 1; i < 3; i++) {
-		// 	SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
-		// 	SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
-		// }
+		for (double i = 1; i < 3; i++) {
+			SmartDashboard.putData("Climber " + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), i/12.0));
+			SmartDashboard.putData("Climber -" + String.valueOf(i) + "V", new SetMotorPower(Climber.getInstance(), -i/12.0));
+		}
 
 		// SmartDashboard.putData("Climber succ 1V", new SetMotorPower(Robot.vacuum, 1./12.));
 		// SmartDashboard.putData("Climber succ -1V", new SetMotorPower(Robot.vacuum, -1./12.));

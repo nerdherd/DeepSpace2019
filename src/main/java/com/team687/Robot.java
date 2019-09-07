@@ -173,6 +173,7 @@ public class Robot extends TimedRobot {
 			Scheduler.getInstance().add(elevatorZero);
 			drive.resetEncoders();
 			drive.resetYaw();
+			drive.setXY(0,0);
 		}
 
 		Scheduler.getInstance().run();

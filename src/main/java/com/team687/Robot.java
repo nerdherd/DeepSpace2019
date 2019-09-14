@@ -27,6 +27,7 @@ import com.team687.subsystems.Jevois;
 import com.team687.subsystems.Limelight;
 import com.team687.subsystems.Superstructure;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
 	public static VexUltrasonic ultrasonic;
 	public static LinearAnalogSensor mapSensor;
 	public static OI oi;
+	public static AnalogInput lineTracker;
 
 	
 	// big yummy
@@ -77,6 +79,7 @@ public class Robot extends TimedRobot {
 		jevois.startCameraStream();
 		limelight = new Limelight();
 		pressureSensor = new PressureSensor("PressureSensor", 3);
+		lineTracker = new AnalogInput(0);
 
 		chooser = new DeepSpaceAutoChooser();
 	    drive = new Drive();
@@ -129,6 +132,7 @@ public class Robot extends TimedRobot {
 		Superstructure.getInstance().reportToSmartDashboard();
 		SmartDashboard.putBoolean("Claw is forwards?", Robot.claw.isForwards());
 		SmartDashboard.putBoolean("Claw is reverse?", Robot.claw.isReverse());
+		SmartDashboard.putNumber("Line Tracker Voltage", lineTracker.getAverageVoltage());
 		// if ((!hasBeenSandstorm || !hasBeenTeleop) && !ds.isDisabled()) {
 		drive.logToCSV();
 		// mapSensor.reportToSmartDashboard();

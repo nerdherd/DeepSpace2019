@@ -10,8 +10,9 @@ package com.team687.subsystems;
 import com.nerdherd.lib.drivetrain.experimental.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.logging.NerdyBadlog;
-import com.nerdherd.lib.motor.motorcontrollers.NerdySparkMax;
+import com.nerdherd.lib.motor.motorcontrollers.CANMotorController;
 import com.nerdherd.lib.motor.motorcontrollers.NerdyTalon;
+import com.nerdherd.lib.motor.motorcontrollers.NerdyVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.team687.Robot;
 import com.team687.RobotMap;
@@ -41,17 +42,17 @@ public class Drive extends ShiftingDrivetrain {
     // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kLeftSlaveSparkMaxID, MotorType.kBrushless)}, 
     // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kRightSlaveSparkMaxID, MotorType.kBrushless)},
     //  true, false,
-    super(
-    new NerdyTalon(RobotMap.kLeftMasterTalonID), 
-    new NerdyTalon(RobotMap.kRightMasterTalonID), 
-    new NerdySparkMax[]{
-      new NerdySparkMax(RobotMap.kLeftSlaveSparkMax1ID, MotorType.kBrushed),
-      new NerdySparkMax(RobotMap.kLeftSlaveSparkMax2ID, MotorType.kBrushed)
-    }, 
-    new NerdySparkMax[]{
-      new NerdySparkMax(RobotMap.kRightSlaveSparkMax1ID, MotorType.kBrushed),
-      new NerdySparkMax(RobotMap.kRightSlaveSparkMax2ID, MotorType.kBrushed)
-    },
+    
+    // new NerdyTalon(RobotMap.kLeftMasterTalonID), 
+    // new NerdyTalon(RobotMap.kRightMasterTalonID), 
+    // new NerdySparkMax[]{
+    //   new NerdySparkMax(RobotMap.kLeftSlaveSparkMax1ID, MotorType.kBrushed),
+    //   new NerdySparkMax(RobotMap.kLeftSlaveSparkMax2ID, MotorType.kBrushed)
+    // }, 
+    // new NerdySparkMax[]{
+    //   new NerdySparkMax(RobotMap.kRightSlaveSparkMax1ID, MotorType.kBrushed),
+    //   new NerdySparkMax(RobotMap.kRightSlaveSparkMax2ID, MotorType.kBrushed)
+    // },
      true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     

@@ -43,7 +43,8 @@ public class SuckAndLift extends CommandGroup {
     Scheduler.getInstance().add(new MotorVoltageRamping(Climber.getInstance(), 0.75) {
       @Override
       protected boolean isFinished() {
-        return super.isFinished() || m_motor.getVoltage() >= 0;
+        // return super.isFinished() || m_motor.getVoltage() >= 0;
+        return false;
       }
     });
   }

@@ -16,6 +16,8 @@ import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.constants.DriveConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
@@ -73,9 +75,35 @@ public class Drive extends ShiftingDrivetrain {
   public void logToCSV() {
     super.logToCSV();
   }
+  
+  public enum Quadrant{
+    A,B,C,D,None;
+    // A = "a";
+  } 
+  
+  public Quadrant findQuadrant(){
+    if(getXpos() >= 10 && getYpos() < 13.5){
+      return Quadrant.D;
+      }
+    if(getXpos() >= 10 && getYpos() >= 13.5){
+      return Quadrant.A;  
+    }
+    if(getXpos() < 10 && getYpos() < 13.5){
+      return Quadrant.C;  
+    }      
+    if(getXpos() < 10 && getYpos() >= 13.5){
+      return Quadrant.B;  
+    }
+    else{
+      return Quadrant.None;  
+    }
+
+
+  }
 
   @Override
   public void reportToSmartDashboard() {
+    SmartDashboard.putString("Quadrant: ", findQuadrant().name());
     // SmartDashboard.putNumber("Left Master Voltage", getLeftOutputVoltage());
 		// SmartDashboard.putNumber("Right Master Voltage", getRightOutputVoltage());
 		// SmartDashboard.putNumber("Left Master Position", getLeftMasterPosition());
@@ -87,7 +115,6 @@ public class Drive extends ShiftingDrivetrain {
     // SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
     // SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
   }
-
   @Override
   public void initLoggingData() {
     NerdyBadlog.createTopic("Pitch", () -> getPitch());

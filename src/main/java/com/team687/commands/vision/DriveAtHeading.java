@@ -52,7 +52,7 @@ public class DriveAtHeading extends Command {
     double angularTargetError = Robot.jevois.getAngleToTurn();
     double rotPower = -m_rotP * angularTargetError;
 
-    Robot.drive.setPowerFeedforward(rotPower + -straightPower, -rotPower + -straightPower);
+    Robot.drive.setPowerFeedforward(rotPower + (0.8 * straightPower), -rotPower + straightPower);
   }
 
   @Override

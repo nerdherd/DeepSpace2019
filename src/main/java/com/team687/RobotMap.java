@@ -25,11 +25,11 @@ public class RobotMap {
     public static final int kRightSlaveTalon2ID = 10;
     public static final int kLeftSlaveTalon2ID = 22;
 
-    public static final int kRightMasterSparkMaxID = 0;
-    public static final int kLeftMasterSparkMaxID = 0;
+    public static final int kRightMasterSparkMaxID = 3;
+    public static final int kLeftMasterSparkMaxID = 1;
 
-    public static final int kRightSlaveSparkMax1ID = 0;
-    public static final int kLeftSlaveSparkMax1ID = 0;
+    public static final int kRightSlaveSparkMax1ID = 4;
+    public static final int kLeftSlaveSparkMax1ID = 2;
 
     public static final int kRightSlaveSparkMax2ID = 0;
     public static final int kLeftSlaveSparkMax2ID = 0;
@@ -42,8 +42,8 @@ public class RobotMap {
     public static final int kArmTalonID = 11;
     public static final int kElevatorTalonID = 0;
 
-    public static final int kLeftIntakeVictorID = 23;
-    public static final int kRightIntakeVictorID = 2;
+    public static final int kLeftIntakeTalonID = 17;
+    public static final int kRightIntakeTalonID = 23;
 
     public static final int kClawPiston1ID = 6;
     public static final int kClawPiston2ID = 1;

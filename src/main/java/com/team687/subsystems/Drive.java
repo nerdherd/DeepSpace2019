@@ -10,10 +10,11 @@ package com.team687.subsystems;
 import com.nerdherd.lib.drivetrain.experimental.ShiftingDrivetrain;
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
 import com.nerdherd.lib.logging.NerdyBadlog;
-import com.nerdherd.lib.motor.motorcontrollers.CANMotorController;
+import com.nerdherd.lib.motor.motorcontrollers.NerdySparkMax;
 import com.nerdherd.lib.motor.motorcontrollers.NerdyTalon;
-import com.nerdherd.lib.motor.motorcontrollers.NerdyVictorSPX;
+import com.nerdherd.lib.motor.motorcontrollers.SmartCANMotorController;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.team687.Robot;
 import com.team687.RobotMap;
 import com.team687.constants.DriveConstants;
@@ -24,24 +25,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class Drive extends ShiftingDrivetrain {
+  private NerdyTalon NerdyTalonRight, NerdyTalonLeft;
 
 
   public Drive() {
-    super(new NerdyTalon(RobotMap.kLeftMasterTalonID), new NerdyTalon(RobotMap.kRightMasterTalonID),
-    new CANMotorController[] {
-      new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
-      new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
-    },
-    new CANMotorController[] {
-      new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
-      new NerdyVictorSPX(RobotMap.kRightSlaveTalon2ID)
-    },
+  
+    // super(new NerdyTalon(RobotMap.kLeftMasterTalonID), new NerdyTalon(RobotMap.kRightMasterTalonID),
+    // new CANMotorController[] {
+    //   new NerdyTalon(RobotMap.kLeftSlaveTalon1ID),
+    //   new NerdyTalon(RobotMap.kLeftSlaveTalon2ID)
+    // },
+    // new CANMotorController[] {
+    //   new NerdyTalon(RobotMap.kRightSlaveTalon1ID),
+    //   new NerdyVictorSPX(RobotMap.kRightSlaveTalon2ID)
+    // },
 
-    // super(new NerdySparkMax(RobotMap.kLeftMasterSparkMaxID, MotorType.kBrushless), 
-    // new NerdySparkMax(RobotMap.kRightMasterSparkMaxID, MotorType.kBrushless), 
-    // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kLeftSlaveSparkMaxID, MotorType.kBrushless)}, 
-    // new NerdySparkMax[]{new NerdySparkMax(RobotMap.kRightSlaveSparkMaxID, MotorType.kBrushless)},
-    //  true, false,
+    super(new NerdySparkMax(RobotMap.kLeftMasterSparkMaxID, MotorType.kBrushless), 
+    new NerdySparkMax(RobotMap.kRightMasterSparkMaxID, MotorType.kBrushless), 
+    new SmartCANMotorController[]{new NerdySparkMax(RobotMap.kLeftSlaveSparkMax1ID, MotorType.kBrushless)}, 
+    new SmartCANMotorController[]{new NerdySparkMax(RobotMap.kRightSlaveSparkMax1ID, MotorType.kBrushless)},
+     true, false,
+
+
     
     // new NerdyTalon(RobotMap.kLeftMasterTalonID), 
     // new NerdyTalon(RobotMap.kRightMasterTalonID), 
@@ -53,9 +58,12 @@ public class Drive extends ShiftingDrivetrain {
     //   new NerdySparkMax(RobotMap.kRightSlaveSparkMax1ID, MotorType.kBrushed),
     //   new NerdySparkMax(RobotMap.kRightSlaveSparkMax2ID, MotorType.kBrushed)
     // },
-     true, false,
+    //  true, false,
      new Piston(RobotMap.kDrivetrainShifter1ID, RobotMap.kDrivetrainShifter2ID));
     
+     NerdyTalonRight = new NerdyTalon(RobotMap.kRightMasterTalonID);
+     NerdyTalonLeft = new NerdyTalon(RobotMap.kLeftMasterTalonID);
+
      super.configAutoChooser(Robot.chooser);
      super.configMaxVelocity(DriveConstants.kMaxVelocity);
      super.configSensorPhase(false, false);
@@ -66,8 +74,10 @@ public class Drive extends ShiftingDrivetrain {
      super.configLeftPIDF(0.0, 0, 0, DriveConstants.kLeftF);
      super.configRightPIDF(0.0, 0, 0, DriveConstants.kRightF);
      super.configStaticFeedforward(DriveConstants.kLeftStatic, DriveConstants.kRightStatic);
-      m_rightSlaves[0].followCANMotorController(m_rightMaster);
-      m_rightSlaves[1].followCANMotorController(m_rightMaster);
+      // m_rightSlaves[0].followCANMotorController(m_rightMaster);
+      // m_rightSlaves[1].followCANMotorController(m_rightMaster);
+      super.m_rightSlaves[0].followCANMotorController(super.m_rightMaster);
+      
     }
 
   @Override
@@ -107,8 +117,9 @@ public class Drive extends ShiftingDrivetrain {
     // SmartDashboard.putNumber("Pitch", getPitch());
     // SmartDashboard.putNumber("Roll", getRoll());
     super.reportToSmartDashboard();
-    SmartDashboard.putNumber("Left Vel FPS", super.getLeftVelocityFeet());
-    SmartDashboard.putNumber("Right Vel FPS", super.getRightVelocityFeet());
+    SmartDashboard.putNumber("Talon Left Vel", NerdyTalonLeft.getVelocity());
+    SmartDashboard.putNumber("Talon Right Vel", NerdyTalonRight.getVelocity());
+    SmartDashboard.putNumber("Neo vel", m_rightSlaves[0].getID());
   }
 
   @Override

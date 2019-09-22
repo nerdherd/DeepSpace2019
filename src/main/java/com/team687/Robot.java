@@ -87,8 +87,8 @@ public class Robot extends TimedRobot {
 		claw = new Piston(RobotMap.kClawPiston1ID, RobotMap.kClawPiston2ID);
 		// armHallEffect = new HallSensor(1, "ArmHallEffect", true);
 		
-		intake = new DualMotorIntake(new SingleMotorTalonSRX(RobotMap.kLeftIntakeVictorID, "LeftIntake", true, true), 
-									new SingleMotorTalonSRX(RobotMap.kRightIntakeVictorID, "RightIntake", true, true));
+		intake = new DualMotorIntake(new SingleMotorTalonSRX(RobotMap.kLeftIntakeTalonID, "LeftIntake", true, true), 
+									new SingleMotorTalonSRX(RobotMap.kRightIntakeTalonID, "RightIntake", true, true));
 		
 		armZero = new ResetSingleMotorEncoder(Arm.getInstance());
 		armZero.setRunWhenDisabled(true);

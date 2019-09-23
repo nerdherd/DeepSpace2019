@@ -107,14 +107,14 @@ public class OI extends DefaultOI {
 
 		// targetTrack_L1.whileHeld(new ClimbForwardsElseVisionTrack());
 		//targetTrack_L1.whileHeld(new TargetTrack(0.008, 0.0));
-		targetTrack_L1.whileHeld(new TargetTrack(0.008));
+		targetTrack_L1.whileHeld(new TargetTrack(0.01));
 		// toggleClimbMode_L7.whenPressed(new ToggleClimbMode());
 		zeroSuperstructure_L11.whileHeld(new ZeroSuperstructure(
 			SuperstructureConstants.kArmZeroVoltage, SuperstructureConstants.kElZeroVoltage));
 
 		// targetTrack_R1.whileHeld(new ClimbDeployElseVisionTrack());
 		//targetTrack_R1.whileHeld(new TargetTrack(0.008, 0.00));
-		targetTrack_R1.whileHeld(new TargetTrack(0.008));
+		targetTrack_R1.whileHeld(new TargetTrack(0.01));
 		shiftHighSpeed_R4.whenPressed(new ShiftHigh(Robot.drive));
 		shiftLowSpeed_R3.whenPressed(new ShiftLow(Robot.drive));
 		climberClimb_R7.whenPressed(new ClimberReady());

@@ -19,7 +19,7 @@ public class SuperstructureConstants {
 
     public static final double kCargoIntakeVoltage = 0.25;
     public static final double kCargoIntakeElHeight = 10;
-    public static final double kCargoIntakeArmAngle = -14;
+    public static final double kCargoIntakeArmAngle = -23;
 
     public static final double kHatchModeArmAngle = 45;
     public static final double kCargoModeArmAngle = 70;

@@ -14,9 +14,9 @@ public class ElevatorConstants {
     //inverted kElevatorInversion, kElevatorGravityFF, kElevatorStaticFrictionFF, kElevatorDistanceRatio
     
     // public static final boolean kElevatorInversion = false;
-    public static final boolean kElevatorInversion = true;
+    public static final boolean kElevatorInversion = false;
 
-    public static final boolean kElevatorSensorPhase = true;
+    public static final boolean kElevatorSensorPhase = false;
     public static final double kElevatorTalonDeadband = 0.004;
 
     // public static final double kElevatorGravityFF = -0;

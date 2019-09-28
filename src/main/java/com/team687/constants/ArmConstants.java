@@ -14,7 +14,7 @@ import com.nerdherd.lib.misc.NerdyMath;
  */
 public class ArmConstants {
 
-    public static final boolean kArmInversion = true;
+    public static final boolean kArmInversion = false;
     public static final boolean kArmSensorPhase = true;
     public static final double kArmTalonDeadband = 0.004;
 
@@ -31,7 +31,7 @@ public class ArmConstants {
     public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 30.;
     public static final double kBacklashOffset = 2;
 
-    public static final double kArmAngleOffset = -17;
+    public static final double kArmAngleOffset = -18;
     public static final double kSecondaryAngleOffset = -17 - kBacklashOffset;
     public static final double kEffectiveArmAngleOffset = kArmAngleOffset - kBacklashOffset;
 

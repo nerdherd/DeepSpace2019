@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
 	
 		ultrasonic = new VexUltrasonic("ultrasonic", RobotMap.kUltrasonicPingPort, RobotMap.kUltrasonicEchoPort);
 		oi = new OI();
-		NerdyBadlog.initAndLog("/media/sda1/logs/", "HoustonChamps_", 0.02, 
+		NerdyBadlog.initAndLog("/media/sda1/logs/", "FallClassic_", 0.02, 
 			matchNumber,
 			Elevator.getInstance(),
 			Arm.getInstance(), 

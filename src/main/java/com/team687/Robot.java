@@ -203,8 +203,8 @@ public class Robot extends TimedRobot {
 		
 		// jevois.startLog();
 		// drive.startLog();
-		// drive.setCoastMode();
-		drive.setBrakeMode();
+		drive.setCoastMode();
+		// drive.setBrakeMode();
 		hasBeenTeleop = true;
 	}
 

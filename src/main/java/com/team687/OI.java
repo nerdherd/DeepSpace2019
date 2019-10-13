@@ -12,6 +12,7 @@ import com.nerdherd.lib.oi.DefaultOI;
 import com.nerdherd.lib.pneumatics.commands.ExtendPiston;
 import com.nerdherd.lib.pneumatics.commands.RetractPiston;
 import com.team687.commands.auto.LeftRocketNear;
+import com.team687.commands.auto.RightRocketNear;
 import com.team687.commands.climber.ClimberReady;
 import com.team687.commands.climber.SuckAndLift;
 import com.team687.commands.superstructure.CargoShipCargo;
@@ -93,7 +94,7 @@ public class OI extends DefaultOI {
 		// clawOpen_5.whenPressed(new StopIntaking());
 		// clawClose_6.whenPressed(new ExtendPiston(Robot.claw));
 		clawToggle_5.whenPressed(new ToggleClaw());
-		thrust_6.whenPressed(new Thrust(14));
+		// thrust_6.whenPressed(new Thrust(14));
 		highElevator_7.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kHighElHeight));
 		cargoShip_8.whenPressed(new CargoShipCargo());
 		midElevator_9.whenPressed(new TeleopSimultaneous(SuperstructureConstants.kMidElHeight));
@@ -183,7 +184,7 @@ public class OI extends DefaultOI {
 
 		SmartDashboard.putData("Reset elevator encoder", new ResetSingleMotorEncoder(Elevator.getInstance()));
 		SmartDashboard.putData("Reset arm encoder", new ResetSingleMotorEncoder(Arm.getInstance()));
-		// SmartDashboard.putData("Rocket Right", new RightRocketNear());
+		SmartDashboard.putData("Rocket Right", new RightRocketNear());
 		// SmartDashboard.putData("Elevator MM 42 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 42));
 		// SmartDashboard.putData("Elevator MM 60 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 60));
 		// SmartDashboard.putData("Elevator MM 75 in", new SetElevatorHeightMotionMagic(Elevator.getInstance(), 75));

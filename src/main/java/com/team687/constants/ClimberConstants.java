@@ -43,6 +43,6 @@ public class ClimberConstants {
     public static final double kClimbGoodPos = 7;
 
     public static final double kDesiredUpPow = 0.5;
-    public static final double kDesiredLiftPow = -0.75;
+    public static final double kDesiredLiftPow = -1.0;
     public static final double kSuckPower = 1;
 }

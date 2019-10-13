@@ -16,7 +16,9 @@ import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.VexUltrasonic;
 import com.nerdherd.lib.sensor.analog.LinearAnalogSensor;
 import com.nerdherd.lib.sensor.analog.PressureSensor;
+import com.team687.commands.auto.RightRocketNear;
 import com.team687.constants.ArmConstants;
+import com.team687.constants.AutoConstants;
 import com.team687.constants.ElevatorConstants;
 import com.team687.subsystems.Arm;
 import com.team687.subsystems.Climber;
@@ -173,7 +175,7 @@ public class Robot extends TimedRobot {
 			Scheduler.getInstance().add(elevatorZero);
 			drive.resetEncoders();
 			drive.resetYaw();
-			drive.setXY(0,0);
+			drive.setXY(AutoConstants.kRightRobotOriginX,AutoConstants.kRightRobotOriginY);
 		}
 
 		Scheduler.getInstance().run();
@@ -184,6 +186,7 @@ public class Robot extends TimedRobot {
 		// drive.setBrakeMode();
 		// autoCommand = chooser.getSelectedAuto();
 		// autoCommand = new FrontCargoShip();
+		// autoCommand = new RightRocketNear();
 		// if (autoCommand != null) {
 		// 	autoCommand.start();
 		// }
@@ -200,9 +203,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		// if (oi.driveJoyLeft.getRawButton(0) && oi.driveJoyRight.getRawButton(0)) {
-		// 	autoCommand.cancel();
-		// }
+		if (oi.driveJoyLeft.getRawButton(0) && oi.driveJoyRight.getRawButton(0)) {
+			// autoCommand.cancel();
+		}
 	}
 
 	@Override

@@ -1,11 +1,12 @@
 package com.team687.commands.vision;
 
+import java.util.*;
+
 import com.team687.Robot;
 import com.team687.constants.VisionConstants;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.kauailabs.navx.*;
 
 public class TargetTrackLatency extends Command {
 
@@ -14,8 +15,7 @@ public class TargetTrackLatency extends Command {
     private double x_c, x_g, x_now;    
     private double y_c, y_g, y_now;
     private double hyp_now;
-
-    
+    private HashMap<Integer, Double> timestamp;
 
 
     public TargetTrackLatency(double kRotP) {
@@ -33,10 +33,14 @@ public class TargetTrackLatency extends Command {
         y_now = Robot.drive.getYpos();
         hyp_now = Math.sqrt(Math.pow(x_now,2) + Math.pow(y_now,2));
         theta_now = Robot.drive.getRawYaw();
+        timestamp = new HashMap<>();
     }
 
     @Override
     protected void execute() {
+        // timestamp loop
+        
+        // pose control
         theta_c = theta_now; //set c to prev timestamp
         x_c = x_now;
         y_c = y_now;

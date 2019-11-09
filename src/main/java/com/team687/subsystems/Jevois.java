@@ -27,6 +27,8 @@ public class Jevois extends Subsystem implements Runnable {
 	public double m_offset;
 	public double m_distinguish = 0.0;
 	private double m_threshold = 25.4;
+	private int m_oldStamp = 0;
+	private int m_nowStamp = 0;
 
 	private boolean writeException = false;
 	String[] parts;
@@ -76,6 +78,7 @@ public class Jevois extends Subsystem implements Runnable {
 					m_centerX = Double.parseDouble(getData(3));
 					m_centerY = Double.parseDouble(getData(4));
 					m_distance = Double.parseDouble(getData(5));
+					m_oldStamp = Integer.parseInt(getData(5));
 				} else {
 					System.out.println(read);
 				}
@@ -150,6 +153,15 @@ public class Jevois extends Subsystem implements Runnable {
 		return m_area;
 	}
 
+	public int getJevoisStamp(){
+		return m_oldStamp;
+	}
+
+	public int getCurrentStamp(){
+		m_nowStamp = (int)(Timer.getFPGATimestamp()*1000);
+		return m_nowStamp;
+	}
+
 	public void end() {
 		m_stream.interrupt();
 	}
@@ -189,6 +201,8 @@ public class Jevois extends Subsystem implements Runnable {
 		SmartDashboard.putNumber("Distance", getDistance());
 		SmartDashboard.putBoolean("Contour detected", getContourNum() > 0);
 		SmartDashboard.putBoolean("Is Locked on", Math.abs(Robot.jevois.getAngleToTurn()) <= VisionConstants.kDriveRotationDeadband);
+		SmartDashboard.putNumber("Current Stamp", getCurrentStamp());
+		SmartDashboard.putNumber("Jevois Stamp", getJevoisStamp());
 
 	//	SmartDashboard.putNumber("Exposure", getExp());
 

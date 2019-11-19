@@ -15,7 +15,8 @@ public class TargetTrackLatency extends Command {
     private double x_c, x_g, x_now;    
     private double y_c, y_g, y_now;
     private double hyp_now;
-    private HashMap<Integer, Double> timestamp;
+    private double m_recentTime;
+    private LinkedHashMap<Integer, Double> timestamp;
 
 
     public TargetTrackLatency(double kRotP) {
@@ -33,13 +34,22 @@ public class TargetTrackLatency extends Command {
         y_now = Robot.drive.getYpos();
         hyp_now = Math.sqrt(Math.pow(x_now,2) + Math.pow(y_now,2));
         theta_now = Robot.drive.getRawYaw();
-        timestamp = new HashMap<>();
+        timestamp = new LinkedHashMap<>();
     }
 
     @Override
     protected void execute() {
-        // timestamp loop
+        // timestamp loop. not sound logically
+        timestamp.put(Robot.jevois.getJevoisStamp(), Robot.jevois.getAngleToTurn());
+        m_recentTime = Robot.jevois.getCurrentStamp();
         
+        for(Map.Entry<Integer, Double> e: timestamp.entrySet()){
+            if(Math.abs(e.getKey()-Robot.jevois.getCurrentStamp()) < m_recentTime-Robot.jevois.getCurrentStamp()){
+                m_recentTime = e.getKey();
+                theta_c = e.getValue();
+            }
+        }
+
         // pose control
         theta_c = theta_now; //set c to prev timestamp
         x_c = x_now;

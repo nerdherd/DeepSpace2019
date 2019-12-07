@@ -84,6 +84,7 @@ public class Drive extends ShiftingDrivetrain {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi));
+    // setDefaultCommand(new CurvatureDrive(Robot.drive, Robot.oi, 0.05));
   }
 
   @Override
